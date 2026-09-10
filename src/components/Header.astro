@@ -4,9 +4,10 @@ import LanguageToggle from './LanguageToggle.astro';
 
 interface Props {
   locale: Locale;
+  altHref?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, altHref } = Astro.props;
 const t = useTranslations(locale);
 const home = localizePath(locale, '/');
 
@@ -34,7 +35,7 @@ const navItems = [
       </ul>
     </nav>
 
-    <LanguageToggle locale={locale} />
+    <LanguageToggle locale={locale} href={altHref} />
   </div>
 </header>
 

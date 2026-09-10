@@ -3,6 +3,7 @@ title: "Thinking like an attacker while writing code"
 description: "A few red-team reflexes that are useful to any developer, even outside a formal security audit."
 date: 2026-04-03
 tags: ["security", "red-team"]
+translationId: "thinking-like-attacker"
 ---
 
 You don't need to be on an audit engagement to apply red-team reflexes to everyday development.

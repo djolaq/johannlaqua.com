@@ -3,16 +3,18 @@ import { getAlternateLocalePath, type Locale } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
+  /** Explicit target path in the other locale, overriding the naive prefix-swap (needed for pages whose slug differs per locale, e.g. blog posts). */
+  href?: string;
 }
 
-const { locale } = Astro.props;
+const { locale, href } = Astro.props;
 const alternate = getAlternateLocalePath(locale, Astro.url.pathname);
 const labels: Record<Locale, string> = { fr: 'FR', en: 'EN' };
 ---
 
 <a
   class="lang-toggle"
-  href={alternate.path}
+  href={href ?? alternate.path}
   hreflang={alternate.locale}
   aria-label={`Switch language to ${labels[alternate.locale]}`}
 >

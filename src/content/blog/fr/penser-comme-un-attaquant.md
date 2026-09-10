@@ -3,6 +3,7 @@ title: "Penser comme un attaquant quand on écrit du code"
 description: "Quelques réflexes de red teamer utiles à tout développeur, même en dehors d'un audit de sécurité."
 date: 2026-04-03
 tags: ["securite", "red-team"]
+translationId: "thinking-like-attacker"
 ---
 
 On n'a pas besoin d'être en mission d'audit pour appliquer des réflexes de red team au développement quotidien.

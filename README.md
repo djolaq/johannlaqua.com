@@ -30,6 +30,19 @@ npm run build    # build statique de production dans dist/
 npm run preview  # sert le build de production en local pour vérification finale
 ```
 
+## Tests
+
+- **Unitaires** ([Vitest](https://vitest.dev)) — logique i18n pure (`src/i18n/utils.ts`) dans `tests/unit/`.
+- **Intégration / e2e** ([Playwright](https://playwright.dev)) — vraies pages servies (build + `astro preview`) dans `tests/e2e/` : navigation, contenu de la page d'accueil, bascule de langue FR/EN (y compris sur un article de blog, dont le slug diffère selon la langue).
+
+```bash
+npm run test:unit   # tests unitaires
+npm run test:e2e    # build + tests e2e (installe les navigateurs au préalable : npx playwright install --with-deps chromium)
+npm test            # les deux
+```
+
+Ces tests tournent automatiquement sur chaque push/PR via GitHub Actions (`.github/workflows/ci.yml`).
+
 ## Structure du projet
 
 ```
@@ -42,6 +55,9 @@ src/
   pages/               fr à la racine, en sous /en/
   styles/              tokens.css (design system) + global.css (reset et styles de base)
 public/                favicon, robots.txt
+tests/
+  unit/                tests Vitest (logique pure)
+  e2e/                 tests Playwright (pages réelles)
 ```
 
 ## Design system

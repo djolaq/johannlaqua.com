@@ -3,6 +3,7 @@ title: "Développer avec l'IA sans accumuler de dette technique"
 description: "Comment j'intègre les assistants IA dans mon flux de travail quotidien sans sacrifier la qualité du code."
 date: 2026-06-12
 tags: ["ia", "developpement"]
+translationId: "ai-boosted-dev"
 ---
 
 Les assistants IA changent la vitesse à laquelle on écrit du code, mais pas automatiquement sa qualité. Voici les trois règles que j'applique pour garder les deux.

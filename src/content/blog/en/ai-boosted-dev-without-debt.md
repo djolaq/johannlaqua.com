@@ -3,6 +3,7 @@ title: "Building with AI without piling up technical debt"
 description: "How I fit AI assistants into my daily workflow without trading away code quality."
 date: 2026-06-12
 tags: ["ai", "development"]
+translationId: "ai-boosted-dev"
 ---
 
 AI assistants change how fast you can write code, but not automatically how good it is. Here are the three rules I apply to keep both.

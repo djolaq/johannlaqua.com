@@ -1,6 +1,7 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { useTranslations, localizePath, locales, type Locale } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -8,10 +9,22 @@ interface Props {
   description: string;
   date: Date;
   tags: string[];
+  /** Shared id linking this post to its translation, used to resolve the language-switch link. */
+  translationId: string;
 }
 
-const { locale, title, description, date, tags } = Astro.props;
+const { locale, title, description, date, tags, translationId } = Astro.props;
 const t = useTranslations(locale);
+
+const otherLocale = locales.find((l) => l !== locale)!;
+const counterpart = (await getCollection('blog')).find(
+  (post) => post.id.startsWith(`${otherLocale}/`) && post.data.translationId === translationId && !post.data.draft,
+);
+// Fall back to the blog index in the other locale when no translated counterpart exists,
+// since the slug (and therefore the naive prefix-swap) isn't guaranteed to match.
+const altHref = counterpart
+  ? localizePath(otherLocale, `/blog/${counterpart.id.replace(`${otherLocale}/`, '')}`)
+  : localizePath(otherLocale, '/blog');
 const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
   year: 'numeric',
   month: 'long',
@@ -19,7 +32,7 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
 });
 ---
 
-<BaseLayout locale={locale} title={title} description={description}>
+<BaseLayout locale={locale} title={title} description={description} altHref={altHref}>
   <article class="post section">
     <div class="container container--narrow">
       <a class="post__back" href={localizePath(locale, '/blog')}>← {t('blog.back')}</a>
