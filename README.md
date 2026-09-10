@@ -13,7 +13,7 @@ Site 100% statique, construit avec [Astro](https://astro.build), bilingue FR/EN,
 
 ## Développer en local
 
-Prérequis : Node.js 20+.
+Prérequis : Node.js 22.12+ (requis par Astro 7).
 
 ```bash
 npm install
