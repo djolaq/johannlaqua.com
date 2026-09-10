@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://johannlaqua.com/sitemap-index.xml

@@ -1,0 +1,71 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  body: string;
+  badge?: string;
+}
+
+const { index, title, body, badge } = Astro.props;
+---
+
+<article class="card">
+  <div class="card__top">
+    <span class="card__index mono">{index}</span>
+    {badge && <span class="card__badge">{badge}</span>}
+  </div>
+  <h3 class="card__title">{title}</h3>
+  <p class="card__body">{body}</p>
+</article>
+
+<style>
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--color-bg-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .card:hover {
+    border-color: var(--color-border-strong);
+    transform: translateY(-2px);
+  }
+
+  .card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card__index {
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  .card__badge {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--color-signal-strong);
+    background: var(--color-signal-bg);
+    border: 1px solid var(--color-signal);
+    border-radius: var(--radius-full);
+    padding: 0.2em 0.7em;
+  }
+
+  .card__title {
+    font-size: var(--text-lg);
+  }
+
+  .card__body {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+</style>

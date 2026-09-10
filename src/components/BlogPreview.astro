@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+import BlogCard from './BlogCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const posts = (await getCollection('blog', ({ id, data }) => id.startsWith(`${locale}/`) && !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const stripLocale = (id: string) => id.replace(`${locale}/`, '');
+---
+
+<section id="blog" class="section blog-preview">
+  <div class="container">
+    <div class="blog-preview__header">
+      <SectionHeading
+        eyebrow={t('blog.eyebrow')}
+        title={t('blog.title')}
+        subtitle={t('blog.subtitle')}
+      />
+      <a class="blog-preview__all" href={localizePath(locale, '/blog')}>{t('blog.viewAll')} →</a>
+    </div>
+
+    {
+      posts.length > 0 ? (
+        <div class="blog-preview__grid">
+          {posts.map((post) => (
+            <BlogCard
+              locale={locale}
+              href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="blog-preview__empty">{t('blog.empty')}</p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .blog-preview__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .blog-preview__header :global(.heading) {
+    margin-bottom: var(--space-6);
+  }
+
+  .blog-preview__all {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--color-signal-strong);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .blog-preview__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .blog-preview__empty {
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 48em) {
+    .blog-preview__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

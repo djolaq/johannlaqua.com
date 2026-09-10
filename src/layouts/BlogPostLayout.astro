@@ -1,0 +1,128 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+}
+
+const { locale, title, description, date, tags } = Astro.props;
+const t = useTranslations(locale);
+const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout locale={locale} title={title} description={description}>
+  <article class="post section">
+    <div class="container container--narrow">
+      <a class="post__back" href={localizePath(locale, '/blog')}>← {t('blog.back')}</a>
+
+      <header class="post__header">
+        <div class="post__meta">
+          <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
+          {tags.map((tag) => <span class="post__tag">{tag}</span>)}
+        </div>
+        <h1 class="post__title">{title}</h1>
+        <p class="post__description">{description}</p>
+      </header>
+
+      <div class="post__content">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    border-top: none;
+    padding-top: var(--space-7);
+  }
+
+  .post__back {
+    display: inline-block;
+    margin-bottom: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .post__back:hover {
+    color: var(--color-signal-strong);
+  }
+
+  .post__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  .post__tag {
+    padding: 0.2em 0.6em;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .post__title {
+    margin-top: var(--space-4);
+    font-size: var(--text-2xl);
+  }
+
+  .post__description {
+    margin-top: var(--space-4);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .post__content {
+    margin-top: var(--space-8);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text);
+    line-height: var(--leading-normal);
+  }
+
+  .post__content :global(h2) {
+    margin-top: var(--space-7);
+    font-size: var(--text-xl);
+  }
+
+  .post__content :global(p) {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .post__content :global(p:first-child) {
+    margin-top: 0;
+  }
+
+  .post__content :global(a) {
+    color: var(--color-signal-strong);
+  }
+
+  .post__content :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    background: var(--color-bg-inset);
+    padding: 0.15em 0.4em;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (min-width: 48em) {
+    .post__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+import SectionHeading from './SectionHeading.astro';
+import ServiceCard from './ServiceCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const services = [
+  { index: '01', title: t('services.dev.title'), body: t('services.dev.body') },
+  {
+    index: '02',
+    title: t('services.security.title'),
+    body: t('services.security.body'),
+    badge: t('services.security.badge'),
+  },
+  { index: '03', title: t('services.advisory.title'), body: t('services.advisory.body') },
+];
+---
+
+<section id="services" class="section services">
+  <div class="container">
+    <SectionHeading
+      eyebrow={t('services.eyebrow')}
+      title={t('services.title')}
+      subtitle={t('services.subtitle')}
+    />
+    <div class="services__grid">
+      {services.map((service) => <ServiceCard {...service} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .services__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

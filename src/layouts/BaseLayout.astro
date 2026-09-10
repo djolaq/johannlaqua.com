@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+}
+
+const { locale, title, description } = Astro.props;
+const t = useTranslations(locale);
+
+const pageTitle = title ? `${title} · Johann Laqua` : t('site.title');
+const pageDescription = description ?? t('site.description');
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="fr" href={new URL(localizePath('fr', Astro.url.pathname.replace(/^\/en/, '')), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(localizePath('en', Astro.url.pathname.replace(/^\/en/, '')), Astro.site)} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#0a0d10" />
+
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
+    <Header locale={locale} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

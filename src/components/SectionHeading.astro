@@ -1,0 +1,47 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  subtitle?: string;
+  align?: 'left' | 'center';
+}
+
+const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
+---
+
+<div class:list={['heading', `heading--${align}`]}>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 class="heading__title">{title}</h2>
+  {subtitle && <p class="heading__subtitle">{subtitle}</p>}
+</div>
+
+<style>
+  .heading {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-7);
+    max-width: 40rem;
+  }
+
+  .heading--center {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .heading__title {
+    font-size: var(--text-2xl);
+  }
+
+  .heading__subtitle {
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+    line-height: var(--leading-snug);
+  }
+
+  @media (min-width: 48em) {
+    .heading__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

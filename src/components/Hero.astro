@@ -1,0 +1,90 @@
+---
+import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import Button from './Button.astro';
+import StatTile from './StatTile.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section class="hero">
+  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <p class="eyebrow">{t('hero.eyebrow')}</p>
+    <h1 class="hero__title">{t('hero.title')}</h1>
+    <p class="hero__subtitle">{t('hero.subtitle')}</p>
+
+    <div class="hero__actions">
+      <Button href={`${localizePath(locale, '/')}#contact`}>{t('hero.cta.primary')}</Button>
+      <Button href={localizePath(locale, '/blog')} variant="ghost">{t('hero.cta.secondary')}</Button>
+    </div>
+
+    <div class="hero__stats">
+      <StatTile value={t('hero.stat.experienceValue')} label={t('hero.stat.experience')} />
+      <StatTile value={t('hero.stat.disciplineValue')} label={t('hero.stat.disciplineLabel')} />
+      <StatTile value={t('hero.stat.modeValue')} label={t('hero.stat.mode')} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--space-9) var(--space-8);
+  }
+
+  .hero__grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+    opacity: 0.5;
+  }
+
+  .hero__inner {
+    position: relative;
+    max-width: 44rem;
+  }
+
+  .hero__title {
+    margin-top: var(--space-4);
+    font-size: var(--text-3xl);
+  }
+
+  .hero__subtitle {
+    margin-top: var(--space-5);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+    max-width: 36rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+    max-width: 32rem;
+  }
+
+  @media (min-width: 48em) {
+    .hero__title {
+      font-size: var(--text-4xl);
+    }
+  }
+</style>

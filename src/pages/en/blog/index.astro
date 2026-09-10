@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import SectionHeading from '../../../components/SectionHeading.astro';
+import BlogCard from '../../../components/BlogCard.astro';
+import { useTranslations, localizePath } from '../../../i18n/utils';
+
+const locale = 'en' as const;
+const t = useTranslations(locale);
+
+const posts = (await getCollection('blog', ({ id, data }) => id.startsWith(`${locale}/`) && !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const stripLocale = (id: string) => id.replace(`${locale}/`, '');
+---
+
+<BaseLayout locale={locale} title={t('blog.pageTitle')} description={t('blog.subtitle')}>
+  <section class="section">
+    <div class="container">
+      <SectionHeading eyebrow={t('blog.eyebrow')} title={t('blog.title')} subtitle={t('blog.subtitle')} />
+
+      {
+        posts.length > 0 ? (
+          <div class="blog-grid">
+            {posts.map((post) => (
+              <BlogCard
+                locale={locale}
+                href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>{t('blog.empty')}</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64em) {
+    .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
