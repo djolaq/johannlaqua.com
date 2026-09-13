@@ -71,6 +71,10 @@ export const ui = {
 
     'footer.rights': 'Tous droits réservés.',
     'footer.builtWith': 'Site statique, sans tracker.',
+
+    'notFound.title': 'Page introuvable',
+    'notFound.body': "La page que vous cherchez n'existe pas ou a été déplacée.",
+    'notFound.cta': "Retour à l'accueil",
   },
   en: {
     'site.title': 'Johann Laqua — Senior Developer · AI · Cybersecurity',
@@ -140,6 +144,10 @@ export const ui = {
 
     'footer.rights': 'All rights reserved.',
     'footer.builtWith': 'Static site, no trackers.',
+
+    'notFound.title': 'Page not found',
+    'notFound.body': "The page you're looking for doesn't exist or has moved.",
+    'notFound.cta': 'Back to home',
   },
 } as const;
 
