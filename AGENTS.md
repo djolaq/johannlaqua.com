@@ -100,6 +100,9 @@ Voir `.claude/skills/` :
 - `new-blog-post` — scaffold un article FR+EN avec frontmatter et `translationId` cohérents.
 - `add-i18n-string` — ajoute une clé de traduction en gardant `ui.fr`/`ui.en` synchronisés.
 - `sync-design-tokens` — vérifie la cohérence de `tokens.css` comme source de vérité du design system.
+- `astro` — guide Astro officiel (astrolicious/agent-skills) : SSG, composants, content collections, CLI, déploiement. À consulter pour toute décision structurelle Astro.
+- `publishing-astro-websites` — guide complet Astro (SpillwaveSolutions) : Content Layer API, Markdown/MDX, i18n, patterns (pagination, tags, RSS), perf, tests Vitest/Playwright, déploiement.
+- `astro-framework` — spécialiste Astro 5+/6+ (delineas/astro-framework-agents) avec `references/` et `rules/` : islands, hydration, loaders, i18n routing, view transitions.
 
 ## À faire connu / dette
 
