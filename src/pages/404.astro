@@ -1,0 +1,70 @@
+---
+// This page is prerendered once at build time (this is a fully static
+// site), so it can't know which locale the visitor was browsing in when
+// they hit a missing route. Rather than guess, the content below is shown
+// in both languages; only the header/footer chrome defaults to the site's
+// default locale (fr).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import { defaultLocale, useTranslations, localizePath } from '../i18n/utils';
+
+const t = useTranslations(defaultLocale);
+const tEn = useTranslations('en');
+const home = localizePath(defaultLocale, '/');
+const homeEn = localizePath('en', '/');
+---
+
+<BaseLayout locale={defaultLocale} title={t('notFound.title')}>
+  <section class="section not-found">
+    <div class="container not-found__inner">
+      <p class="eyebrow">404</p>
+
+      <div class="not-found__lang">
+        <h1 class="not-found__title">{t('notFound.title')}</h1>
+        <p class="not-found__body">{t('notFound.body')}</p>
+        <Button href={home}>{t('notFound.cta')}</Button>
+      </div>
+
+      <div class="not-found__lang">
+        <h1 class="not-found__title">{tEn('notFound.title')}</h1>
+        <p class="not-found__body">{tEn('notFound.body')}</p>
+        <Button href={homeEn} variant="ghost">{tEn('notFound.cta')}</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found__inner {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: var(--space-7);
+  }
+
+  .not-found__lang {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .not-found__title {
+    font-size: var(--text-2xl);
+  }
+
+  .not-found__body {
+    max-width: 32rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-base);
+  }
+
+  @media (min-width: 48em) {
+    .not-found__title {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>
