@@ -30,7 +30,11 @@ Node.js 22.12+ requis (Astro 7).
 
 ```
 astro.config.mjs        i18n routing, sitemap, output static
+scripts/
+  fetch-github-avatar.mjs  `npm run avatar:fetch` — re-télécharge la photo de profil GitHub dans src/assets/
 src/
+  assets/
+    avatar.jpg            photo de profil (copie de l'avatar GitHub), optimisée par astro:assets au build — jamais hotlinkée
   components/            composants UI (.astro), un fichier par composant, pas de logique métier lourde
   layouts/
     BaseLayout.astro      <head>, Header, Footer, meta i18n/SEO — layout racine de toutes les pages
