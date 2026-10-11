@@ -35,6 +35,8 @@ src/
   layouts/
     BaseLayout.astro      <head>, Header, Footer, meta i18n/SEO — layout racine de toutes les pages
     BlogPostLayout.astro  layout spécifique aux articles (au-dessus de BaseLayout)
+  config/
+    site.ts               email de contact + profils sociaux (GitHub, LinkedIn) — SOURCE UNIQUE, importée par Footer et ContactCTA
   i18n/
     ui.ts                 dictionnaire de traduction FR/EN — SOURCE UNIQUE des chaînes UI, type UiKey dérivé des clés FR
     utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath

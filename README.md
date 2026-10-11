@@ -70,7 +70,7 @@ Claude Design doit être reportée ici (et vice-versa) pour rester synchronisée
 
 - `src/i18n/ui.ts` — tous les textes du site (bio, services, etc.)
 - `src/content/blog/` — articles du journal
-- `src/components/Footer.astro` et `src/components/ContactCTA.astro` — liens GitHub/LinkedIn (actuellement des placeholders à remplacer par les vrais profils)
+- `src/config/site.ts` — email de contact et profils GitHub/LinkedIn (utilisés par le footer et la section contact)
 
 ## Déploiement
 

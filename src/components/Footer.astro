@@ -1,5 +1,6 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { social } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -15,11 +16,6 @@ const links = [
   { href: `${home}#services`, label: t('nav.services') },
   { href: localizePath(locale, '/blog'), label: t('nav.blog') },
   { href: `${home}#contact`, label: t('nav.contact') },
-];
-
-const social = [
-  { href: 'https://github.com/djolaq', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/johannlaqua/', label: 'LinkedIn' },
 ];
 ---
 

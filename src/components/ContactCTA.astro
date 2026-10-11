@@ -1,6 +1,7 @@
 ---
 import { useTranslations, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
+import { email, social } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -8,12 +9,6 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
-
-const email = 'johann@laqua.fr';
-const social = [
-  { href: 'https://github.com/djolaq', label: 'GitHub' },
-  { href: 'https://www.linkedin.com/in/johannlaqua/', label: 'LinkedIn' },
-];
 ---
 
 <section id="contact" class="section contact">
