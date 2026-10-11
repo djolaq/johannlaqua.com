@@ -33,3 +33,23 @@ test.describe('Home page (en)', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 });
+
+test.describe('Social links', () => {
+  const profiles = ['https://github.com/djolaq', 'https://www.linkedin.com/in/johannlaqua/'];
+
+  for (const path of ['/', '/en/']) {
+    test(`point to the real profiles and open safely (${path})`, async ({ page }) => {
+      await page.goto(path);
+
+      for (const scope of ['#contact', 'footer']) {
+        const links = page.locator(`${scope} a[target="_blank"]`);
+        await expect(links).toHaveCount(profiles.length);
+
+        for (const [i, href] of profiles.entries()) {
+          await expect(links.nth(i)).toHaveAttribute('href', href);
+          await expect(links.nth(i)).toHaveAttribute('rel', 'noopener noreferrer');
+        }
+      }
+    });
+  }
+});

@@ -35,6 +35,8 @@ src/
   layouts/
     BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
     BlogPostLayout.astro  layout specific to posts (on top of BaseLayout)
+  config/
+    site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer and ContactCTA
   i18n/
     ui.ts                 FR/EN translation dictionary — SINGLE SOURCE of UI strings, UiKey type derived from FR keys
     utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath
@@ -106,7 +108,7 @@ See `.claude/skills/`:
 
 ## Known todos / debt
 
-- `src/components/Footer.astro` and `src/components/ContactCTA.astro` contain placeholder URLs for GitHub/LinkedIn (`https://github.com/`, `https://www.linkedin.com/`) — to be replaced with the real profiles.
+- No known debt at the moment.
 
 ## Maintaining this file
 

@@ -70,7 +70,7 @@ Claude Design canvas must be mirrored here (and vice-versa) to stay in sync with
 
 - `src/i18n/ui.ts` — all site copy (bio, services, etc.)
 - `src/content/blog/` — journal posts
-- `src/components/Footer.astro` and `src/components/ContactCTA.astro` — GitHub/LinkedIn links (currently placeholders to be replaced with the real profiles)
+- `src/config/site.ts` — contact email and GitHub/LinkedIn profiles (used by the footer and the contact section)
 
 ## Deployment
 
