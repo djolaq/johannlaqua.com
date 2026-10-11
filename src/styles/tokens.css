@@ -67,6 +67,8 @@
   --content-width: 72rem;
   --content-width-narrow: 42rem;
   --gutter: var(--space-5);
+  --avatar-size-sm: 7.5rem;
+  --avatar-size-lg: 18rem;
 
   /* ---- Radii ---- */
   --radius-sm: 6px;
