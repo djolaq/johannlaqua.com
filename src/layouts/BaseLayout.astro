@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { name, social } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -28,6 +29,16 @@ const frPath = locale === 'fr' ? Astro.url.pathname : (altHref ?? localizePath('
 const enPath = locale === 'en' ? Astro.url.pathname : (altHref ?? localizePath('en', fallbackPath));
 const frAlternateUrl = new URL(frPath, Astro.site);
 const enAlternateUrl = new URL(enPath, Astro.site);
+
+// schema.org Person: ties the site to its owner's public profiles (sameAs).
+// `<` is escaped so the JSON can never close the surrounding <script>.
+const personJsonLd = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name,
+  url: new URL('/', Astro.site).href,
+  sameAs: social.map((s) => s.href),
+}).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -51,6 +62,8 @@ const enAlternateUrl = new URL(enPath, Astro.site);
     <meta name="theme-color" content="#0a0d10" />
 
     <meta name="generator" content={Astro.generator} />
+
+    <script type="application/ld+json" set:html={personJsonLd} />
   </head>
   <body>
     <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>

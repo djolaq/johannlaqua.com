@@ -1,4 +1,6 @@
-// Identité et profils publics — source unique, utilisée par Footer et ContactCTA.
+// Identité et profils publics — source unique, utilisée par Footer, ContactCTA
+// et les données structurées (JSON-LD Person) de BaseLayout.
+export const name = 'Johann Laqua';
 export const email = 'johann@laqua.fr';
 
 export const social = [
