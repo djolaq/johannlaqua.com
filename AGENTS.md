@@ -19,12 +19,14 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | Blog content | Content Layer API (`src/content.config.ts`, `glob` loader) — **not** the legacy Content Collections API | Required with Astro 7 |
 | CSS | Native CSS + custom properties, no framework | Minimal bundle, a single token file as source of truth |
 | Sitemap | `@astrojs/sitemap` | SEO |
+<<<<<<< HEAD
 | Unit tests | Vitest (`vitest.config.ts`) | Pure logic only (i18n utils) |
 | e2e tests | Playwright (`playwright.config.ts`) | Real served pages (build + `astro preview`) |
-| CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every push/PR, Node 22 required by Astro 7 |
+| CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every push/PR, Node read from `.nvmrc` (22.x) required by Astro 7 |
 | TypeScript | `astro/tsconfigs/strict` | Strict by default |
+| npm environment | `.npmrc` + `.nvmrc` + `engines`/`packageManager` in `package.json`, **exact** versions (no `^`) | Reproducible installs (`npm ci`), engine-strict, systematic audit |
 
-Node.js 22.12+ required (Astro 7).
+Node.js 22.12+ required (Astro 7). Version managed by `.nvmrc`; every build/CI chain must read it from this file rather than duplicating it.
 
 ## Directory tree
 
