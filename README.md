@@ -1,78 +1,78 @@
 # johannlaqua.com
 
-Site personnel de Johann Laqua — développeur senior, développement assisté par IA et cybersécurité (red & blue team).
+Personal website of Johann Laqua — senior developer, AI-assisted development and cybersecurity (red & blue team).
 
-Site 100% statique, construit avec [Astro](https://astro.build), bilingue FR/EN, sans JavaScript côté client par défaut.
+100% static site, built with [Astro](https://astro.build), bilingual FR/EN, no client-side JavaScript by default.
 
 ## Stack
 
-- **Astro** — génération statique, zéro JS par défaut
-- **Content Collections** (Content Layer API) pour les articles du journal/blog (Markdown)
-- **CSS natif** avec design tokens (custom properties) — pas de framework CSS, pour garder le bundle minimal
-- **i18n natif Astro** — FR à la racine (`/`), EN sous `/en/`
+- **Astro** — static generation, zero JS by default
+- **Content Collections** (Content Layer API) for the blog/journal posts (Markdown)
+- **Native CSS** with design tokens (custom properties) — no CSS framework, to keep the bundle minimal
+- **Native Astro i18n** — FR at the root (`/`), EN under `/en/`
 
-## Développer en local
+## Local development
 
-Prérequis : Node.js 22.12+ (requis par Astro 7).
+Prerequisites: Node.js 22.12+ (required by Astro 7).
 
 ```bash
 npm install
 npm run dev
 ```
 
-Le site est servi sur http://localhost:4321. Les pages se rechargent automatiquement.
+The site is served at http://localhost:4321. Pages reload automatically.
 
-## Autres commandes
+## Other commands
 
 ```bash
-npm run check    # vérification TypeScript / Astro
-npm run build    # build statique de production dans dist/
-npm run preview  # sert le build de production en local pour vérification finale
+npm run check    # TypeScript / Astro type checking
+npm run build    # production static build into dist/
+npm run preview  # serves the production build locally for final checks
 ```
 
 ## Tests
 
-- **Unitaires** ([Vitest](https://vitest.dev)) — logique i18n pure (`src/i18n/utils.ts`) dans `tests/unit/`.
-- **Intégration / e2e** ([Playwright](https://playwright.dev)) — vraies pages servies (build + `astro preview`) dans `tests/e2e/` : navigation, contenu de la page d'accueil, bascule de langue FR/EN (y compris sur un article de blog, dont le slug diffère selon la langue).
+- **Unit** ([Vitest](https://vitest.dev)) — pure i18n logic (`src/i18n/utils.ts`) in `tests/unit/`.
+- **Integration / e2e** ([Playwright](https://playwright.dev)) — real served pages (build + `astro preview`) in `tests/e2e/` : navigation, home page content, FR/EN language switching (including on a blog post, whose slug differs per language).
 
 ```bash
-npm run test:unit   # tests unitaires
-npm run test:e2e    # build + tests e2e (installe les navigateurs au préalable : npx playwright install --with-deps chromium)
-npm test            # les deux
+npm run test:unit   # unit tests
+npm run test:e2e    # build + e2e tests (install browsers first: npx playwright install --with-deps chromium)
+npm test            # both
 ```
 
-Ces tests tournent automatiquement sur chaque push/PR via GitHub Actions (`.github/workflows/ci.yml`).
+These tests run automatically on every push/PR via GitHub Actions (`.github/workflows/ci.yml`).
 
-## Structure du projet
+## Project structure
 
 ```
 src/
-  components/        composants UI réutilisables (Hero, Services, BlogCard, ...)
-  layouts/            BaseLayout (head, header, footer) et BlogPostLayout
-  i18n/                dictionnaire de traductions FR/EN et helpers de routage
-  content/blog/fr|en/  articles du journal, un fichier Markdown par article et par langue
-  content.config.ts   schéma de la collection "blog"
-  pages/               fr à la racine, en sous /en/
-  styles/              tokens.css (design system) + global.css (reset et styles de base)
+  components/        reusable UI components (Hero, Services, BlogCard, ...)
+  layouts/            BaseLayout (head, header, footer) and BlogPostLayout
+  i18n/                FR/EN translation dictionary and routing helpers
+  content/blog/fr|en/  journal posts, one Markdown file per post and language
+  content.config.ts   "blog" collection schema
+  pages/               fr at the root, en under /en/
+  styles/              tokens.css (design system) + global.css (reset and base styles)
 public/                favicon, robots.txt
 tests/
-  unit/                tests Vitest (logique pure)
-  e2e/                 tests Playwright (pages réelles)
+  unit/                Vitest tests (pure logic)
+  e2e/                 Playwright tests (real pages)
 ```
 
 ## Design system
 
-Les tokens visuels (couleurs, typographie, espacements, rayons, ombres) vivent dans
-`src/styles/tokens.css`. C'est la source de vérité : toute évolution faite dans un canvas
-Claude Design doit être reportée ici (et vice-versa) pour rester synchronisée avec le code.
+The visual tokens (colors, typography, spacing, radii, shadows) live in
+`src/styles/tokens.css`. It is the source of truth: any change made in a
+Claude Design canvas must be mirrored here (and vice-versa) to stay in sync with the code.
 
-## Contenu à personnaliser
+## Content to customize
 
-- `src/i18n/ui.ts` — tous les textes du site (bio, services, etc.)
-- `src/content/blog/` — articles du journal
-- `src/components/Footer.astro` et `src/components/ContactCTA.astro` — liens GitHub/LinkedIn (actuellement des placeholders à remplacer par les vrais profils)
+- `src/i18n/ui.ts` — all site copy (bio, services, etc.)
+- `src/content/blog/` — journal posts
+- `src/components/Footer.astro` and `src/components/ContactCTA.astro` — GitHub/LinkedIn links (currently placeholders to be replaced with the real profiles)
 
-## Déploiement
+## Deployment
 
-Le site build en fichiers statiques purs (`npm run build` → `dist/`), déployable sur
-n'importe quel hébergeur statique (Netlify, Vercel, Cloudflare Pages, GitHub Pages, etc.).
+The site builds into pure static files (`npm run build` → `dist/`), deployable on
+any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, etc.).
