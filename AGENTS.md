@@ -106,7 +106,7 @@ Voir `.claude/skills/` :
 
 ## À faire connu / dette
 
-- `src/components/Footer.astro` et `src/components/ContactCTA.astro` contiennent des URLs placeholder pour GitHub/LinkedIn (`https://github.com/`, `https://www.linkedin.com/`) — à remplacer par les vrais profils.
+- Aucune dette connue pour le moment.
 
 ## Maintenance de ce fichier
 

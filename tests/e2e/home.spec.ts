@@ -23,6 +23,17 @@ test.describe('Home page (fr)', () => {
     const contactLink = page.locator('#contact a[href^="mailto:"]');
     await expect(contactLink).toHaveAttribute('href', 'mailto:johann@laqua.fr');
   });
+
+  test('social links point to the real profiles', async ({ page }) => {
+    await page.goto('/');
+
+    for (const scope of ['#contact', 'footer']) {
+      await expect(page.locator(`${scope} a[href="https://github.com/djolaq"]`)).toBeAttached();
+      await expect(
+        page.locator(`${scope} a[href="https://www.linkedin.com/in/johannlaqua/"]`),
+      ).toBeAttached();
+    }
+  });
 });
 
 test.describe('Home page (en)', () => {
