@@ -1,0 +1,70 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+import { legal } from '../data/legal';
+
+interface Props {
+  locale: Locale;
+  title: string;
+}
+
+const { locale, title } = Astro.props;
+const t = useTranslations(locale);
+const updated = new Date(legal.lastUpdated).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<section class="section">
+  <article class="container container--narrow legal">
+    <p class="eyebrow">{t('legal.eyebrow')}</p>
+    <h1>{title}</h1>
+    <p class="legal__updated">{t('legal.updated')} <time datetime={legal.lastUpdated}>{updated}</time></p>
+    <slot />
+  </article>
+</section>
+
+<style>
+  .legal h1 {
+    margin-top: var(--space-4);
+    font-size: var(--text-2xl);
+  }
+
+  .legal__updated {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-faint);
+  }
+
+  .legal :global(h2) {
+    margin-top: var(--space-7);
+    font-size: var(--text-lg);
+  }
+
+  .legal :global(p),
+  .legal :global(ul) {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+  }
+
+  .legal :global(ul) {
+    padding-left: var(--space-5);
+    list-style: disc;
+  }
+
+  .legal :global(li + li) {
+    margin-top: var(--space-2);
+  }
+
+  .legal :global(a) {
+    color: var(--color-signal-strong);
+  }
+
+  @media (min-width: 48em) {
+    .legal h1 {
+      font-size: var(--text-3xl);
+    }
+  }
+</style>

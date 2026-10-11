@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalArticle from '../components/LegalArticle.astro';
+import { useTranslations } from '../i18n/utils';
+import { legal } from '../data/legal';
+
+const locale = 'fr' as const;
+const t = useTranslations(locale);
+const { publisher, host } = legal;
+---
+
+<BaseLayout locale={locale} title={t('legal.privacy.title')} altHref="/en/privacy">
+  <LegalArticle locale={locale} title={t('legal.privacy.title')}>
+    <p>
+      Ce site est volontairement minimaliste : pas de cookie, pas de traceur, pas de mesure d’audience, pas de
+      formulaire, pas de police ni de script chargés depuis un service tiers. Cette page décrit les seules données
+      qui peuvent malgré tout être traitées.
+    </p>
+
+    <h2>Responsable du traitement</h2>
+    <p>
+      {publisher.name} — <a href={`mailto:${publisher.email}`}>{publisher.email}</a>
+    </p>
+
+    <h2>Journaux techniques de l’hébergeur</h2>
+    <p>
+      Comme pour tout site web, le serveur de l’hébergeur ({host.name}) enregistre automatiquement des journaux de
+      connexion : adresse IP, date et heure, page demandée, navigateur utilisé. Ces données servent uniquement à
+      assurer le fonctionnement et la sécurité du site (intérêt légitime, art. 6.1.f du RGPD). Elles ne sont pas
+      exploitées à d’autres fins et sont supprimées après une durée limitée fixée par l’hébergeur.
+    </p>
+
+    <h2>Échanges par e-mail</h2>
+    <p>
+      Si vous m’écrivez, je reçois votre adresse e-mail et le contenu de votre message. Je les utilise uniquement
+      pour vous répondre et, le cas échéant, pour donner suite à votre demande (mesures précontractuelles ou
+      intérêt légitime). Ils ne sont jamais vendus ni transmis à des tiers et sont conservés au maximum 3 ans
+      après notre dernier échange, sauf relation contractuelle en cours.
+    </p>
+
+    <h2>Cookies</h2>
+    <p>
+      Aucun cookie n’est déposé sur votre appareil. C’est pourquoi aucun bandeau de consentement ne vous est
+      présenté.
+    </p>
+
+    <h2>Vos droits</h2>
+    <p>Conformément au RGPD et à la loi Informatique et Libertés, vous disposez des droits suivants :</p>
+    <ul>
+      <li>accès, rectification et effacement de vos données ;</li>
+      <li>limitation du traitement et opposition ;</li>
+      <li>portabilité de vos données.</li>
+    </ul>
+    <p>
+      Pour les exercer, écrivez à <a href={`mailto:${publisher.email}`}>{publisher.email}</a>. Si vous estimez que
+      vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL
+      (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">cnil.fr</a>).
+    </p>
+  </LegalArticle>
+</BaseLayout>

@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LegalArticle from '../../components/LegalArticle.astro';
+import { useTranslations } from '../../i18n/utils';
+import { legal } from '../../data/legal';
+
+const locale = 'en' as const;
+const t = useTranslations(locale);
+const { publisher, host } = legal;
+---
+
+<BaseLayout locale={locale} title={t('legal.notice.title')} altHref="/mentions-legales">
+  <LegalArticle locale={locale} title={t('legal.notice.title')}>
+    <p>
+      This page is a translation provided for convenience. The French version
+      (<a href="/mentions-legales">mentions légales</a>) is the authoritative one.
+    </p>
+
+    <h2>Publisher</h2>
+    <p>
+      johannlaqua.com is published by {publisher.name}, {publisher.status}.<br />
+      SIRET: {publisher.siret}<br />
+      Address: {publisher.address}<br />
+      Email: <a href={`mailto:${publisher.email}`}>{publisher.email}</a>
+    </p>
+    <p>Publication director: {legal.publicationDirector}.</p>
+
+    <h2>Hosting</h2>
+    <p>
+      The site is hosted by {host.name}<br />
+      {host.address}<br />
+      {host.website}
+    </p>
+
+    <h2>Intellectual property</h2>
+    <p>
+      All content on this site (text, articles, graphics, logo) belongs to {publisher.name} unless stated
+      otherwise. Any full or partial reproduction without prior written permission is prohibited. Short quotations
+      are welcome provided the source is credited and linked.
+    </p>
+
+    <h2>Liability</h2>
+    <p>
+      Information on this site is provided for general purposes and is not personalised advice. Security-related
+      articles are educational and defensive in intent: any technique described must only be used on systems you
+      are explicitly authorised to test. The publisher accepts no liability for any other use.
+    </p>
+    <p>Links to third-party sites are provided for information only; the publisher has no control over them.</p>
+
+    <h2>Personal data</h2>
+    <p>
+      This site sets no cookies and uses no analytics. See the <a href="/en/privacy">privacy policy</a> for
+      details.
+    </p>
+
+    <h2>Governing law</h2>
+    <p>This notice is governed by French law.</p>
+  </LegalArticle>
+</BaseLayout>
