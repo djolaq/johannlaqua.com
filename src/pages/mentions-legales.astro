@@ -13,10 +13,12 @@ const { publisher, host } = legal;
   <LegalArticle locale={locale} title={t('legal.notice.title')}>
     <h2>Éditeur du site</h2>
     <p>
-      Le site johannlaqua.com est édité par {publisher.name}, {publisher.status}.<br />
-      SIRET : {publisher.siret}<br />
-      Adresse : {publisher.address}<br />
+      Le site johannlaqua.com est un site personnel édité par {publisher.name}, à titre non professionnel.<br />
       E-mail : <a href={`mailto:${publisher.email}`}>{publisher.email}</a>
+    </p>
+    <p>
+      Conformément à l’article 6-III-2 de la loi n° 2004-575 du 21 juin 2004 (LCEN), les coordonnées personnelles
+      de l’éditeur ont été communiquées à l’hébergeur.
     </p>
     <p>Directeur de la publication : {legal.publicationDirector}.</p>
 
@@ -24,7 +26,8 @@ const { publisher, host } = legal;
     <p>
       Le site est hébergé par {host.name}<br />
       {host.address}<br />
-      {host.website}
+      Téléphone : {host.phone}<br />
+      <a href={host.website}>{host.website}</a>
     </p>
 
     <h2>Propriété intellectuelle</h2>

@@ -18,10 +18,12 @@ const { publisher, host } = legal;
 
     <h2>Publisher</h2>
     <p>
-      johannlaqua.com is published by {publisher.name}, {publisher.status}.<br />
-      SIRET: {publisher.siret}<br />
-      Address: {publisher.address}<br />
+      johannlaqua.com is a personal website published by {publisher.name} as a private individual.<br />
       Email: <a href={`mailto:${publisher.email}`}>{publisher.email}</a>
+    </p>
+    <p>
+      In accordance with article 6-III-2 of French law no. 2004-575 of 21 June 2004 (LCEN), the publisher's
+      personal contact details have been provided to the host.
     </p>
     <p>Publication director: {legal.publicationDirector}.</p>
 
@@ -29,7 +31,8 @@ const { publisher, host } = legal;
     <p>
       The site is hosted by {host.name}<br />
       {host.address}<br />
-      {host.website}
+      Phone: {host.phone}<br />
+      <a href={host.website}>{host.website}</a>
     </p>
 
     <h2>Intellectual property</h2>
