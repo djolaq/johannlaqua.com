@@ -72,6 +72,13 @@ export const ui = {
 
     'footer.rights': 'Tous droits réservés.',
     'footer.builtWith': 'Site statique, sans tracker.',
+    'footer.legalNotice': 'Mentions légales',
+    'footer.privacy': 'Confidentialité',
+
+    'legal.eyebrow': 'Informations légales',
+    'legal.updated': 'Dernière mise à jour :',
+    'legal.notice.title': 'Mentions légales',
+    'legal.privacy.title': 'Politique de confidentialité',
 
     'notFound.title': 'Page introuvable',
     'notFound.body': "La page que vous cherchez n'existe pas ou a été déplacée.",
@@ -146,6 +153,13 @@ export const ui = {
 
     'footer.rights': 'All rights reserved.',
     'footer.builtWith': 'Static site, no trackers.',
+    'footer.legalNotice': 'Legal notice',
+    'footer.privacy': 'Privacy',
+
+    'legal.eyebrow': 'Legal',
+    'legal.updated': 'Last updated:',
+    'legal.notice.title': 'Legal notice',
+    'legal.privacy.title': 'Privacy policy',
 
     'notFound.title': 'Page not found',
     'notFound.body': "The page you're looking for doesn't exist or has moved.",

@@ -19,7 +19,6 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | Blog content | Content Layer API (`src/content.config.ts`, `glob` loader) — **not** the legacy Content Collections API | Required with Astro 7 |
 | CSS | Native CSS + custom properties, no framework | Minimal bundle, a single token file as source of truth |
 | Sitemap | `@astrojs/sitemap` | SEO |
-<<<<<<< HEAD
 | Unit tests | Vitest (`vitest.config.ts`) | Pure logic only (i18n utils) |
 | e2e tests | Playwright (`playwright.config.ts`) | Real served pages (build + `astro preview`) |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every push/PR, Node read from `.nvmrc` (22.x) required by Astro 7 |
@@ -38,11 +37,14 @@ src/
   assets/
     avatar.jpg            profile photo (copy of the GitHub avatar), optimized by astro:assets at build time — never hotlinked
   components/            UI components (.astro), one file per component, no heavy business logic
+    LegalArticle.astro    prose wrapper (eyebrow, title, last-updated date) shared by the legal pages
   layouts/
     BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
     BlogPostLayout.astro  layout specific to posts (on top of BaseLayout)
   config/
     site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer and ContactCTA
+  data/
+    legal.ts              publisher + host details for the legal pages — SINGLE SOURCE, imported by the legal notice/privacy pages
   i18n/
     ui.ts                 FR/EN translation dictionary — SINGLE SOURCE of UI strings, UiKey type derived from FR keys
     utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath
@@ -57,6 +59,8 @@ src/
     en/index.astro           EN home
     en/blog/index.astro      EN post list
     en/blog/[slug].astro      EN post
+    mentions-legales.astro    FR legal notice (EN: en/legal-notice.astro)
+    confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
   styles/
     tokens.css              design tokens (custom properties) — VISUAL SOURCE OF TRUTH
     global.css               reset + base styles

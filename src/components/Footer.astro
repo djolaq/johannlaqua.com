@@ -17,6 +17,11 @@ const links = [
   { href: localizePath(locale, '/blog'), label: t('nav.blog') },
   { href: `${home}#contact`, label: t('nav.contact') },
 ];
+
+const legalLinks = [
+  { href: localizePath(locale, locale === 'fr' ? '/mentions-legales' : '/legal-notice'), label: t('footer.legalNotice') },
+  { href: localizePath(locale, locale === 'fr' ? '/confidentialite' : '/privacy'), label: t('footer.privacy') },
+];
 ---
 
 <footer class="footer">
@@ -51,8 +56,17 @@ const links = [
     </ul>
   </div>
 
-  <div class="container">
+  <div class="container footer__bottom">
     <p class="footer__legal">© {year} Johann Laqua. {t('footer.rights')}</p>
+    <ul class="footer__legal-links">
+      {
+        legalLinks.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </footer>
 
@@ -98,6 +112,28 @@ const links = [
 
   .footer__nav a:hover,
   .footer__social a:hover {
+    color: var(--color-signal-strong);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-3) var(--space-5);
+  }
+
+  .footer__legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footer__legal-links a {
+    font-size: var(--text-xs);
+    color: var(--color-text-faint);
+  }
+
+  .footer__legal-links a:hover {
     color: var(--color-signal-strong);
   }
 
