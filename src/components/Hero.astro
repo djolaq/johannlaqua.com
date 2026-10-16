@@ -2,6 +2,7 @@
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
 import StatTile from './StatTile.astro';
+import Avatar from './Avatar.astro';
 
 interface Props {
   locale: Locale;
@@ -14,19 +15,25 @@ const t = useTranslations(locale);
 <section class="hero">
   <div class="hero__grid" aria-hidden="true"></div>
   <div class="container hero__inner">
-    <p class="eyebrow">{t('hero.eyebrow')}</p>
-    <h1 class="hero__title">{t('hero.title')}</h1>
-    <p class="hero__subtitle">{t('hero.subtitle')}</p>
-
-    <div class="hero__actions">
-      <Button href={`${localizePath(locale, '/')}#contact`}>{t('hero.cta.primary')}</Button>
-      <Button href={localizePath(locale, '/blog')} variant="ghost">{t('hero.cta.secondary')}</Button>
+    <div class="hero__avatar">
+      <Avatar alt={t('hero.avatarAlt')} />
     </div>
 
-    <div class="hero__stats">
-      <StatTile value={t('hero.stat.experienceValue')} label={t('hero.stat.experience')} />
-      <StatTile value={t('hero.stat.disciplineValue')} label={t('hero.stat.disciplineLabel')} />
-      <StatTile value={t('hero.stat.modeValue')} label={t('hero.stat.mode')} />
+    <div class="hero__content">
+      <p class="eyebrow">{t('hero.eyebrow')}</p>
+      <h1 class="hero__title">{t('hero.title')}</h1>
+      <p class="hero__subtitle">{t('hero.subtitle')}</p>
+
+      <div class="hero__actions">
+        <Button href={`${localizePath(locale, '/')}#contact`}>{t('hero.cta.primary')}</Button>
+        <Button href={localizePath(locale, '/blog')} variant="ghost">{t('hero.cta.secondary')}</Button>
+      </div>
+
+      <div class="hero__stats">
+        <StatTile value={t('hero.stat.experienceValue')} label={t('hero.stat.experience')} />
+        <StatTile value={t('hero.stat.disciplineValue')} label={t('hero.stat.disciplineLabel')} />
+        <StatTile value={t('hero.stat.modeValue')} label={t('hero.stat.mode')} />
+      </div>
     </div>
   </div>
 </section>
@@ -51,6 +58,11 @@ const t = useTranslations(locale);
 
   .hero__inner {
     position: relative;
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .hero__content {
     max-width: 44rem;
   }
 
@@ -83,6 +95,16 @@ const t = useTranslations(locale);
   }
 
   @media (min-width: 48em) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: var(--space-8);
+    }
+
+    .hero__avatar {
+      order: 1;
+    }
+
     .hero__title {
       font-size: var(--text-4xl);
     }

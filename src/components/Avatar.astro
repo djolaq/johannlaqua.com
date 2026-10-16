@@ -1,0 +1,177 @@
+---
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.jpg';
+
+interface Props {
+  alt: string;
+}
+
+const { alt } = Astro.props;
+---
+
+<figure class="avatar">
+  <div class="avatar__frame">
+    <Image
+      src={avatar}
+      alt={alt}
+      class="avatar__img"
+      widths={[240, 460]}
+      sizes="(min-width: 48em) 18rem, 7.5rem"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <span class="avatar__scan" aria-hidden="true"></span>
+  </div>
+  <span class="avatar__corner avatar__corner--tl" aria-hidden="true"></span>
+  <span class="avatar__corner avatar__corner--tr" aria-hidden="true"></span>
+  <span class="avatar__corner avatar__corner--bl" aria-hidden="true"></span>
+  <span class="avatar__corner avatar__corner--br" aria-hidden="true"></span>
+  <span class="avatar__status" aria-hidden="true"></span>
+</figure>
+
+<style>
+  .avatar {
+    position: relative;
+    width: var(--avatar-size-sm);
+    aspect-ratio: 1;
+    margin: 0;
+    padding: var(--space-2);
+  }
+
+  .avatar__frame {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-strong);
+    background: var(--color-bg-inset);
+    box-shadow: var(--shadow-glow), var(--shadow-md);
+  }
+
+  .avatar__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) contrast(1.05);
+    transition: filter var(--duration-base) var(--ease-out);
+  }
+
+  .avatar:hover .avatar__img {
+    filter: none;
+  }
+
+  /* Faint scanlines + signal tint: ties the photo into the terminal aesthetic. */
+  .avatar__scan {
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(to bottom, transparent 0 3px, var(--color-signal-bg) 3px 4px),
+      linear-gradient(to top, var(--color-signal-bg), transparent 60%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-out);
+  }
+
+  .avatar:hover .avatar__scan {
+    opacity: 0;
+  }
+
+  /* Targeting reticle corners — red on one corner as a nod to red team. */
+  .avatar__corner {
+    position: absolute;
+    width: var(--space-5);
+    height: var(--space-5);
+    border: 2px solid var(--color-signal);
+  }
+
+  .avatar__corner--tl {
+    top: 0;
+    left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-top-left-radius: var(--radius-sm);
+  }
+
+  .avatar__corner--tr {
+    top: 0;
+    right: 0;
+    border-left: 0;
+    border-bottom: 0;
+    border-top-right-radius: var(--radius-sm);
+  }
+
+  .avatar__corner--bl {
+    bottom: 0;
+    left: 0;
+    border-right: 0;
+    border-top: 0;
+    border-bottom-left-radius: var(--radius-sm);
+  }
+
+  .avatar__corner--br {
+    bottom: 0;
+    right: 0;
+    border-left: 0;
+    border-top: 0;
+    border-bottom-right-radius: var(--radius-sm);
+    border-color: var(--color-alert);
+  }
+
+  .avatar__status {
+    position: absolute;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    width: var(--space-3);
+    height: var(--space-3);
+    border-radius: var(--radius-full);
+    background: var(--color-signal);
+    box-shadow: 0 0 0 3px var(--color-bg);
+  }
+
+  .avatar__status::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--color-signal);
+    animation: avatar-ping 2s var(--ease-out) infinite;
+  }
+
+  @keyframes avatar-ping {
+    from {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    to {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .avatar__status::after {
+      animation: none;
+    }
+  }
+
+  @media (min-width: 48em) {
+    .avatar {
+      width: var(--avatar-size-lg);
+      padding: var(--space-3);
+    }
+
+    .avatar__corner {
+      width: var(--space-6);
+      height: var(--space-6);
+    }
+
+    .avatar__status {
+      right: var(--space-5);
+      bottom: var(--space-5);
+      width: var(--space-4);
+      height: var(--space-4);
+    }
+  }
+</style>

@@ -14,6 +14,7 @@ export const ui = {
     'nav.skipToContent': 'Aller au contenu',
 
     'hero.eyebrow': 'Disponible pour missions',
+    'hero.avatarAlt': 'Portrait de Johann Laqua',
     'hero.title': "Je construis des logiciels solides, et je les sécurise.",
     'hero.subtitle':
       'Développeur senior, dopé à l’IA pour aller plus vite sans sacrifier la rigueur — avec un œil de red teamer sur tout ce qui est mis en production.',
@@ -71,6 +72,13 @@ export const ui = {
 
     'footer.rights': 'Tous droits réservés.',
     'footer.builtWith': 'Site statique, sans tracker.',
+    'footer.legalNotice': 'Mentions légales',
+    'footer.privacy': 'Confidentialité',
+
+    'legal.eyebrow': 'Informations légales',
+    'legal.updated': 'Dernière mise à jour :',
+    'legal.notice.title': 'Mentions légales',
+    'legal.privacy.title': 'Politique de confidentialité',
 
     'notFound.title': 'Page introuvable',
     'notFound.body': "La page que vous cherchez n'existe pas ou a été déplacée.",
@@ -87,6 +95,7 @@ export const ui = {
     'nav.skipToContent': 'Skip to content',
 
     'hero.eyebrow': 'Open to new missions',
+    'hero.avatarAlt': 'Portrait of Johann Laqua',
     'hero.title': 'I build software that holds up, and I make it hard to break.',
     'hero.subtitle':
       'Senior developer, AI-boosted to move faster without cutting corners — with a red teamer’s eye on everything that ships.',
@@ -144,6 +153,13 @@ export const ui = {
 
     'footer.rights': 'All rights reserved.',
     'footer.builtWith': 'Static site, no trackers.',
+    'footer.legalNotice': 'Legal notice',
+    'footer.privacy': 'Privacy',
+
+    'legal.eyebrow': 'Legal',
+    'legal.updated': 'Last updated:',
+    'legal.notice.title': 'Legal notice',
+    'legal.privacy.title': 'Privacy policy',
 
     'notFound.title': 'Page not found',
     'notFound.body': "The page you're looking for doesn't exist or has moved.",

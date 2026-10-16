@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import LegalArticle from '../components/LegalArticle.astro';
+import { useTranslations } from '../i18n/utils';
+import { legal } from '../data/legal';
+
+const locale = 'fr' as const;
+const t = useTranslations(locale);
+const { publisher, host } = legal;
+---
+
+<BaseLayout locale={locale} title={t('legal.notice.title')} altHref="/en/legal-notice">
+  <LegalArticle locale={locale} title={t('legal.notice.title')}>
+    <h2>Éditeur du site</h2>
+    <p>
+      Le site johannlaqua.com est un site personnel édité par {publisher.name}, à titre non professionnel.<br />
+      E-mail : <a href={`mailto:${publisher.email}`}>{publisher.email}</a>
+    </p>
+    <p>
+      Conformément à l’article 6-III-2 de la loi n° 2004-575 du 21 juin 2004 (LCEN), les coordonnées personnelles
+      de l’éditeur ont été communiquées à l’hébergeur.
+    </p>
+    <p>Directeur de la publication : {legal.publicationDirector}.</p>
+
+    <h2>Hébergement</h2>
+    <p>
+      Le site est hébergé par {host.name}<br />
+      {host.address}<br />
+      Téléphone : {host.phone}<br />
+      <a href={host.website}>{host.website}</a>
+    </p>
+
+    <h2>Propriété intellectuelle</h2>
+    <p>
+      L’ensemble des contenus de ce site (textes, articles, éléments graphiques, logo) est la propriété de
+      {publisher.name}, sauf mention contraire. Toute reproduction ou réutilisation, totale ou partielle, sans
+      autorisation écrite préalable est interdite. Les courtes citations sont autorisées à condition de mentionner
+      la source et de renvoyer vers la page d’origine.
+    </p>
+
+    <h2>Responsabilité</h2>
+    <p>
+      Les informations publiées sur ce site sont fournies à titre indicatif et ne constituent pas un conseil
+      personnalisé. Les articles traitant de sécurité informatique ont une visée pédagogique et défensive : toute
+      technique décrite ne doit être mise en œuvre que sur des systèmes pour lesquels vous disposez d’une
+      autorisation explicite. L’éditeur ne saurait être tenu responsable d’un usage contraire.
+    </p>
+    <p>
+      Les liens vers des sites tiers sont fournis pour information ; l’éditeur n’exerce aucun contrôle sur leur
+      contenu.
+    </p>
+
+    <h2>Données personnelles</h2>
+    <p>
+      Ce site ne dépose aucun cookie et n’utilise aucun outil de mesure d’audience. Pour le détail, voir la
+      <a href="/confidentialite">politique de confidentialité</a>.
+    </p>
+
+    <h2>Droit applicable</h2>
+    <p>Les présentes mentions sont régies par le droit français.</p>
+  </LegalArticle>
+</BaseLayout>
