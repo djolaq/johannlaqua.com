@@ -48,7 +48,7 @@ test.describe('Social links', () => {
   const profiles = ['https://github.com/djolaq', 'https://www.linkedin.com/in/johannlaqua/'];
 
   for (const path of ['/', '/en/']) {
-    test(`point to the real profiles and open safely (${path})`, async ({ page }) => {
+    test(`point to the real profiles and open safely, with rel=me (${path})`, async ({ page }) => {
       await page.goto(path);
 
       for (const scope of ['#contact', 'footer']) {
@@ -57,9 +57,27 @@ test.describe('Social links', () => {
 
         for (const [i, href] of profiles.entries()) {
           await expect(links.nth(i)).toHaveAttribute('href', href);
-          await expect(links.nth(i)).toHaveAttribute('rel', 'noopener noreferrer');
+          await expect(links.nth(i)).toHaveAttribute('rel', 'me noopener noreferrer');
         }
       }
+    });
+  }
+});
+
+test.describe('Structured data', () => {
+  for (const path of ['/', '/en/']) {
+    test(`exposes a schema.org Person linked to the social profiles (${path})`, async ({ page }) => {
+      await page.goto(path);
+
+      const raw = await page.locator('script[type="application/ld+json"]').textContent();
+      const data = JSON.parse(raw ?? '');
+      expect(data).toMatchObject({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Johann Laqua',
+        url: 'https://johannlaqua.com/',
+        sameAs: ['https://github.com/djolaq', 'https://www.linkedin.com/in/johannlaqua/'],
+      });
     });
   }
 });

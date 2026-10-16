@@ -42,7 +42,7 @@ src/
     BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
     BlogPostLayout.astro  layout specific to posts (on top of BaseLayout)
   config/
-    site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer and ContactCTA
+    site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer, ContactCTA and BaseLayout's JSON-LD
   data/
     legal.ts              publisher + host details for the legal pages — SINGLE SOURCE, imported by the legal notice/privacy pages
   i18n/
@@ -91,6 +91,7 @@ tests/
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
+- Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `Person` whose `sameAs` is derived from `src/config/site.ts`. Any new profile is added in `site.ts` only.
 - Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default.
 
 ## Tests & CI
