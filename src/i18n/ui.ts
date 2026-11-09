@@ -14,7 +14,6 @@ export const ui = {
     'nav.skipToContent': 'Aller au contenu',
 
     'hero.eyebrow': 'Disponible pour missions',
-    'hero.avatarAlt': 'Portrait de Johann Laqua',
     'hero.kicker': 'Développeur senior, IA et cybersécurité',
     'hero.title': 'Je construis des logiciels solides,',
     'hero.titleAccent': 'et je les sécurise.',
@@ -117,7 +116,6 @@ export const ui = {
     'nav.skipToContent': 'Skip to content',
 
     'hero.eyebrow': 'Open to new missions',
-    'hero.avatarAlt': 'Portrait of Johann Laqua',
     'hero.kicker': 'Senior developer, AI and cybersecurity',
     'hero.title': 'I build software that holds up,',
     'hero.titleAccent': 'and make it hard to break.',

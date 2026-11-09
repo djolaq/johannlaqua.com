@@ -31,11 +31,7 @@ Node.js 22.12+ required (Astro 7). Version managed by `.nvmrc`; every build/CI c
 
 ```
 astro.config.mjs        i18n routing, sitemap, output static
-scripts/
-  fetch-github-avatar.mjs  `npm run avatar:fetch` — re-downloads the GitHub profile photo into src/assets/
 src/
-  assets/
-    avatar.jpg            profile photo (copy of the GitHub avatar), optimized by astro:assets at build time — never hotlinked
   components/            UI components (.astro), one file per component, no heavy business logic
     Section.astro         section wrapper (rhythm, optional tone, anchor id) — use for every page section
     AnnouncementBar.astro blue strip above the header linking to the latest post
@@ -94,7 +90,7 @@ tests/
 - Palette: Charcoal `#1E1E1C` (ink, dark bands), Sand `#D8CBB3` (paper, the page), Electric blue `#2F6BFF` (actions, links, graph strokes, focus — never small text: use `--blue-300` on charcoal, `--blue-700` on sand).
 - Components use **semantic tokens** (`--surface`, `--surface-card`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-charcoal` (default, on `<body>`) and `.tone-sand` in `global.css`. Never raw hex in a component.
 - Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*`, imported in `BaseLayout.astro`. No external font CDN (privacy policy promises no third-party requests).
-- Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = duotone portrait + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
+- Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = generated network map (`NetworkField.astro`, no photo) + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).

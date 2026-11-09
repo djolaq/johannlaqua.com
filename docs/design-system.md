@@ -2,12 +2,12 @@
 
 > Living reference. Source of truth for values: `src/styles/tokens.css`.
 > Any change to a token is mirrored here (and in the claude.ai Project doc
-> `claude/design-system.md`). Last update: 2026-11-10 (v2).
+> `claude/design-system.md`). Last update: 2026-11-10 (v2.1).
 
 ## Idea in one line
 
 **A dark, cinematic tech page.** Charcoal everywhere, sand for text, a
-duotone portrait sinking into the dark, translucent "glass" cards, and
+generated network map sinking into the dark, translucent "glass" cards, and
 electric blue for actions and the one data curve. Inspired by modern
 infrastructure-software landing pages (reference shared by Johann:
 dark hero, sepia photo, sans headline with an italic serif ending,
@@ -74,7 +74,7 @@ set large in Geist Light. Kickers are small tracked capitals.
 - Container 76 rem + gutter (24 / 48 px). Content left-aligned.
 - **Announcement bar** (`AnnouncementBar.astro`): blue strip linking to the latest journal post.
 - **Header**: brand in tracked caps with a blue bolt mark, nav, language toggle, "Me contacter" quiet button. Sticky, glass.
-- **Hero**: kicker → headline with italic ending → subtitle → primary + quiet buttons → availability pulse; stats row split by hairlines; duotone portrait (`Avatar.astro`) on the right fading into charcoal; glass **method chart** card (`MethodChart.astro`) overlapping the photo; faint vertical column guides (`.guides`).
+- **Hero**: kicker → headline with italic ending → subtitle → primary + quiet buttons → availability pulse; stats row split by hairlines; generated **network map** (`NetworkField.astro`) on the right fading into charcoal — sand hairline nodes and links crossed by one electric-blue attack path from an entry node (dashed ring) to a target (blue ring), drawn once on load; glass **method chart** card (`MethodChart.astro`) overlapping it; faint vertical column guides (`.guides`).
 - **Sections** (`Section.astro` + `SectionHeading.astro`): kicker, title + optional italic `accent`, subtitle.
 - **Cards** (`.card`): glass background, hairline border, `--radius-md` 12 px. Services: icon tile + title + text; the featured one (pentest) has a blue border, glow and "Populaire" pill. Journal: date + tag pill + title + text + "Lire l'article".
 - **Contact**: large raised panel with blue glow and guides, title with italic ending, primary email button.
@@ -101,6 +101,10 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.1 — 2026-11-10**: GitHub photo removed from the site (asset, fetch
+  script and test deleted). The hero visual is now a deterministic SVG
+  network map with a blue attack path — no image request at all.
 
 - **v2 — 2026-11-10**: rework after Johann's feedback ("c'est moche") and
   his reference image. Dark charcoal page, Geist + Instrument Serif

@@ -1,7 +1,7 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
-import Avatar from './Avatar.astro';
+import NetworkField from './NetworkField.astro';
 import MethodChart from './MethodChart.astro';
 
 interface Props {
@@ -20,7 +20,7 @@ const stats = [
 
 <section class="hero">
   <div class="hero__visual">
-    <Avatar alt={t('hero.avatarAlt')} />
+    <NetworkField />
   </div>
   <div class="guides" aria-hidden="true"></div>
 
@@ -74,7 +74,7 @@ const stats = [
     height: 20rem;
   }
 
-  .hero__visual :global(.portrait__img) {
+  .hero__visual :global(.field) {
     mask-image: linear-gradient(to top, transparent 0%, black 55%);
   }
 
@@ -194,15 +194,15 @@ const stats = [
       position: absolute;
       top: 0;
       right: 0;
-      width: min(46%, 40rem);
+      bottom: 0;
+      width: min(56%, 48rem);
       height: auto;
-      aspect-ratio: 1;
     }
 
-    .hero__visual :global(.portrait__img) {
+    .hero__visual :global(.field) {
       mask-image:
-        linear-gradient(to right, transparent 0%, black 40%),
-        linear-gradient(to top, transparent 0%, black 40%);
+        linear-gradient(to right, transparent 0%, black 38%),
+        linear-gradient(to top, transparent 0%, black 30%);
       mask-composite: intersect;
     }
 
