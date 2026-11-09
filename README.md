@@ -47,7 +47,7 @@ These tests run automatically on every push/PR via GitHub Actions (`.github/work
 
 ```
 src/
-  components/        reusable UI components (Hero, Services, BlogCard, ...)
+  components/        reusable UI components (Hero, Skills, Lab, BlogCard, ...)
   layouts/            BaseLayout (head, header, footer) and BlogPostLayout
   i18n/                FR/EN translation dictionary and routing helpers
   content/blog/fr|en/  journal posts, one Markdown file per post and language
@@ -68,7 +68,8 @@ Claude Design canvas must be mirrored here (and vice-versa) to stay in sync with
 
 ## Content to customize
 
-- `src/i18n/ui.ts` — all site copy (bio, services, etc.)
+- `src/i18n/ui.ts` — all site copy (bio, skills, lab, etc.)
+- `src/data/projects.ts` — public projects shown in the Lab section
 - `src/content/blog/` — journal posts
 - `src/config/site.ts` — contact email and GitHub/LinkedIn profiles (used by the footer and the contact section)
 

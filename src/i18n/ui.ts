@@ -8,17 +8,18 @@ export const ui = {
     'site.description':
       "Développeur senior spécialisé en développement assisté par l'IA et en cybersécurité offensive/défensive (red & blue team).",
     'nav.about': 'À propos',
-    'nav.services': 'Services',
+    'nav.skills': 'Compétences',
+    'nav.lab': 'Lab',
     'nav.blog': 'Journal',
     'nav.contact': 'Contact',
     'nav.skipToContent': 'Aller au contenu',
 
-    'hero.eyebrow': 'Disponible pour missions',
+    'hero.eyebrow': 'Développeur senior · Red & Blue team',
     'hero.avatarAlt': 'Portrait de Johann Laqua',
     'hero.title': "Je construis des logiciels solides, et je les sécurise.",
     'hero.subtitle':
       'Développeur senior, dopé à l’IA pour aller plus vite sans sacrifier la rigueur — avec un œil de red teamer sur tout ce qui est mis en production.',
-    'hero.cta.primary': 'Discuter d’un projet',
+    'hero.cta.primary': 'Voir mes compétences',
     'hero.cta.secondary': 'Voir le journal',
     'hero.stat.experience': "ans d'expérience",
     'hero.stat.experienceValue': '10+',
@@ -37,21 +38,47 @@ export const ui = {
     'about.body3':
       'Résultat : du code qui va vite à produire, et qui reste difficile à casser.',
 
-    'services.eyebrow': 'Services',
-    'services.title': 'Comment je peux vous aider',
-    'services.subtitle':
-      'Trois façons de travailler ensemble, du sprint ponctuel à l’accompagnement long terme.',
-    'services.dev.title': 'Développement IA-boosted',
-    'services.dev.body':
-      'Applications web et outils internes conçus et livrés vite grâce à un usage intensif des assistants IA, sans dette technique cachée.',
-    'services.security.title': 'Audit & Pentest',
-    'services.security.badge': 'Populaire',
-    'services.security.body':
-      'Tests d’intrusion applicatifs et infrastructure, revue de code orientée sécurité, et remédiation concrète des vulnérabilités trouvées.',
-    'services.advisory.title': 'Conseil technique',
-    'services.advisory.body':
-      'Revue d’architecture, choix technologiques, mise en place de bonnes pratiques de sécurité dès la conception (security by design).',
-    'services.cta': 'En savoir plus',
+    'skills.eyebrow': 'Compétences',
+    'skills.title': 'Ce que je sais faire',
+    'skills.subtitle':
+      'Trois disciplines que je pratique au quotidien, et qui se renforcent l’une l’autre.',
+    'skills.dev.tag': 'Build',
+    'skills.dev.title': 'Développement IA-boosted',
+    'skills.dev.body':
+      'Concevoir et livrer des applications de bout en bout avec des agents de code, sans renoncer à l’architecture, aux tests ni à la revue.',
+    'skills.dev.item1': 'Agents de code (Claude Code, opencode)',
+    'skills.dev.item2': 'Skills & instructions pour agents',
+    'skills.dev.item3': 'TypeScript · Astro · PHP/Laravel',
+    'skills.dev.item4': 'Tests automatisés (Vitest, Playwright)',
+    'skills.dev.item5': 'CI/CD GitHub Actions',
+    'skills.red.tag': 'Attaque',
+    'skills.red.title': 'Red team',
+    'skills.red.body':
+      'Chercher où un système va céder avant qu’un attaquant ne le trouve : applications web, API et code source.',
+    'skills.red.item1': 'Tests d’intrusion web & API',
+    'skills.red.item2': 'Pentest piloté par agents IA (Strix)',
+    'skills.red.item3': 'Revue de code orientée attaque',
+    'skills.red.item4': 'OWASP Top 10',
+    'skills.blue.tag': 'Défense',
+    'skills.blue.title': 'Blue team',
+    'skills.blue.body':
+      'Rendre les systèmes difficiles à casser : audit, durcissement et sécurité intégrée dès la conception.',
+    'skills.blue.item1': 'Audit OWASP ASVS',
+    'skills.blue.item2': 'Revue défensive Laravel',
+    'skills.blue.item3': 'Durcissement de la chaîne d’approvisionnement npm',
+    'skills.blue.item4': 'Security by design',
+
+    'lab.eyebrow': 'Lab',
+    'lab.title': 'Le code parle pour moi',
+    'lab.subtitle':
+      'Une sélection de projets open source où ces compétences sont mises en pratique. Tout est lisible sur GitHub.',
+    'lab.agentSkills.body':
+      'Skills portables pour agents de code : audit de sécurité selon l’OWASP ASVS v5 et revue défensive de backends Laravel, avec rapports priorisés par sévérité.',
+    'lab.strix.body':
+      'Configuration pour lancer des campagnes de pentest avec les agents IA open source Strix, branchées sur le même LLM que mon environnement de dev.',
+    'lab.site.body':
+      'Ce site : Astro statique bilingue, zéro JS client par défaut, design tokens, tests Vitest + Playwright en CI et dépendances npm verrouillées.',
+    'lab.viewCode': 'Voir le code',
 
     'blog.eyebrow': 'Journal',
     'blog.title': 'Notes récentes',
@@ -64,9 +91,9 @@ export const ui = {
     'blog.pageTitle': 'Journal',
 
     'contact.eyebrow': 'Contact',
-    'contact.title': 'Un projet, une question ?',
+    'contact.title': 'Échangeons',
     'contact.subtitle':
-      'La façon la plus simple de me joindre reste l’e-mail. Je réponds généralement sous 48h.',
+      'Une question technique, un retour sur un article ou sur un projet du lab : l’e-mail reste le plus simple.',
     'contact.cta': 'Écrire un e-mail',
     'contact.social': 'Me retrouver ailleurs',
 
@@ -89,17 +116,18 @@ export const ui = {
     'site.description':
       'Senior developer specialized in AI-boosted development and offensive/defensive cybersecurity (red & blue team).',
     'nav.about': 'About',
-    'nav.services': 'Services',
+    'nav.skills': 'Skills',
+    'nav.lab': 'Lab',
     'nav.blog': 'Blog',
     'nav.contact': 'Contact',
     'nav.skipToContent': 'Skip to content',
 
-    'hero.eyebrow': 'Open to new missions',
+    'hero.eyebrow': 'Senior developer · Red & Blue team',
     'hero.avatarAlt': 'Portrait of Johann Laqua',
     'hero.title': 'I build software that holds up, and I make it hard to break.',
     'hero.subtitle':
       'Senior developer, AI-boosted to move faster without cutting corners — with a red teamer’s eye on everything that ships.',
-    'hero.cta.primary': 'Start a conversation',
+    'hero.cta.primary': 'See my skills',
     'hero.cta.secondary': 'Read the blog',
     'hero.stat.experience': 'years of experience',
     'hero.stat.experienceValue': '10+',
@@ -118,21 +146,47 @@ export const ui = {
     'about.body3':
       'The result: code that ships fast, and stays hard to crack.',
 
-    'services.eyebrow': 'Services',
-    'services.title': 'How I can help',
-    'services.subtitle':
-      'Three ways to work together, from a one-off sprint to long-term support.',
-    'services.dev.title': 'AI-boosted development',
-    'services.dev.body':
-      'Web applications and internal tools designed and shipped fast through heavy use of AI assistants, without hidden technical debt.',
-    'services.security.title': 'Security audit & pentest',
-    'services.security.badge': 'Popular',
-    'services.security.body':
-      'Application and infrastructure penetration testing, security-focused code review, and concrete remediation of the vulnerabilities found.',
-    'services.advisory.title': 'Technical advisory',
-    'services.advisory.body':
-      'Architecture review, technology choices, and security-by-design practices baked in from the start.',
-    'services.cta': 'Learn more',
+    'skills.eyebrow': 'Skills',
+    'skills.title': 'What I do',
+    'skills.subtitle':
+      'Three disciplines I practice every day, each one sharpening the others.',
+    'skills.dev.tag': 'Build',
+    'skills.dev.title': 'AI-boosted development',
+    'skills.dev.body':
+      'Designing and shipping applications end to end with coding agents, without giving up on architecture, tests or review.',
+    'skills.dev.item1': 'Coding agents (Claude Code, opencode)',
+    'skills.dev.item2': 'Agent skills & instructions',
+    'skills.dev.item3': 'TypeScript · Astro · PHP/Laravel',
+    'skills.dev.item4': 'Automated testing (Vitest, Playwright)',
+    'skills.dev.item5': 'GitHub Actions CI/CD',
+    'skills.red.tag': 'Offense',
+    'skills.red.title': 'Red team',
+    'skills.red.body':
+      'Finding where a system will give way before an attacker does: web applications, APIs and source code.',
+    'skills.red.item1': 'Web & API penetration testing',
+    'skills.red.item2': 'AI-agent-driven pentesting (Strix)',
+    'skills.red.item3': 'Attacker-minded code review',
+    'skills.red.item4': 'OWASP Top 10',
+    'skills.blue.tag': 'Defense',
+    'skills.blue.title': 'Blue team',
+    'skills.blue.body':
+      'Making systems hard to break: auditing, hardening and security built in from the design stage.',
+    'skills.blue.item1': 'OWASP ASVS audits',
+    'skills.blue.item2': 'Defensive Laravel review',
+    'skills.blue.item3': 'npm supply-chain hardening',
+    'skills.blue.item4': 'Security by design',
+
+    'lab.eyebrow': 'Lab',
+    'lab.title': 'Let the code speak',
+    'lab.subtitle':
+      'A selection of open-source projects where these skills are put into practice. Everything is readable on GitHub.',
+    'lab.agentSkills.body':
+      'Portable skills for coding agents: security audits against OWASP ASVS v5 and defensive reviews of Laravel backends, with severity-ranked reports.',
+    'lab.strix.body':
+      'Configuration to run pentest campaigns with the open-source Strix AI agents, wired to the same LLM as my dev environment.',
+    'lab.site.body':
+      'This website: static bilingual Astro, zero client JS by default, design tokens, Vitest + Playwright tests in CI and locked-down npm dependencies.',
+    'lab.viewCode': 'View the code',
 
     'blog.eyebrow': 'Blog',
     'blog.title': 'Recent notes',
@@ -145,9 +199,9 @@ export const ui = {
     'blog.pageTitle': 'Blog',
 
     'contact.eyebrow': 'Contact',
-    'contact.title': 'Have a project in mind?',
+    'contact.title': 'Let’s talk shop',
     'contact.subtitle':
-      'Email is the fastest way to reach me. I usually reply within 48 hours.',
+      'A technical question, feedback on a post or on a lab project: email is the simplest way to reach me.',
     'contact.cta': 'Send an email',
     'contact.social': 'Find me elsewhere',
 

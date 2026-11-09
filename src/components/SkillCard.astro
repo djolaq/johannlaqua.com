@@ -1,0 +1,82 @@
+---
+interface Props {
+  tag: string;
+  title: string;
+  body: string;
+  items: string[];
+  tone?: 'signal' | 'alert';
+}
+
+const { tag, title, body, items, tone = 'signal' } = Astro.props;
+---
+
+<article class:list={['skill', `skill--${tone}`]}>
+  <span class="skill__tag mono">{tag}</span>
+  <h3 class="skill__title">{title}</h3>
+  <p class="skill__body">{body}</p>
+  <ul class="skill__items">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .skill {
+    --tone: var(--color-signal-strong);
+    --tone-bg: var(--color-signal-bg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    background: var(--color-bg-raised);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--tone);
+    border-radius: var(--radius-lg);
+  }
+
+  .skill--alert {
+    --tone: var(--color-alert);
+    --tone-bg: var(--color-alert-bg);
+  }
+
+  .skill__tag {
+    align-self: flex-start;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--tone);
+    background: var(--tone-bg);
+    border-radius: var(--radius-full);
+    padding: 0.2em 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .skill__title {
+    font-size: var(--text-lg);
+  }
+
+  .skill__body {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+  }
+
+  .skill__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .skill__items li {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+  }
+
+  .skill__items li::before {
+    content: '> ';
+    color: var(--tone);
+  }
+</style>
