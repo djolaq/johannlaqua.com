@@ -8,9 +8,9 @@
     Electric  #2F6BFF — actions, links, data/graph strokes, focus
 
   Three typefaces, one role each:
-    Display  Bricolage Grotesque — headings, navigation, buttons, UI
-    Text     Newsreader          — reading text (body, ledes, articles)
-    Mono     JetBrains Mono      — code, dates in the journal log
+    Sans    Geist            — headings, body, UI (the workhorse)
+    Serif   Instrument Serif — italic accents inside headlines, quotes
+    Mono    JetBrains Mono   — code, dates, data labels
 
   Components never use the raw palette directly: they use the semantic
   tokens (--surface, --text, --rule, --link…), which each tone class
@@ -39,20 +39,30 @@
   --blue-700: #1d46c4; /* blue text on sand (4.8:1) */
   --on-blue: #ffffff;
 
-  /* ---- Semantic defaults (sand tone) — overridden per tone ---- */
-  --surface: var(--sand-300);
-  --surface-raised: var(--sand-50);
-  --text: var(--charcoal-900);
-  --text-muted: var(--sand-ink-700);
-  --text-faint: var(--sand-ink-600);
-  --rule: var(--sand-400);
-  --rule-strong: var(--charcoal-900);
-  --link: var(--blue-700);
+  /* Translucent layers for "glass" cards over imagery. */
+  --charcoal-glass: rgb(30 30 28 / 0.72);
+  --sand-veil: rgb(216 203 179 / 0.06);
+  --sand-hairline: rgb(216 203 179 / 0.14);
+  --blue-glow: rgb(47 107 255 / 0.22);
+
+  /* ---- Semantic defaults (charcoal tone) — overridden per tone ---- */
+  --surface: var(--charcoal-900);
+  --surface-raised: var(--charcoal-800);
+  --surface-card: var(--charcoal-glass);
+  --text: var(--sand-300);
+  --text-muted: var(--sand-500);
+  --text-faint: var(--charcoal-500);
+  --rule: var(--sand-hairline);
+  --rule-strong: var(--charcoal-700);
+  --link: var(--blue-300);
   --accent-stroke: var(--blue-500);
 
   /* ---- Typography: families ---- */
-  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
-  --font-text: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* Aliases kept so every component reads one name per role. */
+  --font-display: var(--font-sans);
+  --font-text: var(--font-sans);
   --font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, monospace;
 
   /* ---- Typography: scale ----
@@ -69,17 +79,17 @@
   --text-3xl: 3rem; /* 48 */
   --text-4xl: 3.75rem; /* 60 */
   --text-5xl: 4.5rem; /* 72 */
-  --text-hero: clamp(2.75rem, 1.4rem + 6.4vw, 6.75rem);
-  --text-poster: clamp(2.5rem, 1rem + 6vw, 5.5rem);
+  --text-hero: clamp(2.75rem, 1.6rem + 4.6vw, 5.25rem);
+  --text-poster: clamp(2.25rem, 1rem + 4.5vw, 4.5rem);
 
-  --leading-display: 0.95;
+  --leading-display: 1;
   --leading-tight: 1.1;
   --leading-snug: 1.3;
   --leading-text: 1.6; /* serif reading text */
   --leading-ui: 1.45;
 
-  /* Weight contrast is part of the identity: headlines go heavy (800),
-     ledes and the contact poster go light (200–300). */
+  /* Weight contrast: medium sans headlines against light figures and
+     the italic serif accent. */
   --weight-thin: 200;
   --weight-light: 300;
   --weight-regular: 400;
@@ -88,11 +98,11 @@
   --weight-bold: 700;
   --weight-heavy: 800;
 
-  /* Bricolage Grotesque width axis: condensed for big headlines. */
-  --stretch-display: 82%;
+  --stretch-display: 100%;
   --stretch-ui: 100%;
-  --tracking-display: -0.008em;
-  --tracking-tight: -0.012em;
+  --tracking-display: -0.035em;
+  --tracking-tight: -0.02em;
+  --tracking-caps: 0.16em; /* small tracked capitals (kickers) */
 
   /* ---- Spacing scale (4px base) ---- */
   --space-1: 0.25rem;
@@ -109,16 +119,21 @@
   /* ---- Layout ---- */
   --content-width: 76rem;
   --content-width-narrow: 40rem;
-  --measure: 36rem; /* ≈ 70 characters of Newsreader at --text-md */
-  --label-column: 11rem; /* left margin column holding section names */
+  --measure: 36rem; /* ≈ 70 characters of body text */
   --gutter: var(--space-5);
-  --avatar-size-sm: 7rem;
-  --avatar-size-lg: 19rem;
+  --header-height: 4.5rem;
+  --announce-height: 2.25rem;
 
-  /* ---- Radii — deliberately small: cut stone, not pills ---- */
-  --radius-xs: 2px;
-  --radius-sm: 4px;
+  /* ---- Radii ---- */
+  --radius-xs: 4px;
+  --radius-sm: 8px; /* buttons, inputs */
+  --radius-md: 12px; /* cards */
+  --radius-lg: 18px; /* large panels */
   --radius-full: 999px;
+
+  /* ---- Elevation ---- */
+  --shadow-card: 0 24px 60px -24px rgb(0 0 0 / 0.6);
+  --blur-glass: 14px;
 
   /* ---- Lines ---- */
   --line-hair: 1px;

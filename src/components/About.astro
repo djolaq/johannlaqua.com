@@ -11,53 +11,53 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id="about" label={t('about.eyebrow')}>
-  <SectionHeading title={t('about.title')} />
-  <div class="about__body">
-    <p class="about__lede">{t('about.body1')}</p>
-    <p>{t('about.body2')}</p>
-    <p class="about__result">{t('about.body3')}</p>
+<Section id="about" class="about">
+  <div class="about__grid">
+    <SectionHeading kicker={t('about.eyebrow')} title={t('about.title')} accent={t('about.titleAccent')} />
+    <div class="about__body">
+      <p class="about__lede">{t('about.body1')}</p>
+      <p>{t('about.body2')}</p>
+      <p class="about__result">{t('about.body3')}</p>
+    </div>
   </div>
 </Section>
 
 <style>
+  .about__grid {
+    display: grid;
+    gap: var(--space-2);
+  }
+
   .about__body {
     display: grid;
     gap: var(--space-5);
     max-width: var(--measure);
+    color: var(--text-muted);
   }
 
   .about__lede {
-    font-size: var(--text-xl);
-    font-weight: var(--weight-light);
+    font-size: var(--text-lg);
     line-height: var(--leading-snug);
+    color: var(--text);
   }
 
   .about__result {
-    padding-left: var(--space-5);
-    border-left: var(--line-bold) solid var(--accent-stroke);
-    font-family: var(--font-display);
-    font-size: var(--text-lg);
-    font-weight: var(--weight-semibold);
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
     line-height: var(--leading-snug);
+    color: var(--text);
   }
 
   @media (min-width: 64em) {
+    .about__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-9);
+      align-items: start;
+    }
+
     .about__body {
-      max-width: none;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-7);
-    }
-
-    .about__lede {
-      grid-column: 1 / -1;
-      max-width: 46rem;
-      font-size: var(--text-2xl);
-      line-height: var(--leading-tight);
-    }
-
-    .about__result {
-      align-self: start;
+      padding-top: var(--space-8);
     }
   }
 </style>

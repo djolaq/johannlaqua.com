@@ -63,7 +63,7 @@ tests/
 ## Design system
 
 Charcoal `#1E1E1C`, Sand `#D8CBB3` and Electric blue `#2F6BFF`, set in
-Bricolage Grotesque, Newsreader and JetBrains Mono (self-hosted).
+Geist, Instrument Serif and JetBrains Mono (self-hosted).
 The values live in `src/styles/tokens.css` (source of truth); the full
 reference — palette, tones, type scale, layout, rules, changelog — is
 [`docs/design-system.md`](docs/design-system.md). Keep both in sync.

@@ -12,11 +12,12 @@ Garantit que `src/styles/tokens.css` reste l'unique source de vérité du design
 `src/styles/tokens.css` définit toutes les valeurs visuelles en custom properties CSS sur `:root`. La référence complète (rôles, contrastes, règles, changelog) est `docs/design-system.md` — **les deux doivent rester synchronisés**, ainsi que le doc `claude/design-system.md` du Project claude.ai.
 
 - Palette brute : `--charcoal-*` (950/900/800/700/500), `--sand-*` (50/300/400/500, `--sand-ink-600/700`), `--blue-*` (300/500/600/700), `--on-blue`
-- Tokens sémantiques : `--surface`, `--surface-raised`, `--text`, `--text-muted`, `--text-faint`, `--rule`, `--rule-strong`, `--link`, `--accent-stroke` — redéfinis par `.tone-sand` / `.tone-charcoal` dans `global.css`. Les composants n'utilisent QUE ceux-là (plus `--blue-500`/`--on-blue` pour les boutons pleins).
-- Typo : `--font-display` (Bricolage Grotesque), `--font-text` (Newsreader), `--font-mono` (JetBrains Mono) ; échelle `--text-xs`→`--text-5xl` + `--text-hero`/`--text-poster` ; `--leading-*`, `--weight-thin`→`--weight-heavy`, `--stretch-*`, `--tracking-*`
+- Couches translucides : `--charcoal-glass`, `--sand-veil`, `--sand-hairline`, `--blue-glow`
+- Tokens sémantiques : `--surface`, `--surface-raised`, `--surface-card`, `--text`, `--text-muted`, `--text-faint`, `--rule`, `--rule-strong`, `--link`, `--accent-stroke` — redéfinis par `.tone-charcoal` (défaut) / `.tone-sand` dans `global.css`. Les composants n'utilisent QUE ceux-là (plus `--blue-500`/`--on-blue` pour les boutons pleins).
+- Typo : `--font-sans` (Geist), `--font-serif` (Instrument Serif, accents italiques), `--font-mono` (JetBrains Mono) ; échelle `--text-xs`→`--text-5xl` + `--text-hero`/`--text-poster` ; `--leading-*`, `--weight-*`, `--tracking-*` (dont `--tracking-caps`)
 - Espacement : `--space-1` à `--space-10` (base 4px)
-- Layout : `--content-width`, `--content-width-narrow`, `--measure`, `--label-column`, `--gutter`, `--avatar-size-*`
-- Radii : `--radius-xs/sm/full` ; traits : `--line-hair/bold`, `--underline-*`
+- Layout : `--content-width`, `--content-width-narrow`, `--measure`, `--gutter`, `--header-height`, `--announce-height`
+- Radii : `--radius-xs/sm/md/lg/full` ; élévation : `--shadow-card`, `--blur-glass` ; traits : `--line-hair/bold`, `--underline-*`
 - Motion : `--ease-out`, `--duration-fast/base/reveal/trace`
 - Z-index : `--z-header`, `--z-overlay`
 

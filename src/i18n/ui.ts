@@ -15,7 +15,9 @@ export const ui = {
 
     'hero.eyebrow': 'Disponible pour missions',
     'hero.avatarAlt': 'Portrait de Johann Laqua',
-    'hero.title': "Je construis des logiciels solides, et je les sécurise.",
+    'hero.kicker': 'Développeur senior, IA et cybersécurité',
+    'hero.title': 'Je construis des logiciels solides,',
+    'hero.titleAccent': 'et je les sécurise.',
     'hero.subtitle':
       'Développeur senior, dopé à l’IA pour aller plus vite sans sacrifier la rigueur — avec un œil de red teamer sur tout ce qui est mis en production.',
     'hero.cta.primary': 'Discuter d’un projet',
@@ -27,9 +29,26 @@ export const ui = {
     'hero.stat.disciplineLabel': 'Dev & Sécurité',
     'hero.stat.mode': 'mode de travail',
     'hero.stat.modeValue': 'IA-first',
+    'hero.stat.teamValue': 'Red & Blue',
+    'hero.stat.team': 'team, attaque et défense',
+
+    'announce.badge': 'Nouveau',
+    'announce.prefix': 'Dans le journal :',
+    'header.cta': 'Me contacter',
+
+    'chart.kicker': 'Ma méthode',
+    'chart.title': 'Vite, et sans dette',
+    'chart.speed': 'Vitesse de livraison',
+    'chart.debt': 'Dette technique',
+    'chart.step1': 'Cadrage',
+    'chart.step2': 'Build',
+    'chart.step3': 'Revue sécu',
+    'chart.step4': 'Prod',
+    'chart.alt': 'Schéma : la vitesse de livraison monte à chaque étape tandis que la dette technique reste basse.',
 
     'about.eyebrow': 'À propos',
-    'about.title': 'Un développeur qui pense comme un attaquant',
+    'about.title': 'Un développeur qui pense',
+    'about.titleAccent': 'comme un attaquant.',
     'about.body1':
       "Je conçois et je construis des applications de bout en bout, en m'appuyant fortement sur des outils IA pour accélérer la production tout en gardant un haut niveau d'exigence sur l'architecture et la qualité du code.",
     'about.body2':
@@ -38,7 +57,8 @@ export const ui = {
       'Résultat : du code qui va vite à produire, et qui reste difficile à casser.',
 
     'services.eyebrow': 'Services',
-    'services.title': 'Comment je peux vous aider',
+    'services.title': 'Comment je peux',
+    'services.titleAccent': 'vous aider.',
     'services.subtitle':
       'Trois façons de travailler ensemble, du sprint ponctuel à l’accompagnement long terme.',
     'services.dev.title': 'Développement IA-boosted',
@@ -54,7 +74,8 @@ export const ui = {
     'services.cta': 'En savoir plus',
 
     'blog.eyebrow': 'Journal',
-    'blog.title': 'Notes récentes',
+    'blog.title': 'Notes',
+    'blog.titleAccent': 'récentes.',
     'blog.subtitle':
       'Retours d’expérience sur le développement assisté par IA et la cybersécurité offensive/défensive.',
     'blog.viewAll': 'Tous les articles',
@@ -64,7 +85,8 @@ export const ui = {
     'blog.pageTitle': 'Journal',
 
     'contact.eyebrow': 'Contact',
-    'contact.title': 'Un projet, une question ?',
+    'contact.title': 'Un projet,',
+    'contact.titleAccent': 'une question ?',
     'contact.subtitle':
       'La façon la plus simple de me joindre reste l’e-mail. Je réponds généralement sous 48h.',
     'contact.cta': 'Écrire un e-mail',
@@ -96,7 +118,9 @@ export const ui = {
 
     'hero.eyebrow': 'Open to new missions',
     'hero.avatarAlt': 'Portrait of Johann Laqua',
-    'hero.title': 'I build software that holds up, and I make it hard to break.',
+    'hero.kicker': 'Senior developer, AI and cybersecurity',
+    'hero.title': 'I build software that holds up,',
+    'hero.titleAccent': 'and make it hard to break.',
     'hero.subtitle':
       'Senior developer, AI-boosted to move faster without cutting corners — with a red teamer’s eye on everything that ships.',
     'hero.cta.primary': 'Start a conversation',
@@ -108,9 +132,26 @@ export const ui = {
     'hero.stat.disciplineLabel': 'Dev & Security',
     'hero.stat.mode': 'working mode',
     'hero.stat.modeValue': 'AI-first',
+    'hero.stat.teamValue': 'Red & Blue',
+    'hero.stat.team': 'team, offense and defense',
+
+    'announce.badge': 'New',
+    'announce.prefix': 'On the blog:',
+    'header.cta': 'Get in touch',
+
+    'chart.kicker': 'How I work',
+    'chart.title': 'Fast, without the debt',
+    'chart.speed': 'Delivery speed',
+    'chart.debt': 'Technical debt',
+    'chart.step1': 'Scoping',
+    'chart.step2': 'Build',
+    'chart.step3': 'Security review',
+    'chart.step4': 'Prod',
+    'chart.alt': 'Diagram: delivery speed rises at every step while technical debt stays low.',
 
     'about.eyebrow': 'About',
-    'about.title': 'A developer who thinks like an attacker',
+    'about.title': 'A developer who thinks',
+    'about.titleAccent': 'like an attacker.',
     'about.body1':
       'I design and build applications end to end, relying heavily on AI tooling to move fast while holding a high bar for architecture and code quality.',
     'about.body2':
@@ -119,7 +160,8 @@ export const ui = {
       'The result: code that ships fast, and stays hard to crack.',
 
     'services.eyebrow': 'Services',
-    'services.title': 'How I can help',
+    'services.title': 'How I can',
+    'services.titleAccent': 'help.',
     'services.subtitle':
       'Three ways to work together, from a one-off sprint to long-term support.',
     'services.dev.title': 'AI-boosted development',
@@ -135,7 +177,8 @@ export const ui = {
     'services.cta': 'Learn more',
 
     'blog.eyebrow': 'Blog',
-    'blog.title': 'Recent notes',
+    'blog.title': 'Recent',
+    'blog.titleAccent': 'notes.',
     'blog.subtitle':
       'Field notes on AI-assisted development and offensive/defensive cybersecurity.',
     'blog.viewAll': 'All posts',
@@ -145,7 +188,8 @@ export const ui = {
     'blog.pageTitle': 'Blog',
 
     'contact.eyebrow': 'Contact',
-    'contact.title': 'Have a project in mind?',
+    'contact.title': 'Have a project',
+    'contact.titleAccent': 'in mind?',
     'contact.subtitle':
       'Email is the fastest way to reach me. I usually reply within 48 hours.',
     'contact.cta': 'Send an email',

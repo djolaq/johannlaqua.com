@@ -9,63 +9,51 @@ interface Props {
 const { alt } = Astro.props;
 ---
 
-<figure class="avatar">
+<figure class="portrait">
   <Image
     src={avatar}
     alt={alt}
-    class="avatar__img"
-    widths={[224, 608]}
-    sizes="(min-width: 48em) 19rem, 7rem"
+    class="portrait__img"
+    widths={[460]}
+    sizes="(min-width: 64em) 40rem, 100vw"
     loading="eager"
     fetchpriority="high"
   />
 </figure>
 
 <style>
-  /* A sand print on charcoal, offset from an electric-blue registration
-     frame — like a proof pulled slightly out of register. */
-  .avatar {
+  /* Duotone portrait: desaturated, warmed toward sand, sunk into charcoal
+     on its left and bottom edges so the headline can sit over the fade. */
+  .portrait {
     position: relative;
-    width: var(--avatar-size-sm);
-    margin: 0 var(--space-3) var(--space-3) 0;
-    padding: var(--space-2);
-    background: var(--sand-300);
-    border-radius: var(--radius-xs);
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--charcoal-900);
   }
 
-  .avatar::before {
+  .portrait__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+    filter: grayscale(1) sepia(0.32) contrast(1.06) brightness(0.78);
+    mask-image:
+      linear-gradient(to right, transparent 0%, black 42%),
+      linear-gradient(to top, transparent 0%, black 30%);
+    mask-composite: intersect;
+    -webkit-mask-composite: source-in;
+  }
+
+  /* Warm wash that pulls the photo into the palette. */
+  .portrait::after {
     content: '';
     position: absolute;
-    z-index: -1;
     inset: 0;
-    translate: var(--space-3) var(--space-3);
-    box-shadow: inset 0 0 0 var(--line-bold) var(--blue-500);
-    border-radius: var(--radius-xs);
-  }
-
-  .avatar__img {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: var(--radius-xs);
-    filter: grayscale(1) contrast(1.08);
-  }
-
-  @media (min-width: 48em) {
-    .avatar {
-      width: var(--avatar-size-lg);
-      margin: 0 var(--space-5) var(--space-5) 0;
-    }
-
-    .avatar::before {
-      translate: var(--space-5) var(--space-5);
-    }
-
-    .avatar {
-      padding: var(--space-3);
-    }
+    background: var(--sand-300);
+    mix-blend-mode: multiply;
+    opacity: 0.18;
+    pointer-events: none;
   }
 </style>

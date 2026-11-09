@@ -1,23 +1,16 @@
 ---
-/**
- * Page section: the section's name sits in the left margin column
- * (.section-grid__label), the slot takes the main column.
- */
+/** Page section wrapper: vertical rhythm, tone and anchor id. */
 interface Props {
   id?: string;
-  label: string;
-  tone?: 'sand' | 'charcoal';
+  tone?: 'charcoal' | 'sand';
   class?: string;
 }
 
-const { id, label, tone = 'sand', class: className } = Astro.props;
+const { id, tone, class: className } = Astro.props;
 ---
 
-<section id={id} class:list={['section', `tone-${tone}`, className]}>
-  <div class="container section-grid">
-    <p class="section-grid__label">{label}</p>
-    <div class="section-grid__main">
-      <slot />
-    </div>
+<section id={id} class:list={['section', tone && `tone-${tone}`, className]}>
+  <div class="container">
+    <slot />
   </div>
 </section>

@@ -37,7 +37,9 @@ src/
   assets/
     avatar.jpg            profile photo (copy of the GitHub avatar), optimized by astro:assets at build time — never hotlinked
   components/            UI components (.astro), one file per component, no heavy business logic
-    Section.astro         section wrapper (margin label column, sand/charcoal tone) — use for every page section
+    Section.astro         section wrapper (rhythm, optional tone, anchor id) — use for every page section
+    AnnouncementBar.astro blue strip above the header linking to the latest post
+    MethodChart.astro     hero glass card with the illustrative method chart (no data)
     LegalArticle.astro    prose wrapper (eyebrow, title, last-updated date) shared by the legal pages
   layouts/
     BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
@@ -64,7 +66,7 @@ src/
     confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
   styles/
     tokens.css              design tokens (custom properties) — VISUAL SOURCE OF TRUTH
-    global.css               reset, tones (.tone-sand/.tone-charcoal), section grid, .prose, .link
+    global.css               reset, tones (.tone-charcoal/.tone-sand), .card, .kicker, .accent, .guides, .prose, .link
 docs/
   design-system.md         design system reference (kept in sync with tokens.css)
 public/                    favicon.svg, robots.txt (static assets served as-is)
@@ -90,9 +92,9 @@ tests/
 ### Design system
 - Full reference: **`docs/design-system.md`** (palette, tones, type scale, layout, signature elements, rules, changelog). Keep it in sync with `src/styles/tokens.css`, which holds the values.
 - Palette: Charcoal `#1E1E1C` (ink, dark bands), Sand `#D8CBB3` (paper, the page), Electric blue `#2F6BFF` (actions, links, graph strokes, focus — never small text: use `--blue-300` on charcoal, `--blue-700` on sand).
-- Components use **semantic tokens** (`--surface`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-sand` (default, on `<body>`) and `.tone-charcoal` in `global.css`. Never raw hex in a component.
-- Fonts: Bricolage Grotesque (display/UI), Newsreader (reading text), JetBrains Mono (code, journal dates) — self-hosted via `@fontsource-variable/*`, imported in `BaseLayout.astro`. No external font CDN (privacy policy promises no third-party requests). Strong weight contrast: headlines 800 condensed vs ledes 300.
-- Layout: sections go through `Section.astro` (left margin label column) + `SectionHeading.astro`; lists are ruled rows, not cards.
+- Components use **semantic tokens** (`--surface`, `--surface-card`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-charcoal` (default, on `<body>`) and `.tone-sand` in `global.css`. Never raw hex in a component.
+- Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*`, imported in `BaseLayout.astro`. No external font CDN (privacy policy promises no third-party requests).
+- Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = duotone portrait + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).

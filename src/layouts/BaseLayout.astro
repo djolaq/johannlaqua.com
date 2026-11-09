@@ -1,12 +1,13 @@
 ---
 // Self-hosted variable fonts (bundled at build time — no third-party request).
-import '@fontsource-variable/bricolage-grotesque/standard.css';
-import '@fontsource-variable/newsreader/standard.css';
-import '@fontsource-variable/newsreader/standard-italic.css';
+import '@fontsource-variable/geist/wght.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/global.css';
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Header from '../components/Header.astro';
+import AnnouncementBar from '../components/AnnouncementBar.astro';
 import Footer from '../components/Footer.astro';
 import { name, social } from '../config/site';
 
@@ -70,8 +71,9 @@ const personJsonLd = JSON.stringify({
 
     <script type="application/ld+json" set:html={personJsonLd} />
   </head>
-  <body class="tone-sand">
+  <body class="tone-charcoal">
     <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
+    <AnnouncementBar locale={locale} />
     <Header locale={locale} altHref={altHref} />
     <main id="main">
       <slot />

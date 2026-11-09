@@ -2,6 +2,7 @@
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
 import Avatar from './Avatar.astro';
+import MethodChart from './MethodChart.astro';
 
 interface Props {
   locale: Locale;
@@ -10,75 +11,125 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-// The three facts are drawn as hops on one electric-blue path — the site's
-// signature graphic: a route through a system, the way an attacker maps one.
-const hops = [
+const stats = [
   { value: t('hero.stat.experienceValue'), label: t('hero.stat.experience') },
-  { value: t('hero.stat.disciplineLabel'), label: t('hero.stat.discipline') },
+  { value: t('hero.stat.teamValue'), label: t('hero.stat.team') },
   { value: t('hero.stat.modeValue'), label: t('hero.stat.mode') },
 ];
 ---
 
-<section class="hero tone-charcoal">
+<section class="hero">
+  <div class="hero__visual">
+    <Avatar alt={t('hero.avatarAlt')} />
+  </div>
+  <div class="guides" aria-hidden="true"></div>
+
   <div class="container hero__inner">
     <div class="hero__content">
-      <p class="hero__status">
-        <span class="hero__pulse" aria-hidden="true"></span>
-        {t('hero.eyebrow')}
-      </p>
-      <h1 class="hero__title">{t('hero.title')}</h1>
+      <p class="kicker">{t('hero.kicker')}</p>
+      <h1 class="hero__title">
+        {t('hero.title')}{' '}<span class="accent">{t('hero.titleAccent')}</span>
+      </h1>
       <p class="hero__subtitle">{t('hero.subtitle')}</p>
 
       <div class="hero__actions">
         <Button href={`${localizePath(locale, '/')}#contact`}>{t('hero.cta.primary')}</Button>
         <Button href={localizePath(locale, '/blog')} variant="quiet">{t('hero.cta.secondary')}</Button>
       </div>
+
+      <p class="hero__status">
+        <span class="hero__pulse" aria-hidden="true"></span>
+        {t('hero.eyebrow')}
+      </p>
     </div>
 
-    <div class="hero__portrait">
-      <Avatar alt={t('hero.avatarAlt')} />
+    <div class="hero__chart">
+      <MethodChart locale={locale} />
     </div>
 
-    <ol class="hero__trace">
+    <dl class="hero__stats">
       {
-        hops.map((hop) => (
-          <li class="hop">
-            <span class="hop__node" aria-hidden="true" />
-            <span class="hop__value">{hop.value}</span>
-            <span class="hop__label">{hop.label}</span>
-          </li>
+        stats.map((stat) => (
+          <div class="stat">
+            <dt class="stat__label">{stat.label}</dt>
+            <dd class="stat__value">{stat.value}</dd>
+          </div>
         ))
       }
-    </ol>
+    </dl>
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block: var(--space-8) var(--space-9);
-    overflow: hidden;
+    position: relative;
     isolation: isolate;
+    overflow: hidden;
+    padding-block: 0 var(--space-8);
+  }
+
+  .hero__visual {
+    position: relative;
+    z-index: -1;
+    height: 20rem;
+  }
+
+  .hero__visual :global(.portrait__img) {
+    mask-image: linear-gradient(to top, transparent 0%, black 55%);
   }
 
   .hero__inner {
+    position: relative;
     display: grid;
-    gap: var(--space-7);
+    gap: var(--space-8);
+    margin-top: calc(-1 * var(--space-9));
+  }
+
+  .hero__title {
+    margin-top: var(--space-5);
+    max-width: 15ch;
+    font-size: var(--text-hero);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--sand-300);
+    animation: rise var(--duration-reveal) var(--ease-out) both;
+  }
+
+  .hero__title .accent {
+    color: var(--sand-300);
+  }
+
+  .hero__subtitle {
+    margin-top: var(--space-6);
+    max-width: 32rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-text);
+    color: var(--text-muted);
+    animation: rise var(--duration-reveal) var(--ease-out) 120ms both;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-7);
+    animation: rise var(--duration-reveal) var(--ease-out) 220ms both;
   }
 
   .hero__status {
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
-    font-family: var(--font-display);
-    font-size: var(--text-base);
-    font-weight: var(--weight-medium);
+    margin-top: var(--space-6);
+    font-size: var(--text-sm);
     color: var(--text-muted);
   }
 
   .hero__pulse {
     position: relative;
-    width: 0.55rem;
-    height: 0.55rem;
+    width: 0.5rem;
+    height: 0.5rem;
     border-radius: var(--radius-full);
     background: var(--blue-500);
   }
@@ -92,155 +143,99 @@ const hops = [
     animation: pulse 2.4s var(--ease-out) infinite;
   }
 
-  .hero__title {
-    margin-top: var(--space-5);
-    max-width: 14ch;
-    font-size: var(--text-hero);
-    font-weight: var(--weight-heavy);
-    font-stretch: 78%;
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-display);
-    color: var(--sand-300);
-    animation: rise var(--duration-reveal) var(--ease-out) both;
+  .hero__chart {
+    max-width: 26rem;
+    animation: rise var(--duration-reveal) var(--ease-out) 300ms both;
   }
 
-  .hero__subtitle {
-    margin-top: var(--space-6);
-    max-width: 34rem;
-    font-size: var(--text-xl);
-    font-weight: var(--weight-light);
-    line-height: var(--leading-snug);
-    color: var(--text-muted);
-    animation: rise var(--duration-reveal) var(--ease-out) 120ms both;
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
   }
 
-  .hero__actions {
+  .stat {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-7);
-    animation: rise var(--duration-reveal) var(--ease-out) 220ms both;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding-inline: var(--space-4);
+    border-left: var(--line-hair) solid var(--rule);
   }
 
-  .hero__portrait {
-    order: -1;
-    justify-self: start;
-    animation: rise var(--duration-reveal) var(--ease-out) 160ms both;
+  .stat:first-child {
+    padding-left: 0;
+    border-left: 0;
   }
 
-  /* ---- Signature: the trace ---- */
-  .hero__trace {
-    display: grid;
-    gap: var(--space-5);
-    padding-top: var(--space-5);
-  }
-
-  .hop {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    column-gap: var(--space-4);
-    align-items: baseline;
-  }
-
-  .hop__node {
-    position: relative;
-    z-index: 1;
-    grid-row: span 2;
-    align-self: start;
-    width: 0.75rem;
-    height: 0.75rem;
-    margin-top: 0.85rem;
-    background: var(--charcoal-900);
-    box-shadow: inset 0 0 0 var(--line-bold) var(--blue-500);
-  }
-
-  .hop:last-child .hop__node {
-    background: var(--blue-500);
-  }
-
-  /* Vertical segment on small screens. */
-  .hop:not(:last-child)::before {
-    content: '';
-    position: absolute;
-    left: calc(0.375rem - 1px);
-    top: 1.6rem;
-    bottom: calc(-1 * var(--space-5) - 0.45rem);
-    width: var(--line-bold);
-    background: var(--blue-500);
-    transform-origin: top;
-    animation: draw-y var(--duration-trace) var(--ease-out) 400ms both;
-  }
-
-  .hop__value {
-    font-family: var(--font-display);
-    font-size: var(--text-2xl);
-    font-weight: var(--weight-heavy);
-    font-stretch: var(--stretch-display);
+  .stat__value {
+    margin: 0;
+    font-size: var(--text-lg);
+    white-space: nowrap;
+    font-weight: var(--weight-light);
     line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
     color: var(--sand-300);
   }
 
-  .hop__label {
-    grid-column: 2;
-    font-family: var(--font-text);
-    font-size: var(--text-md);
-    font-weight: var(--weight-light);
+  .stat__label {
+    max-width: 12ch;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
     color: var(--text-muted);
   }
 
-  @media (min-width: 48em) {
+  @media (min-width: 64em) {
     .hero {
-      padding-block: var(--space-9) var(--space-9);
+      padding-block: var(--space-9) var(--space-8);
+    }
+
+    .hero__visual {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: min(46%, 40rem);
+      height: auto;
+      aspect-ratio: 1;
+    }
+
+    .hero__visual :global(.portrait__img) {
+      mask-image:
+        linear-gradient(to right, transparent 0%, black 40%),
+        linear-gradient(to top, transparent 0%, black 40%);
+      mask-composite: intersect;
     }
 
     .hero__inner {
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) 24rem;
+      grid-template-rows: 1fr auto;
       column-gap: var(--space-8);
-      row-gap: var(--space-9);
-      align-items: end;
+      row-gap: var(--space-8);
+      margin-top: 0;
     }
 
-    .hero__portrait {
-      order: 0;
+    .hero__chart {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: end;
+      justify-self: end;
+      width: 100%;
     }
 
-    .hero__trace {
-      grid-column: 1 / -1;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0;
-      padding-top: 0;
-    }
-
-    .hop {
-      grid-template-columns: 1fr;
-      row-gap: var(--space-2);
-      padding-right: var(--space-5);
-    }
-
-    .hop__node {
-      grid-row: auto;
-      margin: 0 0 var(--space-4);
-    }
-
-    .hop__label {
+    .hero__stats {
       grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+      max-width: 42rem;
     }
 
-    /* Horizontal segment on wide screens. */
-    .hop:not(:last-child)::before {
-      left: 0.75rem;
-      right: 0;
-      top: calc(0.375rem - 1px);
-      bottom: auto;
-      width: auto;
-      height: var(--line-bold);
-      transform-origin: left;
-      animation-name: draw-x;
+    .stat {
+      padding-inline: var(--space-6);
     }
 
-    .hop:nth-child(2)::before {
-      animation-delay: 900ms;
+    .stat__value {
+      font-size: var(--text-2xl);
+      white-space: nowrap;
     }
   }
 
@@ -248,18 +243,6 @@ const hops = [
     from {
       opacity: 0;
       translate: 0 0.6rem;
-    }
-  }
-
-  @keyframes draw-x {
-    from {
-      transform: scaleX(0);
-    }
-  }
-
-  @keyframes draw-y {
-    from {
-      transform: scaleY(0);
     }
   }
 

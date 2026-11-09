@@ -4,6 +4,7 @@ import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Section from './Section.astro';
 import SectionHeading from './SectionHeading.astro';
 import BlogCard from './BlogCard.astro';
+import Button from './Button.astro';
 
 interface Props {
   locale: Locale;
@@ -18,12 +19,20 @@ const posts = (await getCollection('blog', ({ id, data }) => id.startsWith(`${lo
 const stripLocale = (id: string) => id.replace(`${locale}/`, '');
 ---
 
-<Section id="blog" label={t('blog.eyebrow')} class="blog-preview">
-  <SectionHeading title={t('blog.title')} subtitle={t('blog.subtitle')} />
+<Section id="blog">
+  <div class="blog-preview__head">
+    <SectionHeading
+      kicker={t('blog.eyebrow')}
+      title={t('blog.title')}
+      accent={t('blog.titleAccent')}
+      subtitle={t('blog.subtitle')}
+    />
+    <Button href={localizePath(locale, '/blog')} variant="quiet">{t('blog.viewAll')}</Button>
+  </div>
 
   {
     posts.length > 0 ? (
-      <div class="blog-preview__list">
+      <div class="blog-preview__grid">
         {posts.map((post) => (
           <BlogCard
             locale={locale}
@@ -39,28 +48,40 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
       <p class="blog-preview__empty">{t('blog.empty')}</p>
     )
   }
-
-  <a class="blog-preview__all link" href={localizePath(locale, '/blog')}>{t('blog.viewAll')}</a>
 </Section>
 
 <style>
-  .blog-preview :global(.section-grid__main) {
+  .blog-preview__head {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    margin-bottom: var(--space-8);
   }
 
-  .blog-preview__list {
-    border-bottom: var(--line-hair) solid var(--rule-strong);
+  .blog-preview__head :global(.heading) {
+    margin-bottom: 0;
+  }
+
+  .blog-preview__grid {
+    display: grid;
+    gap: var(--space-4);
   }
 
   .blog-preview__empty {
     color: var(--text-muted);
   }
 
-  .blog-preview__all {
-    align-self: flex-start;
-    margin-top: var(--space-6);
-    font-family: var(--font-display);
-    font-weight: var(--weight-semibold);
+  @media (min-width: 48em) {
+    .blog-preview__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72em) {
+    .blog-preview__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 </style>

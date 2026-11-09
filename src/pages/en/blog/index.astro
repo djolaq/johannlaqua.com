@@ -16,8 +16,14 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
 ---
 
 <BaseLayout locale={locale} title={t('blog.pageTitle')} description={t('blog.subtitle')}>
-  <Section label={t('blog.eyebrow')}>
-    <SectionHeading as="h1" title={t('blog.title')} subtitle={t('blog.subtitle')} />
+  <Section>
+    <SectionHeading
+      as="h1"
+      kicker={t('blog.eyebrow')}
+      title={t('blog.title')}
+      accent={t('blog.titleAccent')}
+      subtitle={t('blog.subtitle')}
+    />
 
     {
       posts.length > 0 ? (
@@ -42,6 +48,19 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
 
 <style>
   .journal {
-    border-bottom: var(--line-hair) solid var(--rule-strong);
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .journal {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72em) {
+    .journal {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 </style>

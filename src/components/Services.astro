@@ -12,15 +12,25 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 const services = [
-  { title: t('services.dev.title'), body: t('services.dev.body') },
-  { title: t('services.security.title'), body: t('services.security.body'), badge: t('services.security.badge') },
-  { title: t('services.advisory.title'), body: t('services.advisory.body') },
-];
+  { icon: 'code', title: t('services.dev.title'), body: t('services.dev.body') },
+  {
+    icon: 'shield',
+    title: t('services.security.title'),
+    body: t('services.security.body'),
+    badge: t('services.security.badge'),
+  },
+  { icon: 'compass', title: t('services.advisory.title'), body: t('services.advisory.body') },
+] as const;
 ---
 
-<Section id="services" label={t('services.eyebrow')}>
-  <SectionHeading title={t('services.title')} subtitle={t('services.subtitle')} />
-  <ul class="services__list">
+<Section id="services">
+  <SectionHeading
+    kicker={t('services.eyebrow')}
+    title={t('services.title')}
+    accent={t('services.titleAccent')}
+    subtitle={t('services.subtitle')}
+  />
+  <ul class="services__grid">
     {
       services.map((service) => (
         <li>
@@ -32,7 +42,18 @@ const services = [
 </Section>
 
 <style>
-  .services__list {
-    border-bottom: var(--line-hair) solid var(--rule-strong);
+  .services__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .services__grid li {
+    display: flex;
+  }
+
+  @media (min-width: 56em) {
+    .services__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 </style>
