@@ -1,4 +1,9 @@
 ---
+// Self-hosted variable fonts (bundled at build time — no third-party request).
+import '@fontsource-variable/bricolage-grotesque/standard.css';
+import '@fontsource-variable/newsreader/standard.css';
+import '@fontsource-variable/newsreader/standard-italic.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
 import '../styles/global.css';
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Header from '../components/Header.astro';
@@ -59,13 +64,13 @@ const personJsonLd = JSON.stringify({
     <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonicalUrl} />
     <meta name="twitter:card" content="summary" />
-    <meta name="theme-color" content="#0a0d10" />
+    <meta name="theme-color" content="#1e1e1c" />
 
     <meta name="generator" content={Astro.generator} />
 
     <script type="application/ld+json" set:html={personJsonLd} />
   </head>
-  <body>
+  <body class="tone-sand">
     <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
     <Header locale={locale} altHref={altHref} />
     <main id="main">

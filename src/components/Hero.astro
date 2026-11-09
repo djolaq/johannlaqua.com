@@ -1,7 +1,6 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
-import StatTile from './StatTile.astro';
 import Avatar from './Avatar.astro';
 
 interface Props {
@@ -10,103 +9,268 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+// The three facts are drawn as hops on one electric-blue path — the site's
+// signature graphic: a route through a system, the way an attacker maps one.
+const hops = [
+  { value: t('hero.stat.experienceValue'), label: t('hero.stat.experience') },
+  { value: t('hero.stat.disciplineLabel'), label: t('hero.stat.discipline') },
+  { value: t('hero.stat.modeValue'), label: t('hero.stat.mode') },
+];
 ---
 
-<section class="hero">
-  <div class="hero__grid" aria-hidden="true"></div>
+<section class="hero tone-charcoal">
   <div class="container hero__inner">
-    <div class="hero__avatar">
-      <Avatar alt={t('hero.avatarAlt')} />
-    </div>
-
     <div class="hero__content">
-      <p class="eyebrow">{t('hero.eyebrow')}</p>
+      <p class="hero__status">
+        <span class="hero__pulse" aria-hidden="true"></span>
+        {t('hero.eyebrow')}
+      </p>
       <h1 class="hero__title">{t('hero.title')}</h1>
       <p class="hero__subtitle">{t('hero.subtitle')}</p>
 
       <div class="hero__actions">
         <Button href={`${localizePath(locale, '/')}#contact`}>{t('hero.cta.primary')}</Button>
-        <Button href={localizePath(locale, '/blog')} variant="ghost">{t('hero.cta.secondary')}</Button>
-      </div>
-
-      <div class="hero__stats">
-        <StatTile value={t('hero.stat.experienceValue')} label={t('hero.stat.experience')} />
-        <StatTile value={t('hero.stat.disciplineValue')} label={t('hero.stat.disciplineLabel')} />
-        <StatTile value={t('hero.stat.modeValue')} label={t('hero.stat.mode')} />
+        <Button href={localizePath(locale, '/blog')} variant="quiet">{t('hero.cta.secondary')}</Button>
       </div>
     </div>
+
+    <div class="hero__portrait">
+      <Avatar alt={t('hero.avatarAlt')} />
+    </div>
+
+    <ol class="hero__trace">
+      {
+        hops.map((hop) => (
+          <li class="hop">
+            <span class="hop__node" aria-hidden="true" />
+            <span class="hop__value">{hop.value}</span>
+            <span class="hop__label">{hop.label}</span>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
 <style>
   .hero {
-    position: relative;
+    padding-block: var(--space-8) var(--space-9);
     overflow: hidden;
-    padding-block: var(--space-9) var(--space-8);
-  }
-
-  .hero__grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
-    opacity: 0.5;
+    isolation: isolate;
   }
 
   .hero__inner {
-    position: relative;
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-7);
   }
 
-  .hero__content {
-    max-width: 44rem;
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
+  }
+
+  .hero__pulse {
+    position: relative;
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: var(--radius-full);
+    background: var(--blue-500);
+  }
+
+  .hero__pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--blue-500);
+    animation: pulse 2.4s var(--ease-out) infinite;
   }
 
   .hero__title {
-    margin-top: var(--space-4);
-    font-size: var(--text-3xl);
+    margin-top: var(--space-5);
+    max-width: 14ch;
+    font-size: var(--text-hero);
+    font-weight: var(--weight-heavy);
+    font-stretch: 78%;
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--sand-300);
+    animation: rise var(--duration-reveal) var(--ease-out) both;
   }
 
   .hero__subtitle {
-    margin-top: var(--space-5);
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
+    margin-top: var(--space-6);
+    max-width: 34rem;
+    font-size: var(--text-xl);
+    font-weight: var(--weight-light);
     line-height: var(--leading-snug);
-    max-width: 36rem;
+    color: var(--text-muted);
+    animation: rise var(--duration-reveal) var(--ease-out) 120ms both;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
-    margin-top: var(--space-6);
+    margin-top: var(--space-7);
+    animation: rise var(--duration-reveal) var(--ease-out) 220ms both;
   }
 
-  .hero__stats {
+  .hero__portrait {
+    order: -1;
+    justify-self: start;
+    animation: rise var(--duration-reveal) var(--ease-out) 160ms both;
+  }
+
+  /* ---- Signature: the trace ---- */
+  .hero__trace {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-8);
-    max-width: 32rem;
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+  }
+
+  .hop {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: var(--space-4);
+    align-items: baseline;
+  }
+
+  .hop__node {
+    position: relative;
+    z-index: 1;
+    grid-row: span 2;
+    align-self: start;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-top: 0.85rem;
+    background: var(--charcoal-900);
+    box-shadow: inset 0 0 0 var(--line-bold) var(--blue-500);
+  }
+
+  .hop:last-child .hop__node {
+    background: var(--blue-500);
+  }
+
+  /* Vertical segment on small screens. */
+  .hop:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: calc(0.375rem - 1px);
+    top: 1.6rem;
+    bottom: calc(-1 * var(--space-5) - 0.45rem);
+    width: var(--line-bold);
+    background: var(--blue-500);
+    transform-origin: top;
+    animation: draw-y var(--duration-trace) var(--ease-out) 400ms both;
+  }
+
+  .hop__value {
+    font-family: var(--font-display);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-heavy);
+    font-stretch: var(--stretch-display);
+    line-height: var(--leading-tight);
+    color: var(--sand-300);
+  }
+
+  .hop__label {
+    grid-column: 2;
+    font-family: var(--font-text);
+    font-size: var(--text-md);
+    font-weight: var(--weight-light);
+    color: var(--text-muted);
   }
 
   @media (min-width: 48em) {
+    .hero {
+      padding-block: var(--space-9) var(--space-9);
+    }
+
     .hero__inner {
       grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: var(--space-8);
+      column-gap: var(--space-8);
+      row-gap: var(--space-9);
+      align-items: end;
     }
 
-    .hero__avatar {
-      order: 1;
+    .hero__portrait {
+      order: 0;
     }
 
-    .hero__title {
-      font-size: var(--text-4xl);
+    .hero__trace {
+      grid-column: 1 / -1;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      padding-top: 0;
+    }
+
+    .hop {
+      grid-template-columns: 1fr;
+      row-gap: var(--space-2);
+      padding-right: var(--space-5);
+    }
+
+    .hop__node {
+      grid-row: auto;
+      margin: 0 0 var(--space-4);
+    }
+
+    .hop__label {
+      grid-column: 1;
+    }
+
+    /* Horizontal segment on wide screens. */
+    .hop:not(:last-child)::before {
+      left: 0.75rem;
+      right: 0;
+      top: calc(0.375rem - 1px);
+      bottom: auto;
+      width: auto;
+      height: var(--line-bold);
+      transform-origin: left;
+      animation-name: draw-x;
+    }
+
+    .hop:nth-child(2)::before {
+      animation-delay: 900ms;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 0.6rem;
+    }
+  }
+
+  @keyframes draw-x {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  @keyframes draw-y {
+    from {
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes pulse {
+    from {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(2.8);
+      opacity: 0;
     }
   }
 </style>

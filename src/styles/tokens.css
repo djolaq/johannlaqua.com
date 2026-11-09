@@ -1,55 +1,98 @@
 /*
   Design tokens — single source of truth for the visual system.
-  Intended to stay in sync with the Claude Design canvas: any value
-  tweaked there should be mirrored here (and vice versa).
+  Documented in docs/design-system.md (keep both in sync).
+
+  Three brand colours:
+    Charcoal  #1E1E1C — ink, dark bands (hero, contact, footer)
+    Sand      #D8CBB3 — paper, the page itself
+    Electric  #2F6BFF — actions, links, data/graph strokes, focus
+
+  Three typefaces, one role each:
+    Display  Bricolage Grotesque — headings, navigation, buttons, UI
+    Text     Newsreader          — reading text (body, ledes, articles)
+    Mono     JetBrains Mono      — code, dates in the journal log
+
+  Components never use the raw palette directly: they use the semantic
+  tokens (--surface, --text, --rule, --link…), which each tone class
+  (.tone-sand / .tone-charcoal, see global.css) redefines.
 */
 :root {
-  /* ---- Color: surfaces ---- */
-  --color-bg: #0a0d10;
-  --color-bg-raised: #10151a;
-  --color-bg-inset: #0d1114;
-  --color-border: #1f272e;
-  --color-border-strong: #2c3740;
+  /* ---- Palette: charcoal (ink) ---- */
+  --charcoal-950: #161614;
+  --charcoal-900: #1e1e1c; /* brand */
+  --charcoal-800: #2a2a27;
+  --charcoal-700: #3a3935;
+  --charcoal-500: #7c756a; /* decorative only on charcoal (3.7:1) */
 
-  /* ---- Color: text ---- */
-  --color-text: #e9eef2;
-  --color-text-muted: #9aa7b1;
-  --color-text-faint: #62707a;
+  /* ---- Palette: sand (paper) ---- */
+  --sand-50: #ece4d5;
+  --sand-300: #d8cbb3; /* brand */
+  --sand-400: #c6b89d;
+  --sand-500: #a39a88; /* muted text on charcoal (6:1) */
+  --sand-ink-600: #6e675b; /* decorative only on sand (3.5:1) */
+  --sand-ink-700: #57524a; /* muted text on sand (4.8:1) */
 
-  /* ---- Color: brand accents ----
-     Two accents echo the red-team / blue-team duality:
-     signal (blue/teal, primary) and alert (red, used sparingly). */
-  --color-signal: #34e0a1;
-  --color-signal-strong: #5cffc2;
-  --color-signal-bg: rgba(52, 224, 161, 0.1);
-  --color-alert: #ff5470;
-  --color-alert-bg: rgba(255, 84, 112, 0.1);
+  /* ---- Palette: electric blue (accent) ---- */
+  --blue-300: #8fb0ff; /* blue text on charcoal (7.8:1) */
+  --blue-500: #2f6bff; /* brand — fills, strokes, focus; white text on it 4.5:1 */
+  --blue-600: #2459e0; /* hover of filled actions */
+  --blue-700: #1d46c4; /* blue text on sand (4.8:1) */
+  --on-blue: #ffffff;
 
-  /* ---- Typography ---- */
-  --font-sans:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
-    sans-serif;
-  --font-mono:
-    ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas,
-    "Liberation Mono", monospace;
+  /* ---- Semantic defaults (sand tone) — overridden per tone ---- */
+  --surface: var(--sand-300);
+  --surface-raised: var(--sand-50);
+  --text: var(--charcoal-900);
+  --text-muted: var(--sand-ink-700);
+  --text-faint: var(--sand-ink-600);
+  --rule: var(--sand-400);
+  --rule-strong: var(--charcoal-900);
+  --link: var(--blue-700);
+  --accent-stroke: var(--blue-500);
 
-  --text-xs: 0.8125rem;
-  --text-sm: 0.9375rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.25rem;
-  --text-xl: 1.5rem;
-  --text-2xl: 2rem;
-  --text-3xl: 2.75rem;
-  --text-4xl: 3.75rem;
+  /* ---- Typography: families ---- */
+  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
+  --font-text: 'Newsreader Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, monospace;
 
-  --leading-tight: 1.15;
-  --leading-snug: 1.35;
-  --leading-normal: 1.6;
+  /* ---- Typography: scale ----
+     The classical scale from Bringhurst's Elements of Typographic Style
+     (12 · 14 · 16 · 18 · 21 · 24 · 36 · 48 · 60 · 72 px), plus fluid
+     display sizes for the two "poster" moments (hero, contact). */
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.875rem; /* 14 */
+  --text-base: 1rem; /* 16 */
+  --text-md: 1.125rem; /* 18 — reading size */
+  --text-lg: 1.3125rem; /* 21 */
+  --text-xl: 1.5rem; /* 24 */
+  --text-2xl: 2.25rem; /* 36 */
+  --text-3xl: 3rem; /* 48 */
+  --text-4xl: 3.75rem; /* 60 */
+  --text-5xl: 4.5rem; /* 72 */
+  --text-hero: clamp(2.75rem, 1.4rem + 6.4vw, 6.75rem);
+  --text-poster: clamp(2.5rem, 1rem + 6vw, 5.5rem);
 
+  --leading-display: 0.95;
+  --leading-tight: 1.1;
+  --leading-snug: 1.3;
+  --leading-text: 1.6; /* serif reading text */
+  --leading-ui: 1.45;
+
+  /* Weight contrast is part of the identity: headlines go heavy (800),
+     ledes and the contact poster go light (200–300). */
+  --weight-thin: 200;
+  --weight-light: 300;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
+  --weight-heavy: 800;
+
+  /* Bricolage Grotesque width axis: condensed for big headlines. */
+  --stretch-display: 82%;
+  --stretch-ui: 100%;
+  --tracking-display: -0.008em;
+  --tracking-tight: -0.012em;
 
   /* ---- Spacing scale (4px base) ---- */
   --space-1: 0.25rem;
@@ -64,27 +107,31 @@
   --space-10: 8rem;
 
   /* ---- Layout ---- */
-  --content-width: 72rem;
-  --content-width-narrow: 42rem;
+  --content-width: 76rem;
+  --content-width-narrow: 40rem;
+  --measure: 36rem; /* ≈ 70 characters of Newsreader at --text-md */
+  --label-column: 11rem; /* left margin column holding section names */
   --gutter: var(--space-5);
-  --avatar-size-sm: 7.5rem;
-  --avatar-size-lg: 18rem;
+  --avatar-size-sm: 7rem;
+  --avatar-size-lg: 19rem;
 
-  /* ---- Radii ---- */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 16px;
+  /* ---- Radii — deliberately small: cut stone, not pills ---- */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
   --radius-full: 999px;
 
-  /* ---- Elevation ---- */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-glow: 0 0 0 1px var(--color-border), 0 0 32px -8px var(--color-signal-bg);
+  /* ---- Lines ---- */
+  --line-hair: 1px;
+  --line-bold: 2px;
+  --underline-offset: 0.18em;
+  --underline-thickness: 0.07em;
 
   /* ---- Motion ---- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --duration-fast: 120ms;
-  --duration-base: 200ms;
+  --duration-base: 220ms;
+  --duration-reveal: 900ms;
+  --duration-trace: 1800ms;
 
   /* ---- Z-index scale ---- */
   --z-header: 40;

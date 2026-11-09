@@ -1,6 +1,6 @@
 ---
 import { useTranslations, type Locale } from '../i18n/utils';
-import Button from './Button.astro';
+import Section from './Section.astro';
 import { email, social } from '../config/site';
 
 interface Props {
@@ -11,74 +11,90 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section id="contact" class="section contact">
-  <div class="container contact__inner">
-    <p class="eyebrow">{t('contact.eyebrow')}</p>
-    <h2 class="contact__title">{t('contact.title')}</h2>
-    <p class="contact__subtitle">{t('contact.subtitle')}</p>
+<Section id="contact" label={t('contact.eyebrow')} tone="charcoal" class="contact">
+  <h2 class="contact__title">{t('contact.title')}</h2>
+  <p class="contact__subtitle">{t('contact.subtitle')}</p>
 
-    <div class="contact__actions">
-      <Button href={`mailto:${email}`}>{t('contact.cta')}</Button>
-    </div>
+  <a class="contact__email" href={`mailto:${email}`} aria-label={`${t('contact.cta')} : ${email}`}>
+    {email}
+  </a>
 
-    <div class="contact__social">
-      <span>{t('contact.social')}</span>
-      <ul>
-        {
-          social.map((s) => (
-            <li>
-              <a href={s.href} target="_blank" rel="me noopener noreferrer">
-                {s.label} ↗
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+  <div class="contact__social">
+    <p>{t('contact.social')}</p>
+    <ul>
+      {
+        social.map((s) => (
+          <li>
+            <a class="link" href={s.href} target="_blank" rel="me noopener noreferrer">
+              {s.label} ↗
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
-</section>
+</Section>
 
 <style>
-  .contact__inner {
-    max-width: 36rem;
-    text-align: center;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .contact {
+    padding-block: var(--space-10) var(--space-9);
   }
 
   .contact__title {
-    margin-top: var(--space-4);
     font-size: var(--text-2xl);
+    font-weight: var(--weight-heavy);
   }
 
   .contact__subtitle {
     margin-top: var(--space-4);
-    color: var(--color-text-muted);
-    font-size: var(--text-base);
+    max-width: var(--measure);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-light);
+    line-height: var(--leading-snug);
+    color: var(--text-muted);
   }
 
-  .contact__actions {
-    margin-top: var(--space-6);
+  /* The poster moment: the address itself is the call to action, set huge
+     and thin against the heavy headings. */
+  .contact__email {
+    display: inline-block;
+    margin-top: var(--space-7);
+    font-family: var(--font-display);
+    font-size: var(--text-poster);
+    font-weight: var(--weight-thin);
+    font-stretch: var(--stretch-display);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--sand-300);
+    overflow-wrap: anywhere;
+    text-decoration-line: underline;
+    text-decoration-color: var(--blue-500);
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.12em;
+    transition:
+      color var(--duration-base) var(--ease-out),
+      font-weight var(--duration-base) var(--ease-out);
+  }
+
+  .contact__email:hover {
+    color: var(--blue-300);
+    font-weight: var(--weight-regular);
   }
 
   .contact__social {
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--color-border);
-    width: 100%;
     display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: var(--line-hair) solid var(--rule);
+    font-family: var(--font-display);
   }
 
-  .contact__social span {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-faint);
+  .contact__social p {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
   }
 
   .contact__social ul {
@@ -87,18 +103,14 @@ const t = useTranslations(locale);
   }
 
   .contact__social a {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    text-decoration: none;
-  }
-
-  .contact__social a:hover {
-    color: var(--color-signal-strong);
+    font-weight: var(--weight-semibold);
   }
 
   @media (min-width: 48em) {
     .contact__title {
-      font-size: var(--text-3xl);
+      font-size: var(--text-4xl);
+      line-height: var(--leading-display);
+      letter-spacing: var(--tracking-display);
     }
   }
 </style>

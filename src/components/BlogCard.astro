@@ -1,5 +1,6 @@
 ---
-import { useTranslations, type Locale } from '../i18n/utils';
+/** One journal entry, rendered as a log line: ISO date | title + description. */
+import type { Locale } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -10,79 +11,75 @@ interface Props {
   tags: string[];
 }
 
-const { locale, href, title, description, date, tags } = Astro.props;
-const t = useTranslations(locale);
-const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const { href, title, description, date, tags } = Astro.props;
+const isoDate = date.toISOString().slice(0, 10);
 ---
 
-<article class="post-card">
-  <a class="post-card__link" href={href}>
-    <div class="post-card__meta">
-      <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
-      {tags.length > 0 && <span class="post-card__tag">{tags[0]}</span>}
+<article class="entry">
+  <a class="entry__link" href={href}>
+    <time class="entry__date mono" datetime={date.toISOString()}>{isoDate}</time>
+    <div class="entry__main">
+      <h3 class="entry__title">{title}</h3>
+      <p class="entry__description">{description}</p>
     </div>
-    <h3 class="post-card__title">{title}</h3>
-    <p class="post-card__description">{description}</p>
-    <span class="post-card__cta">{t('blog.readMore')} →</span>
+    {tags.length > 0 && <p class="entry__tags mono">{tags.map((tag) => `#${tag}`).join(' ')}</p>}
   </a>
 </article>
 
 <style>
-  .post-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg-raised);
-    transition: border-color var(--duration-base) var(--ease-out);
+  .entry {
+    border-top: var(--line-hair) solid var(--rule-strong);
   }
 
-  .post-card:hover {
-    border-color: var(--color-border-strong);
-  }
-
-  .post-card__link {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-    padding: var(--space-5);
+  .entry__link {
+    display: grid;
+    gap: var(--space-2) var(--space-6);
+    padding-block: var(--space-5) var(--space-6);
     text-decoration: none;
     color: inherit;
-    height: 100%;
   }
 
-  .post-card__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-    font-size: var(--text-xs);
-    color: var(--color-text-faint);
-  }
-
-  .post-card__tag {
-    padding: 0.2em 0.6em;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border-strong);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .post-card__title {
-    font-size: var(--text-lg);
-  }
-
-  .post-card__description {
-    color: var(--color-text-muted);
+  .entry__date,
+  .entry__tags {
     font-size: var(--text-sm);
-    line-height: var(--leading-normal);
-    flex: 1;
+    line-height: var(--leading-ui);
+    color: var(--text-muted);
   }
 
-  .post-card__cta {
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    color: var(--color-signal-strong);
+  .entry__title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    font-stretch: var(--stretch-ui);
+    line-height: var(--leading-snug);
+    text-decoration-line: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: var(--line-bold);
+    text-underline-offset: var(--underline-offset);
+    transition: text-decoration-color var(--duration-base) var(--ease-out);
+  }
+
+  .entry__link:hover .entry__title,
+  .entry__link:focus-visible .entry__title {
+    text-decoration-color: var(--accent-stroke);
+  }
+
+  .entry__description {
+    margin-top: var(--space-2);
+    max-width: var(--measure);
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 48em) {
+    .entry__link {
+      grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+      align-items: baseline;
+    }
+
+    .entry__title {
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-heavy);
+      font-stretch: var(--stretch-display);
+      line-height: var(--leading-tight);
+    }
   }
 </style>

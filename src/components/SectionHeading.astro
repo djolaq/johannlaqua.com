@@ -1,17 +1,16 @@
 ---
 interface Props {
-  eyebrow: string;
   title: string;
   subtitle?: string;
-  align?: 'left' | 'center';
+  /** Heading level — h2 inside the home page, h1 on standalone pages. */
+  as?: 'h1' | 'h2';
 }
 
-const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
+const { title, subtitle, as: Tag = 'h2' } = Astro.props;
 ---
 
-<div class:list={['heading', `heading--${align}`]}>
-  <p class="eyebrow">{eyebrow}</p>
-  <h2 class="heading__title">{title}</h2>
+<div class="heading">
+  <Tag class="heading__title">{title}</Tag>
   {subtitle && <p class="heading__subtitle">{subtitle}</p>}
 </div>
 
@@ -19,29 +18,30 @@ const { eyebrow, title, subtitle, align = 'left' } = Astro.props;
   .heading {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
+    gap: var(--space-4);
     margin-bottom: var(--space-7);
-    max-width: 40rem;
-  }
-
-  .heading--center {
-    margin-inline: auto;
-    text-align: center;
+    max-width: 44rem;
   }
 
   .heading__title {
     font-size: var(--text-2xl);
+    font-weight: var(--weight-heavy);
+    line-height: var(--leading-tight);
   }
 
   .heading__subtitle {
-    color: var(--color-text-muted);
-    font-size: var(--text-base);
+    max-width: var(--measure);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-light);
     line-height: var(--leading-snug);
+    color: var(--text-muted);
   }
 
   @media (min-width: 48em) {
     .heading__title {
-      font-size: var(--text-3xl);
+      font-size: var(--text-4xl);
+      line-height: var(--leading-display);
+      letter-spacing: var(--tracking-display);
     }
   }
 </style>

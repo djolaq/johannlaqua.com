@@ -1,71 +1,68 @@
 ---
+/** One service, rendered as a ruled row (title | description), not a card. */
 interface Props {
-  index: string;
   title: string;
   body: string;
   badge?: string;
 }
 
-const { index, title, body, badge } = Astro.props;
+const { title, body, badge } = Astro.props;
 ---
 
-<article class="card">
-  <div class="card__top">
-    <span class="card__index mono">{index}</span>
-    {badge && <span class="card__badge">{badge}</span>}
-  </div>
-  <h3 class="card__title">{title}</h3>
-  <p class="card__body">{body}</p>
+<article class="service">
+  <h3 class="service__title">
+    {title}
+    {badge && <span class="service__badge">{badge}</span>}
+  </h3>
+  <p class="service__body">{body}</p>
 </article>
 
 <style>
-  .card {
-    display: flex;
-    flex-direction: column;
+  .service {
+    display: grid;
     gap: var(--space-3);
-    padding: var(--space-5);
-    background: var(--color-bg-raised);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    transition:
-      border-color var(--duration-base) var(--ease-out),
-      transform var(--duration-base) var(--ease-out);
+    padding-block: var(--space-6);
+    border-top: var(--line-hair) solid var(--rule-strong);
   }
 
-  .card:hover {
-    border-color: var(--color-border-strong);
-    transform: translateY(-2px);
-  }
-
-  .card__top {
+  .service__title {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    gap: var(--space-3);
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-heavy);
+    line-height: var(--leading-tight);
   }
 
-  .card__index {
-    font-size: var(--text-sm);
-    color: var(--color-text-faint);
-  }
-
-  .card__badge {
-    font-family: var(--font-mono);
+  .service__badge {
+    padding: var(--space-1) var(--space-2);
     font-size: var(--text-xs);
-    font-weight: var(--weight-medium);
-    color: var(--color-signal-strong);
-    background: var(--color-signal-bg);
-    border: 1px solid var(--color-signal);
-    border-radius: var(--radius-full);
-    padding: 0.2em 0.7em;
+    font-weight: var(--weight-semibold);
+    font-stretch: var(--stretch-ui);
+    letter-spacing: 0;
+    line-height: 1.2;
+    color: var(--on-blue);
+    background: var(--blue-500);
+    border-radius: var(--radius-xs);
   }
 
-  .card__title {
-    font-size: var(--text-lg);
+  .service__body {
+    max-width: var(--measure);
+    color: var(--text-muted);
   }
 
-  .card__body {
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    line-height: var(--leading-normal);
+  @media (min-width: 56em) {
+    .service {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--space-7);
+      align-items: baseline;
+    }
+
+    .service__body {
+      font-size: var(--text-lg);
+      font-weight: var(--weight-light);
+      line-height: var(--leading-snug);
+    }
   }
 </style>

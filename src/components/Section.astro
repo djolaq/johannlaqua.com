@@ -1,0 +1,23 @@
+---
+/**
+ * Page section: the section's name sits in the left margin column
+ * (.section-grid__label), the slot takes the main column.
+ */
+interface Props {
+  id?: string;
+  label: string;
+  tone?: 'sand' | 'charcoal';
+  class?: string;
+}
+
+const { id, label, tone = 'sand', class: className } = Astro.props;
+---
+
+<section id={id} class:list={['section', `tone-${tone}`, className]}>
+  <div class="container section-grid">
+    <p class="section-grid__label">{label}</p>
+    <div class="section-grid__main">
+      <slot />
+    </div>
+  </div>
+</section>
