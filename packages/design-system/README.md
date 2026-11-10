@@ -77,7 +77,7 @@ to Google Fonts, the privacy policy stays true).
 
 **Weight & style contrast** is the signature of the type: a medium,
 tightly tracked sans headline that ends in a light italic serif
-("Je construis des logiciels solides, *et je les sécurise.*"). Stats are
+("I build software that holds up, *and make it hard to break.*"). Stats are
 set large in Geist Light. Kickers are small tracked capitals.
 
 ### Scale (Bringhurst)
@@ -102,7 +102,7 @@ set large in Geist Light. Kickers are small tracked capitals.
 ### The chart
 
 An *illustrative* diagram, not data: delivery speed (blue curve with a
-fading area) rises across Cadrage → Build → Revue sécu → Prod while
+fading area) rises across Scoping → Build → Security review → Prod while
 technical debt (dashed sand line) stays flat. Keep it free of invented
 figures.
 

@@ -1,23 +1,22 @@
-# Références
+# References
 
-## inspiration-hero-sombre.png
+## inspiration-dark-hero.png
 
-Capture d'une page d'accueil de logiciel d'infrastructure, partagée par Johann
-le 10/11/2026 comme direction visuelle après le rejet de la v1. **Usage
-interne uniquement** : c'est l'inspiration, pas un modèle à copier (marque,
-textes et photo appartiennent à leur auteur).
+Screenshot of an infrastructure-software landing page, shared by Johann on
+2026-11-10 as the visual direction after v1 was rejected. **Internal use
+only**: it is the inspiration, not a model to copy (brand, copy and photo
+belong to their author).
 
-Ce qu'on en a repris dans la v2 :
+What v2 took from it:
 
-- fond sombre charcoal et texte sable ;
-- titre sans-serif moyen qui se termine en italique à empattements ;
-- petit libellé en capitales espacées précédé d'un trait ;
-- bandeau d'annonce bleu en haut de page ;
-- bouton bleu plein + bouton discret ;
-- chiffres clés en grand, séparés par des filets verticaux ;
-- carte translucide avec une courbe bleue posée sur le visuel ;
-- lignes verticales discrètes en fond.
+- dark charcoal background and sand text;
+- a medium sans-serif headline that ends in an italic serif;
+- a small tracked-caps label introduced by a short rule;
+- a blue announcement bar at the top of the page;
+- one filled blue button + one quiet button;
+- large key figures separated by vertical hairlines;
+- a translucent card with a blue curve laid over the visual;
+- faint vertical guide lines in the background.
 
-Ce qu'on a fait différemment : pas de photo (le visuel est une carte réseau
-générée en SVG avec un chemin d'attaque), et la courbe n'affiche aucun
-chiffre inventé.
+What we did differently: no photo (the visual is a generated SVG network map
+with an attack path), and the curve shows no invented figure.

@@ -5,24 +5,24 @@ description: Add or update a UI translation string in johannlaqua.com's i18n dic
 
 # add-i18n-string
 
-Ajoute ou modifie une chaîne de texte UI sur johannlaqua.com sans jamais désynchroniser les clés FR/EN.
+Adds or changes a UI string on johannlaqua.com without ever letting the FR and EN keys drift apart.
 
-## Contexte
+## Context
 
-Toutes les chaînes visibles à l'utilisateur vivent dans `apps/site/src/i18n/ui.ts`, dans deux objets `ui.fr` et `ui.en` avec exactement le même jeu de clés. Le type `UiKey` (`export type UiKey = keyof (typeof ui)['fr']`) est dérivé de `ui.fr` — c'est donc l'objet `fr` qui fait autorité pour le typage, mais les deux objets doivent rester alignés en pratique.
+Every user-facing string lives in `apps/site/src/i18n/ui.ts`, in two objects `ui.fr` and `ui.en` with exactly the same set of keys. The `UiKey` type (`export type UiKey = keyof (typeof ui)['fr']`) is derived from `ui.fr` — so `fr` is authoritative for typing, but both objects must stay aligned in practice.
 
-`useTranslations(locale)` (dans `apps/site/src/i18n/utils.ts`) retourne une fonction `t(key)` qui a un fallback silencieux vers `ui[defaultLocale][key]` si une clé manque côté `en` — donc un oubli ne casse pas le build mais affiche du français sur la version anglaise sans avertissement. Il faut éviter cet oubli, pas compter sur le fallback.
+`useTranslations(locale)` (in `apps/site/src/i18n/utils.ts`) returns a `t(key)` function that silently falls back to `ui[defaultLocale][key]` when a key is missing in `en`. A forgotten key therefore does not break the build: it shows French on the English site without any warning. Avoid the omission; do not rely on the fallback.
 
-Les clés suivent une convention `section.element` ou `section.element.variant` (ex. `hero.cta.primary`, `services.security.badge`), groupées par section de page dans le fichier (site, nav, hero, about, services, blog, contact, footer).
+Keys follow a `section.element` or `section.element.variant` convention (e.g. `hero.cta.primary`, `announce.badge`), grouped by page section in the file (site, nav, hero, about, skills, lab, blog, contact, footer, legal…).
 
-## Étapes
+## Steps
 
-1. Identifier la section concernée dans `apps/site/src/i18n/ui.ts` (ou en créer une nouvelle si c'est un nouveau composant/section de page).
-2. Choisir une clé cohérente avec la convention existante (`section.element[.variant]`).
-3. Ajouter la clé et sa valeur FR dans `ui.fr`, **et immédiatement après** la clé et sa valeur EN correspondante dans `ui.en`, au même endroit relatif dans les deux objets (même ordre, pour que le fichier reste lisible en diff).
-4. Utiliser la nouvelle clé dans le composant `.astro` via `t('section.element')` — jamais de texte hardcodé.
-5. Ne jamais ajouter une clé dans un seul des deux objets. Si le texte FR/EN exact n'est pas encore connu, mettre un texte provisoire clairement identifiable (ex. `[FR] ...` / `[EN] ...`) plutôt que d'omettre la clé.
+1. Find the relevant section in `apps/site/src/i18n/ui.ts` (or create one for a new component or page section).
+2. Pick a key consistent with the existing convention (`section.element[.variant]`).
+3. Add the key and its FR value to `ui.fr`, **and immediately after** the key and its EN value to `ui.en`, at the same relative position in both objects (same order, so diffs stay readable).
+4. Use the new key in the `.astro` component through `t('section.element')` — never hardcode text.
+5. Never add a key to only one of the two objects. If the exact FR or EN wording is not known yet, use a clearly identifiable placeholder (e.g. `[FR] ...` / `[EN] ...`) rather than leaving the key out.
 
-## Vérification
+## Verification
 
-Après modification, relire `ui.fr` et `ui.en` et confirmer qu'ils ont le même nombre de clés et les mêmes noms de clés. Lancer `npm run check` (le typage `UiKey` remonte une erreur si une clé référencée via `t()` n'existe pas côté FR, mais ne détecte pas un manque côté EN — la relecture manuelle reste nécessaire).
+After the change, re-read `ui.fr` and `ui.en` and confirm they have the same number of keys and the same key names. Run `npm run check` from the repo root (the `UiKey` typing reports a key used through `t()` that does not exist in FR, but it does not detect a key missing in EN — the manual re-read is still required).

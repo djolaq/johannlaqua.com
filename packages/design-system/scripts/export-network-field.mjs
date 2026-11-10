@@ -12,7 +12,7 @@ const { width: W, height: H, nodes, links, path, pathD, entry, target } = create
 const f = (v) => v.toFixed(1);
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}">
-  <title>Carte réseau et chemin d'attaque — visuel de l'accroche</title>
+  <title>Network map and attack path — hero visual</title>
   <defs>
     <radialGradient id="glow" cx="0.78" cy="0.28" r="0.55">
       <stop offset="0" stop-color="${C.blue}" stop-opacity="0.28"/>
