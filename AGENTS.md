@@ -119,6 +119,9 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 ### Positioning
 - The site showcases skills and demonstrates them (Skills + Lab sections, blog); it does **not** sell services. No "hire me" / "available for missions" / pricing copy. Claims should be backed by something visible (a public repo, a post, this site itself).
 
+### Language
+- Everything about the project is written in **English**: docs, ADRs, skills, code comments, commit messages, PRs, design-system pages. The only French in the repo is the site's own French content (default locale): `ui.fr`, `content/blog/fr/`, the FR legal pages and the tests that assert on them.
+
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
 - Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `Person` whose `sameAs` is derived from `apps/site/src/config/site.ts`. Any new profile is added in `site.ts` only.
