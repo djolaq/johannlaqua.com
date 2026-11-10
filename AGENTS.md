@@ -44,6 +44,7 @@ src/
     site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer, ContactCTA and BaseLayout's JSON-LD
   data/
     legal.ts              publisher + host details for the legal pages — SINGLE SOURCE, imported by the legal notice/privacy pages
+    projects.ts           public repos shown in the home "Lab" section (name, URL, stack, i18n description key) — SINGLE SOURCE
   i18n/
     ui.ts                 FR/EN translation dictionary — SINGLE SOURCE of UI strings, UiKey type derived from FR keys
     utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath
@@ -91,6 +92,9 @@ tests/
 - Components use **semantic tokens** (`--surface`, `--surface-card`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-charcoal` (default, on `<body>`) and `.tone-sand` in `global.css`. Never raw hex in a component.
 - Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*`, imported in `BaseLayout.astro`. No external font CDN (privacy policy promises no third-party requests).
 - Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = generated network map (`NetworkField.astro`, no photo) + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
+
+### Positioning
+- The site showcases skills and demonstrates them (Skills + Lab sections, blog); it does **not** sell services. No "hire me" / "available for missions" / pricing copy. Claims should be backed by something visible (a public repo, a post, this site itself).
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).

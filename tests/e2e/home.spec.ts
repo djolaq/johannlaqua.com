@@ -13,7 +13,8 @@ test.describe('Home page (fr)', () => {
     await page.goto('/');
 
     await expect(page.locator('#about')).toBeAttached();
-    await expect(page.locator('#services')).toBeAttached();
+    await expect(page.locator('#skills')).toBeAttached();
+    await expect(page.locator('#lab')).toBeAttached();
     await expect(page.locator('#contact')).toBeAttached();
   });
 
@@ -29,6 +30,36 @@ test.describe('Home page (fr)', () => {
 
     const contactLink = page.locator('#contact a[href^="mailto:"]');
     await expect(contactLink).toHaveAttribute('href', 'mailto:johann@laqua.fr');
+  });
+});
+
+test.describe('Skills showcase', () => {
+  for (const path of ['/', '/en/']) {
+    test(`presents skills rather than services (${path})`, async ({ page }) => {
+      await page.goto(path);
+
+      await expect(page.locator('#services')).toHaveCount(0);
+      await expect(page.locator('#skills article')).toHaveCount(3);
+      await expect(page.locator('#skills')).toContainText('Red team');
+      await expect(page.locator('#skills')).toContainText('Blue team');
+    });
+
+    test(`lab links to the public repositories and opens them safely (${path})`, async ({ page }) => {
+      await page.goto(path);
+
+      const links = page.locator('#lab a[target="_blank"]');
+      await expect(links).toHaveCount(3);
+      for (const link of await links.all()) {
+        await expect(link).toHaveAttribute('href', /^https:\/\/github\.com\/djolaq\//);
+        await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+      }
+    });
+  }
+
+  test('hero primary call to action points to the skills section', async ({ page }) => {
+    await page.goto('/');
+
+    await expect(page.locator('.hero a').first()).toHaveAttribute('href', '/#skills');
   });
 });
 

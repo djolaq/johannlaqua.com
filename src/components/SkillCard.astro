@@ -1,0 +1,68 @@
+---
+interface Props {
+  tag: string;
+  title: string;
+  body: string;
+  items: string[];
+}
+
+const { tag, title, body, items } = Astro.props;
+---
+
+<article class="skill card">
+  <span class="skill__tag mono">{tag}</span>
+  <h3 class="skill__title">{title}</h3>
+  <p class="skill__body">{body}</p>
+  <ul class="skill__items">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</article>
+
+<style>
+  .skill {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+  }
+
+  .skill__tag {
+    align-self: flex-start;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .skill__title {
+    font-size: var(--text-lg);
+  }
+
+  .skill__body {
+    font-size: var(--text-sm);
+    line-height: var(--leading-ui);
+    color: var(--text-muted);
+  }
+
+  .skill__items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+    padding-top: var(--space-4);
+    border-top: var(--line-hair) solid var(--rule);
+  }
+
+  .skill__items li {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    color: var(--text);
+  }
+
+  .skill__items li::before {
+    content: '> ';
+    color: var(--link);
+  }
+</style>

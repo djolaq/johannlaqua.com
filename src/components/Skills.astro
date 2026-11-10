@@ -1,0 +1,65 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import SkillCard from './SkillCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const domains = [
+  {
+    tag: t('skills.dev.tag'),
+    title: t('skills.dev.title'),
+    body: t('skills.dev.body'),
+    items: [
+      t('skills.dev.item1'),
+      t('skills.dev.item2'),
+      t('skills.dev.item3'),
+      t('skills.dev.item4'),
+      t('skills.dev.item5'),
+    ],
+  },
+  {
+    tag: t('skills.red.tag'),
+    title: t('skills.red.title'),
+    body: t('skills.red.body'),
+    items: [t('skills.red.item1'), t('skills.red.item2'), t('skills.red.item3'), t('skills.red.item4')],
+  },
+  {
+    tag: t('skills.blue.tag'),
+    title: t('skills.blue.title'),
+    body: t('skills.blue.body'),
+    items: [t('skills.blue.item1'), t('skills.blue.item2'), t('skills.blue.item3'), t('skills.blue.item4')],
+  },
+];
+---
+
+<Section id="skills" class="skills">
+  <SectionHeading
+    kicker={t('skills.eyebrow')}
+    title={t('skills.title')}
+    accent={t('skills.titleAccent')}
+    subtitle={t('skills.subtitle')}
+  />
+  <div class="skills__grid">
+    {domains.map((domain) => <SkillCard {...domain} />)}
+  </div>
+</Section>
+
+<style>
+  .skills__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .skills__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

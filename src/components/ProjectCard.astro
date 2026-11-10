@@ -1,0 +1,70 @@
+---
+interface Props {
+  name: string;
+  href: string;
+  description: string;
+  stack: readonly string[];
+  linkLabel: string;
+}
+
+const { name, href, description, stack, linkLabel } = Astro.props;
+---
+
+<article class="project card">
+  <h3 class="project__name mono">{name}</h3>
+  <p class="project__body">{description}</p>
+  <ul class="project__stack">
+    {stack.map((item) => <li>{item}</li>)}
+  </ul>
+  <a class="project__link link" href={href} target="_blank" rel="noopener noreferrer">
+    {linkLabel} ↗
+  </a>
+</article>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+
+  .project:hover {
+    border-color: var(--text-faint);
+  }
+
+  .project__name {
+    font-size: var(--text-base);
+    color: var(--text);
+  }
+
+  .project__body {
+    flex: 1;
+    font-size: var(--text-sm);
+    line-height: var(--leading-ui);
+    color: var(--text-muted);
+  }
+
+  .project__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project__stack li {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    border: var(--line-hair) solid var(--rule);
+    border-radius: var(--radius-full);
+    padding: 0.15em 0.55em;
+  }
+
+  .project__link {
+    margin-top: var(--space-2);
+    align-self: flex-start;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+  }
+</style>

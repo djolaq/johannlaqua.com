@@ -2,7 +2,7 @@
 
 > Living reference. Source of truth for values: `src/styles/tokens.css`.
 > Any change to a token is mirrored here (and in the claude.ai Project doc
-> `claude/design-system.md`). Last update: 2026-11-10 (v2.1).
+> `claude/design-system.md`). Last update: 2026-11-11 (v2.2).
 
 ## Idea in one line
 
@@ -74,10 +74,10 @@ set large in Geist Light. Kickers are small tracked capitals.
 - Container 76 rem + gutter (24 / 48 px). Content left-aligned.
 - **Announcement bar** (`AnnouncementBar.astro`): blue strip linking to the latest journal post.
 - **Header**: brand in tracked caps with a blue bolt mark, nav, language toggle, "Me contacter" quiet button. Sticky, glass.
-- **Hero**: kicker → headline with italic ending → subtitle → primary + quiet buttons → availability pulse; stats row split by hairlines; generated **network map** (`NetworkField.astro`) on the right fading into charcoal — sand hairline nodes and links crossed by one electric-blue attack path from an entry node (dashed ring) to a target (blue ring), drawn once on load; glass **method chart** card (`MethodChart.astro`) overlapping it; faint vertical column guides (`.guides`).
+- **Hero**: kicker → headline with italic ending → subtitle → primary + quiet buttons → discipline pulse; stats row split by hairlines; generated **network map** (`NetworkField.astro`) on the right fading into charcoal — sand hairline nodes and links crossed by one electric-blue attack path from an entry node (dashed ring) to a target (blue ring), drawn once on load; glass **method chart** card (`MethodChart.astro`) overlapping it; faint vertical column guides (`.guides`).
 - **Sections** (`Section.astro` + `SectionHeading.astro`): kicker, title + optional italic `accent`, subtitle.
-- **Cards** (`.card`): glass background, hairline border, `--radius-md` 12 px. Services: icon tile + title + text; the featured one (pentest) has a blue border, glow and "Populaire" pill. Journal: date + tag pill + title + text + "Lire l'article".
-- **Contact**: large raised panel with blue glow and guides, title with italic ending, primary email button.
+- **Cards** (`.card`): glass background, hairline border, `--radius-md` 12 px. Skills: tracked mono tag + title + text + mono item list split by a hairline, `>` markers in `--link`. Lab: mono repo name + text + stack chips (hairline pills) + “Voir le code” link. Journal: date + tag pill + title + text + “Lire l’article”.
+- **Contact**: large raised panel with blue glow and guides, primary email button.
 - Radii: `--radius-sm` 8 px (buttons), `--radius-md` 12 px (cards), `--radius-lg` 18 px (panels), pills `--radius-full`.
 
 ### The chart
@@ -101,6 +101,12 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.2 — 2026-11-11**: merged the skills/lab showcase (PR #22) into the v2
+  system: Skills cards (mono tag + item list) and Lab cards (repo name +
+  stack chips) replace the old service cards; no featured/blue card anymore,
+  no “Populaire” pill. Contact panel title is plain (no italic ending) and
+  no longer sells a project.
 
 - **v2.1 — 2026-11-10**: GitHub photo removed from the site (asset, fetch
   script and test deleted). The hero visual is now a deterministic SVG

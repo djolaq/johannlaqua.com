@@ -1,0 +1,49 @@
+---
+import { useTranslations, type Locale } from '../i18n/utils';
+import Section from './Section.astro';
+import SectionHeading from './SectionHeading.astro';
+import ProjectCard from './ProjectCard.astro';
+import { projects } from '../data/projects';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id="lab" class="lab">
+  <SectionHeading
+    kicker={t('lab.eyebrow')}
+    title={t('lab.title')}
+    accent={t('lab.titleAccent')}
+    subtitle={t('lab.subtitle')}
+  />
+  <div class="lab__grid">
+    {
+      projects.map((project) => (
+        <ProjectCard
+          name={project.name}
+          href={project.href}
+          description={t(project.descriptionKey)}
+          stack={project.stack}
+          linkLabel={t('lab.viewCode')}
+        />
+      ))
+    }
+  </div>
+</Section>
+
+<style>
+  .lab__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .lab__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
