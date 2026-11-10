@@ -10,13 +10,13 @@ interface Props {
 const { name, href, description, stack, linkLabel } = Astro.props;
 ---
 
-<article class="project">
+<article class="project card">
   <h3 class="project__name mono">{name}</h3>
   <p class="project__body">{description}</p>
   <ul class="project__stack">
     {stack.map((item) => <li>{item}</li>)}
   </ul>
-  <a class="project__link" href={href} target="_blank" rel="noopener noreferrer">
+  <a class="project__link link" href={href} target="_blank" rel="noopener noreferrer">
     {linkLabel} ↗
   </a>
 </article>
@@ -27,26 +27,23 @@ const { name, href, description, stack, linkLabel } = Astro.props;
     flex-direction: column;
     gap: var(--space-3);
     padding: var(--space-5);
-    background: var(--color-bg-inset);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
     transition: border-color var(--duration-base) var(--ease-out);
   }
 
   .project:hover {
-    border-color: var(--color-border-strong);
+    border-color: var(--text-faint);
   }
 
   .project__name {
     font-size: var(--text-base);
-    color: var(--color-signal-strong);
+    color: var(--text);
   }
 
   .project__body {
     flex: 1;
-    color: var(--color-text-muted);
     font-size: var(--text-sm);
-    line-height: var(--leading-normal);
+    line-height: var(--leading-ui);
+    color: var(--text-muted);
   }
 
   .project__stack {
@@ -58,20 +55,16 @@ const { name, href, description, stack, linkLabel } = Astro.props;
   .project__stack li {
     font-family: var(--font-mono);
     font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border-strong);
-    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    border: var(--line-hair) solid var(--rule);
+    border-radius: var(--radius-full);
     padding: 0.15em 0.55em;
   }
 
   .project__link {
     margin-top: var(--space-2);
+    align-self: flex-start;
     font-size: var(--text-sm);
-    color: var(--color-text);
-    text-decoration: none;
-  }
-
-  .project__link:hover {
-    color: var(--color-signal-strong);
+    font-weight: var(--weight-semibold);
   }
 </style>

@@ -1,6 +1,6 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
-import { social } from '../config/site';
+import { name, social } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -25,10 +25,10 @@ const legalLinks = [
 ];
 ---
 
-<footer class="footer">
+<footer class="footer tone-charcoal">
   <div class="container footer__inner">
     <div class="footer__brand">
-      <a href={home} class="mono">JL_</a>
+      <a href={home}>{name}</a>
       <p>{t('footer.builtWith')}</p>
     </div>
 
@@ -58,7 +58,7 @@ const legalLinks = [
   </div>
 
   <div class="container footer__bottom">
-    <p class="footer__legal">© {year} Johann Laqua. {t('footer.rights')}</p>
+    <p>© {year} {name}. {t('footer.rights')}</p>
     <ul class="footer__legal-links">
       {
         legalLinks.map((link) => (
@@ -73,47 +73,50 @@ const legalLinks = [
 
 <style>
   .footer {
-    border-top: 1px solid var(--color-border);
     padding-block: var(--space-7) var(--space-6);
+    border-top: var(--line-hair) solid var(--rule);
+    font-size: var(--text-sm);
   }
 
   .footer__inner {
     display: grid;
     gap: var(--space-6);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-7);
   }
 
   .footer__brand a {
-    font-size: var(--text-lg);
-    font-weight: var(--weight-bold);
-    color: var(--color-signal-strong);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
     text-decoration: none;
   }
 
   .footer__brand p {
-    margin-top: var(--space-2);
-    color: var(--color-text-faint);
-    font-size: var(--text-sm);
+    margin-top: var(--space-1);
+    color: var(--text-muted);
   }
 
   .footer__nav ul,
-  .footer__social {
+  .footer__social,
+  .footer__legal-links {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-4) var(--space-5);
+    gap: var(--space-3) var(--space-5);
   }
 
-  .footer__nav a,
-  .footer__social a {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
+  .footer a {
+    color: var(--text-muted);
     text-decoration: none;
     transition: color var(--duration-base) var(--ease-out);
   }
 
-  .footer__nav a:hover,
-  .footer__social a:hover {
-    color: var(--color-signal-strong);
+  .footer a:hover {
+    color: var(--text);
+  }
+
+  .footer__brand a {
+    color: var(--text);
   }
 
   .footer__bottom {
@@ -121,31 +124,18 @@ const legalLinks = [
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-3) var(--space-5);
-  }
-
-  .footer__legal-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-  }
-
-  .footer__legal-links a {
+    padding-top: var(--space-5);
+    /* Hairline aligned to the content box, not the padded container. */
+    background: linear-gradient(var(--rule), var(--rule)) no-repeat center top / calc(100% - 2 * var(--gutter))
+      var(--line-hair);
     font-size: var(--text-xs);
-    color: var(--color-text-faint);
-  }
-
-  .footer__legal-links a:hover {
-    color: var(--color-signal-strong);
-  }
-
-  .footer__legal {
-    font-size: var(--text-xs);
-    color: var(--color-text-faint);
+    color: var(--text-muted);
   }
 
   @media (min-width: 56em) {
     .footer__inner {
       grid-template-columns: 1fr auto auto;
+      column-gap: var(--space-8);
       align-items: start;
     }
   }

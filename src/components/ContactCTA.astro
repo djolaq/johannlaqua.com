@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Locale } from '../i18n/utils';
+import Section from './Section.astro';
 import Button from './Button.astro';
 import { email, social } from '../config/site';
 
@@ -11,18 +12,22 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section id="contact" class="section contact">
-  <div class="container contact__inner">
-    <p class="eyebrow">{t('contact.eyebrow')}</p>
-    <h2 class="contact__title">{t('contact.title')}</h2>
-    <p class="contact__subtitle">{t('contact.subtitle')}</p>
+<Section id="contact" class="contact">
+  <div class="contact__panel card">
+    <div class="guides" aria-hidden="true"></div>
+    <div class="contact__content">
+      <p class="kicker">{t('contact.eyebrow')}</p>
+      <h2 class="contact__title">{t('contact.title')}</h2>
+      <p class="contact__subtitle">{t('contact.subtitle')}</p>
 
-    <div class="contact__actions">
-      <Button href={`mailto:${email}`}>{t('contact.cta')}</Button>
+      <div class="contact__actions">
+        <Button href={`mailto:${email}`}>{t('contact.cta')}</Button>
+        <span class="contact__email mono">{email}</span>
+      </div>
     </div>
 
     <div class="contact__social">
-      <span>{t('contact.social')}</span>
+      <p>{t('contact.social')}</p>
       <ul>
         {
           social.map((s) => (
@@ -36,49 +41,61 @@ const t = useTranslations(locale);
       </ul>
     </div>
   </div>
-</section>
+</Section>
 
 <style>
-  .contact__inner {
-    max-width: 36rem;
-    text-align: center;
-    margin-inline: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .contact__panel {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    gap: var(--space-7);
+    padding: var(--space-7) var(--space-5);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(60% 80% at 100% 0%, var(--blue-glow), transparent 70%),
+      var(--surface-raised);
+  }
+
+  .contact__content {
+    position: relative;
   }
 
   .contact__title {
-    margin-top: var(--space-4);
+    margin-top: var(--space-5);
     font-size: var(--text-2xl);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
   }
 
   .contact__subtitle {
-    margin-top: var(--space-4);
-    color: var(--color-text-muted);
-    font-size: var(--text-base);
+    margin-top: var(--space-5);
+    max-width: 30rem;
+    color: var(--text-muted);
   }
 
   .contact__actions {
-    margin-top: var(--space-6);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-7);
+  }
+
+  .contact__email {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
   }
 
   .contact__social {
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--color-border);
-    width: 100%;
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    align-items: center;
+    font-size: var(--text-sm);
   }
 
-  .contact__social span {
-    font-size: var(--text-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-faint);
+  .contact__social p {
+    color: var(--text-muted);
   }
 
   .contact__social ul {
@@ -87,18 +104,24 @@ const t = useTranslations(locale);
   }
 
   .contact__social a {
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+    color: var(--text);
     text-decoration: none;
   }
 
   .contact__social a:hover {
-    color: var(--color-signal-strong);
+    color: var(--blue-300);
   }
 
-  @media (min-width: 48em) {
+  @media (min-width: 56em) {
+    .contact__panel {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      padding: var(--space-9) var(--space-8);
+    }
+
     .contact__title {
-      font-size: var(--text-3xl);
+      font-size: var(--text-5xl);
     }
   }
 </style>

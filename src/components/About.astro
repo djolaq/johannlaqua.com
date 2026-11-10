@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Locale } from '../i18n/utils';
+import Section from './Section.astro';
 import SectionHeading from './SectionHeading.astro';
 
 interface Props {
@@ -10,29 +11,53 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<section id="about" class="section about">
-  <div class="container">
-    <SectionHeading eyebrow={t('about.eyebrow')} title={t('about.title')} />
+<Section id="about" class="about">
+  <div class="about__grid">
+    <SectionHeading kicker={t('about.eyebrow')} title={t('about.title')} accent={t('about.titleAccent')} />
     <div class="about__body">
-      <p>{t('about.body1')}</p>
+      <p class="about__lede">{t('about.body1')}</p>
       <p>{t('about.body2')}</p>
-      <p>{t('about.body3')}</p>
+      <p class="about__result">{t('about.body3')}</p>
     </div>
   </div>
-</section>
+</Section>
 
 <style>
-  .about__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    max-width: 40rem;
-    font-size: var(--text-lg);
-    line-height: var(--leading-normal);
-    color: var(--color-text-muted);
+  .about__grid {
+    display: grid;
+    gap: var(--space-2);
   }
 
-  .about__body p:first-child {
-    color: var(--color-text);
+  .about__body {
+    display: grid;
+    gap: var(--space-5);
+    max-width: var(--measure);
+    color: var(--text-muted);
+  }
+
+  .about__lede {
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    color: var(--text);
+  }
+
+  .about__result {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-style: italic;
+    line-height: var(--leading-snug);
+    color: var(--text);
+  }
+
+  @media (min-width: 64em) {
+    .about__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--space-9);
+      align-items: start;
+    }
+
+    .about__body {
+      padding-top: var(--space-8);
+    }
   }
 </style>

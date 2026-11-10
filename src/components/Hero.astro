@@ -1,8 +1,8 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Button from './Button.astro';
-import StatTile from './StatTile.astro';
-import Avatar from './Avatar.astro';
+import NetworkField from './NetworkField.astro';
+import MethodChart from './MethodChart.astro';
 
 interface Props {
   locale: Locale;
@@ -10,103 +10,250 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+
+const stats = [
+  { value: t('hero.stat.experienceValue'), label: t('hero.stat.experience') },
+  { value: t('hero.stat.teamValue'), label: t('hero.stat.team') },
+  { value: t('hero.stat.modeValue'), label: t('hero.stat.mode') },
+];
 ---
 
 <section class="hero">
-  <div class="hero__grid" aria-hidden="true"></div>
-  <div class="container hero__inner">
-    <div class="hero__avatar">
-      <Avatar alt={t('hero.avatarAlt')} />
-    </div>
+  <div class="hero__visual">
+    <NetworkField />
+  </div>
+  <div class="guides" aria-hidden="true"></div>
 
+  <div class="container hero__inner">
     <div class="hero__content">
-      <p class="eyebrow">{t('hero.eyebrow')}</p>
-      <h1 class="hero__title">{t('hero.title')}</h1>
+      <p class="kicker">{t('hero.kicker')}</p>
+      <h1 class="hero__title">
+        {t('hero.title')}{' '}<span class="accent">{t('hero.titleAccent')}</span>
+      </h1>
       <p class="hero__subtitle">{t('hero.subtitle')}</p>
 
       <div class="hero__actions">
         <Button href={`${localizePath(locale, '/')}#skills`}>{t('hero.cta.primary')}</Button>
-        <Button href={localizePath(locale, '/blog')} variant="ghost">{t('hero.cta.secondary')}</Button>
+        <Button href={localizePath(locale, '/blog')} variant="quiet">{t('hero.cta.secondary')}</Button>
       </div>
 
-      <div class="hero__stats">
-        <StatTile value={t('hero.stat.experienceValue')} label={t('hero.stat.experience')} />
-        <StatTile value={t('hero.stat.disciplineValue')} label={t('hero.stat.disciplineLabel')} />
-        <StatTile value={t('hero.stat.modeValue')} label={t('hero.stat.mode')} />
-      </div>
+      <p class="hero__status">
+        <span class="hero__pulse" aria-hidden="true"></span>
+        {t('hero.eyebrow')}
+      </p>
     </div>
+
+    <div class="hero__chart">
+      <MethodChart locale={locale} />
+    </div>
+
+    <dl class="hero__stats">
+      {
+        stats.map((stat) => (
+          <div class="stat">
+            <dt class="stat__label">{stat.label}</dt>
+            <dd class="stat__value">{stat.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
   </div>
 </section>
 
 <style>
   .hero {
     position: relative;
+    isolation: isolate;
     overflow: hidden;
-    padding-block: var(--space-9) var(--space-8);
+    padding-block: 0 var(--space-8);
   }
 
-  .hero__grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
-    opacity: 0.5;
+  .hero__visual {
+    position: relative;
+    z-index: -1;
+    height: 20rem;
+  }
+
+  .hero__visual :global(.field) {
+    mask-image: linear-gradient(to top, transparent 0%, black 55%);
   }
 
   .hero__inner {
     position: relative;
     display: grid;
-    gap: var(--space-6);
-  }
-
-  .hero__content {
-    max-width: 44rem;
+    gap: var(--space-8);
+    margin-top: calc(-1 * var(--space-9));
   }
 
   .hero__title {
-    margin-top: var(--space-4);
-    font-size: var(--text-3xl);
+    margin-top: var(--space-5);
+    max-width: 15ch;
+    font-size: var(--text-hero);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--sand-300);
+    animation: rise var(--duration-reveal) var(--ease-out) both;
+  }
+
+  .hero__title .accent {
+    color: var(--sand-300);
   }
 
   .hero__subtitle {
-    margin-top: var(--space-5);
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-    line-height: var(--leading-snug);
-    max-width: 36rem;
+    margin-top: var(--space-6);
+    max-width: 32rem;
+    font-size: var(--text-md);
+    line-height: var(--leading-text);
+    color: var(--text-muted);
+    animation: rise var(--duration-reveal) var(--ease-out) 120ms both;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+    margin-top: var(--space-7);
+    animation: rise var(--duration-reveal) var(--ease-out) 220ms both;
+  }
+
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
     margin-top: var(--space-6);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .hero__pulse {
+    position: relative;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--blue-500);
+  }
+
+  .hero__pulse::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--blue-500);
+    animation: pulse 2.4s var(--ease-out) infinite;
+  }
+
+  .hero__chart {
+    max-width: 26rem;
+    animation: rise var(--duration-reveal) var(--ease-out) 300ms both;
   }
 
   .hero__stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-3);
-    margin-top: var(--space-8);
-    max-width: 32rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
   }
 
-  @media (min-width: 48em) {
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding-inline: var(--space-4);
+    border-left: var(--line-hair) solid var(--rule);
+  }
+
+  .stat:first-child {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stat__value {
+    margin: 0;
+    font-size: var(--text-lg);
+    white-space: nowrap;
+    font-weight: var(--weight-light);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    color: var(--sand-300);
+  }
+
+  .stat__label {
+    max-width: 12ch;
+    font-size: var(--text-xs);
+    line-height: var(--leading-ui);
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 64em) {
+    .hero {
+      padding-block: var(--space-9) var(--space-8);
+    }
+
+    .hero__visual {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(56%, 48rem);
+      height: auto;
+    }
+
+    .hero__visual :global(.field) {
+      mask-image:
+        linear-gradient(to right, transparent 0%, black 38%),
+        linear-gradient(to top, transparent 0%, black 30%);
+      mask-composite: intersect;
+    }
+
     .hero__inner {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: center;
-      gap: var(--space-8);
+      grid-template-columns: minmax(0, 1fr) 24rem;
+      grid-template-rows: 1fr auto;
+      column-gap: var(--space-8);
+      row-gap: var(--space-8);
+      margin-top: 0;
     }
 
-    .hero__avatar {
-      order: 1;
+    .hero__chart {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: end;
+      justify-self: end;
+      width: 100%;
     }
 
-    .hero__title {
-      font-size: var(--text-4xl);
+    .hero__stats {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: end;
+      max-width: 42rem;
+    }
+
+    .stat {
+      padding-inline: var(--space-6);
+    }
+
+    .stat__value {
+      font-size: var(--text-2xl);
+      white-space: nowrap;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      translate: 0 0.6rem;
+    }
+  }
+
+  @keyframes pulse {
+    from {
+      transform: scale(1);
+      opacity: 0.6;
+    }
+    to {
+      transform: scale(2.8);
+      opacity: 0;
     }
   }
 </style>

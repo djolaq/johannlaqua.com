@@ -62,9 +62,11 @@ tests/
 
 ## Design system
 
-The visual tokens (colors, typography, spacing, radii, shadows) live in
-`src/styles/tokens.css`. It is the source of truth: any change made in a
-Claude Design canvas must be mirrored here (and vice-versa) to stay in sync with the code.
+Charcoal `#1E1E1C`, Sand `#D8CBB3` and Electric blue `#2F6BFF`, set in
+Geist, Instrument Serif and JetBrains Mono (self-hosted).
+The values live in `src/styles/tokens.css` (source of truth); the full
+reference — palette, tones, type scale, layout, rules, changelog — is
+[`docs/design-system.md`](docs/design-system.md). Keep both in sync.
 
 ## Content to customize
 

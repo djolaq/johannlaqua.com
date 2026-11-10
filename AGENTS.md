@@ -31,12 +31,11 @@ Node.js 22.12+ required (Astro 7). Version managed by `.nvmrc`; every build/CI c
 
 ```
 astro.config.mjs        i18n routing, sitemap, output static
-scripts/
-  fetch-github-avatar.mjs  `npm run avatar:fetch` — re-downloads the GitHub profile photo into src/assets/
 src/
-  assets/
-    avatar.jpg            profile photo (copy of the GitHub avatar), optimized by astro:assets at build time — never hotlinked
   components/            UI components (.astro), one file per component, no heavy business logic
+    Section.astro         section wrapper (rhythm, optional tone, anchor id) — use for every page section
+    AnnouncementBar.astro blue strip above the header linking to the latest post
+    MethodChart.astro     hero glass card with the illustrative method chart (no data)
     LegalArticle.astro    prose wrapper (eyebrow, title, last-updated date) shared by the legal pages
   layouts/
     BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
@@ -64,7 +63,9 @@ src/
     confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
   styles/
     tokens.css              design tokens (custom properties) — VISUAL SOURCE OF TRUTH
-    global.css               reset + base styles
+    global.css               reset, tones (.tone-charcoal/.tone-sand), .card, .kicker, .accent, .guides, .prose, .link
+docs/
+  design-system.md         design system reference (kept in sync with tokens.css)
 public/                    favicon.svg, robots.txt (static assets served as-is)
 tests/
   unit/                    Vitest — pure logic only
@@ -86,9 +87,11 @@ tests/
 - FR and EN slugs can differ (the slug comes from the filename via the `glob` loader) — `translationId`, not the slug, links the two versions.
 
 ### Design system
-- `src/styles/tokens.css` is the visual source of truth (colors, typography, spacing, radii, shadows, motion). Any new style value must come from an existing token or a new token added here — no magic values in components.
-- Palette: near-black background, "signal" teal/green accent (blue team, primary use), "alert" red accent (red team, used sparingly). System fonts only (`--font-sans`/`--font-mono`), no external web font (perf + privacy).
-- If a Claude Design canvas is used in parallel for this site, any value changed there must be mirrored into `tokens.css` (and vice-versa) — this file must never diverge.
+- Full reference: **`docs/design-system.md`** (palette, tones, type scale, layout, signature elements, rules, changelog). Keep it in sync with `src/styles/tokens.css`, which holds the values.
+- Palette: Charcoal `#1E1E1C` (ink, dark bands), Sand `#D8CBB3` (paper, the page), Electric blue `#2F6BFF` (actions, links, graph strokes, focus — never small text: use `--blue-300` on charcoal, `--blue-700` on sand).
+- Components use **semantic tokens** (`--surface`, `--surface-card`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-charcoal` (default, on `<body>`) and `.tone-sand` in `global.css`. Never raw hex in a component.
+- Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*`, imported in `BaseLayout.astro`. No external font CDN (privacy policy promises no third-party requests).
+- Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = generated network map (`NetworkField.astro`, no photo) + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
 
 ### Positioning
 - The site showcases skills and demonstrates them (Skills + Lab sections, blog); it does **not** sell services. No "hire me" / "available for missions" / pricing copy. Claims should be backed by something visible (a public repo, a post, this site itself).

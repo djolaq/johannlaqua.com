@@ -18,14 +18,11 @@ test.describe('Home page (fr)', () => {
     await expect(page.locator('#contact')).toBeAttached();
   });
 
-  test('shows the self-hosted profile photo in the hero', async ({ page }) => {
+  test('hero has no photo and loads no external image', async ({ page }) => {
     await page.goto('/');
 
-    const avatar = page.getByRole('img', { name: 'Portrait de Johann Laqua' });
-    await expect(avatar).toBeVisible();
-    // Served from the build output, never hotlinked from GitHub.
-    await expect(avatar).toHaveAttribute('src', /^\/_astro\//);
-    expect(await avatar.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+    await expect(page.locator('.hero img')).toHaveCount(0);
+    await expect(page.locator('.hero .field svg')).toBeAttached();
   });
 
   test('contact CTA points to the contact mailbox', async ({ page }) => {

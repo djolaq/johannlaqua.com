@@ -1,5 +1,6 @@
 ---
 import { useTranslations, type Locale } from '../i18n/utils';
+import Section from './Section.astro';
 import SectionHeading from './SectionHeading.astro';
 import SkillCard from './SkillCard.astro';
 
@@ -28,7 +29,6 @@ const domains = [
     title: t('skills.red.title'),
     body: t('skills.red.body'),
     items: [t('skills.red.item1'), t('skills.red.item2'), t('skills.red.item3'), t('skills.red.item4')],
-    tone: 'alert' as const,
   },
   {
     tag: t('skills.blue.tag'),
@@ -39,18 +39,17 @@ const domains = [
 ];
 ---
 
-<section id="skills" class="section skills">
-  <div class="container">
-    <SectionHeading
-      eyebrow={t('skills.eyebrow')}
-      title={t('skills.title')}
-      subtitle={t('skills.subtitle')}
-    />
-    <div class="skills__grid">
-      {domains.map((domain) => <SkillCard {...domain} />)}
-    </div>
+<Section id="skills" class="skills">
+  <SectionHeading
+    kicker={t('skills.eyebrow')}
+    title={t('skills.title')}
+    accent={t('skills.titleAccent')}
+    subtitle={t('skills.subtitle')}
+  />
+  <div class="skills__grid">
+    {domains.map((domain) => <SkillCard {...domain} />)}
   </div>
-</section>
+</Section>
 
 <style>
   .skills__grid {

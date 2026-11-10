@@ -1,5 +1,6 @@
 @import "./tokens.css";
 
+/* ---------- Reset ---------- */
 *,
 *::before,
 *::after {
@@ -9,17 +10,20 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
+  scroll-padding-top: var(--space-9);
   -webkit-text-size-adjust: 100%;
+  background: var(--charcoal-900);
 }
 
 body {
   margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: var(--surface);
+  color: var(--text);
   font-family: var(--font-sans);
   font-size: var(--text-base);
-  line-height: var(--leading-normal);
+  line-height: var(--leading-text);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 img,
@@ -37,13 +41,16 @@ h2,
 h3,
 h4 {
   margin: 0;
-  font-weight: var(--weight-semibold);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-medium);
   line-height: var(--leading-tight);
-  letter-spacing: -0.01em;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
 }
 
 p {
   margin: 0;
+  text-wrap: pretty;
 }
 
 ul,
@@ -61,32 +68,70 @@ button {
   cursor: pointer;
 }
 
+code,
+kbd,
+pre {
+  font-family: var(--font-mono);
+}
+
 ::selection {
-  background: var(--color-signal-bg);
-  color: var(--color-signal-strong);
+  background: var(--blue-500);
+  color: var(--on-blue);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-signal);
-  outline-offset: 2px;
+  outline: var(--line-bold) solid var(--blue-500);
+  outline-offset: 3px;
+  border-radius: var(--radius-xs);
 }
 
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: var(--space-4);
-  z-index: var(--z-overlay);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-bg-raised);
-  border: 1px solid var(--color-border-strong);
-  border-radius: var(--radius-sm);
-  transition: top var(--duration-base) var(--ease-out);
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
-.skip-link:focus {
-  top: var(--space-4);
+/* ---------- Tones ----------
+   A tone sets the semantic tokens for everything inside it. The site is
+   charcoal by default (on <body>); a sand band can opt in for contrast. */
+.tone-charcoal {
+  --surface: var(--charcoal-900);
+  --surface-raised: var(--charcoal-800);
+  --surface-card: var(--charcoal-glass);
+  --text: var(--sand-300);
+  --text-muted: var(--sand-500);
+  --text-faint: var(--charcoal-500);
+  --rule: var(--sand-hairline);
+  --rule-strong: var(--charcoal-700);
+  --link: var(--blue-300);
+  background: var(--surface);
+  color: var(--text);
 }
 
+.tone-sand {
+  --surface: var(--sand-300);
+  --surface-raised: var(--sand-50);
+  --surface-card: var(--sand-50);
+  --text: var(--charcoal-900);
+  --text-muted: var(--sand-ink-700);
+  --text-faint: var(--sand-ink-600);
+  --rule: var(--sand-400);
+  --rule-strong: var(--charcoal-900);
+  --link: var(--blue-700);
+  background: var(--surface);
+  color: var(--text);
+}
+
+/* ---------- Layout primitives ---------- */
 .container {
   width: 100%;
   max-width: calc(var(--content-width) + 2 * var(--gutter));
@@ -96,6 +141,83 @@ button {
 
 .container--narrow {
   max-width: calc(var(--content-width-narrow) + 2 * var(--gutter));
+}
+
+.section {
+  padding-block: var(--space-8);
+}
+
+@media (min-width: 48em) {
+  .section {
+    padding-block: var(--space-9);
+  }
+}
+
+/* Faint vertical column guides, as on a technical drawing. */
+.guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(to right, var(--sand-hairline) var(--line-hair), transparent var(--line-hair));
+  background-size: calc((min(100%, var(--content-width) + 2 * var(--gutter)) - 2 * var(--gutter)) / 4) 100%;
+  background-position: center top;
+  mask-image: linear-gradient(to bottom, black, transparent 85%);
+  opacity: 0.5;
+}
+
+/* Glass card: translucent charcoal over imagery or the page. */
+.card {
+  background: var(--surface-card);
+  border: var(--line-hair) solid var(--rule);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+}
+
+/* Kicker: small tracked capitals introduced by a short rule. */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.kicker::before {
+  content: '';
+  width: var(--space-6);
+  height: var(--line-hair);
+  background: currentColor;
+}
+
+/* Italic serif accent inside a sans headline. */
+.accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Text utilities ---------- */
+.link {
+  color: var(--link);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--underline-thickness);
+  text-underline-offset: var(--underline-offset);
+  transition: text-decoration-color var(--duration-base) var(--ease-out);
+}
+
+.link:hover {
+  text-decoration-color: var(--accent-stroke);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-feature-settings: 'zero' 1;
 }
 
 .visually-hidden {
@@ -110,32 +232,101 @@ button {
   border: 0;
 }
 
-.section {
-  padding-block: var(--space-9);
-  border-top: 1px solid var(--color-border);
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--space-4);
+  z-index: var(--z-overlay);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-display);
+  background: var(--blue-500);
+  color: var(--on-blue);
+  border-radius: var(--radius-sm);
+  transition: top var(--duration-base) var(--ease-out);
 }
 
-.mono {
-  font-family: var(--font-mono);
+.skip-link:focus {
+  top: var(--space-4);
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
+/* Long-form prose (blog posts, legal pages). */
+.prose {
+  max-width: var(--measure);
+  font-size: var(--text-md);
+  line-height: var(--leading-text);
+}
+
+.prose > * + * {
+  margin-top: var(--space-4);
+}
+
+.prose h2 {
+  margin-top: var(--space-7);
+  font-size: var(--text-xl);
+  font-stretch: var(--stretch-ui);
+  line-height: var(--leading-snug);
+}
+
+.prose h3 {
+  margin-top: var(--space-6);
+  font-size: var(--text-lg);
+  font-stretch: var(--stretch-ui);
+}
+
+.prose a {
+  color: var(--link);
+  text-decoration-thickness: var(--underline-thickness);
+  text-underline-offset: var(--underline-offset);
+}
+
+.prose ul {
+  padding-left: var(--space-5);
+  list-style: square;
+}
+
+.prose li::marker {
+  color: var(--accent-stroke);
+}
+
+.prose li + li {
+  margin-top: var(--space-2);
+}
+
+.prose blockquote {
+  margin: var(--space-6) 0;
+  padding-left: var(--space-5);
+  border-left: var(--line-bold) solid var(--accent-stroke);
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-style: italic;
+}
+
+.prose code {
+  font-size: 0.86em;
+  padding: 0.1em 0.35em;
+  background: var(--surface-raised);
+  border-radius: var(--radius-xs);
+}
+
+.prose h2,
+.prose h3 {
   font-weight: var(--weight-medium);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-signal-strong);
 }
 
-.eyebrow::before {
-  content: "";
-  width: 0.5em;
-  height: 0.5em;
-  border-radius: var(--radius-full);
-  background: currentColor;
-  box-shadow: 0 0 12px currentColor;
+.prose pre {
+  margin-block: var(--space-6);
+  padding: var(--space-5);
+  overflow-x: auto;
+  font-size: var(--text-sm);
+  line-height: var(--leading-ui);
+  background: var(--charcoal-950);
+  color: var(--sand-300);
+  border: var(--line-hair) solid var(--rule);
+  border-radius: var(--radius-md);
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
 }

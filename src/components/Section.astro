@@ -1,0 +1,16 @@
+---
+/** Page section wrapper: vertical rhythm, tone and anchor id. */
+interface Props {
+  id?: string;
+  tone?: 'charcoal' | 'sand';
+  class?: string;
+}
+
+const { id, tone, class: className } = Astro.props;
+---
+
+<section id={id} class:list={['section', tone && `tone-${tone}`, className]}>
+  <div class="container">
+    <slot />
+  </div>
+</section>

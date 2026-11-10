@@ -33,20 +33,22 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
 ---
 
 <BaseLayout locale={locale} title={title} description={description} altHref={altHref}>
-  <article class="post section">
-    <div class="container container--narrow">
-      <a class="post__back" href={localizePath(locale, '/blog')}>← {t('blog.back')}</a>
-
-      <header class="post__header">
-        <div class="post__meta">
-          <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
-          {tags.map((tag) => <span class="post__tag">{tag}</span>)}
-        </div>
+  <article class="post">
+    <header class="post__header">
+      <div class="container post__header-inner">
+        <a class="post__back" href={localizePath(locale, '/blog')}>← {t('blog.back')}</a>
+        <p class="kicker">{t('blog.eyebrow')}</p>
         <h1 class="post__title">{title}</h1>
         <p class="post__description">{description}</p>
-      </header>
+        <p class="post__meta">
+          <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
+          {tags.map((tag) => <span class="mono">#{tag}</span>)}
+        </p>
+      </div>
+    </header>
 
-      <div class="post__content">
+    <div class="container post__body">
+      <div class="prose post__content">
         <slot />
       </div>
     </div>
@@ -54,88 +56,73 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
 </BaseLayout>
 
 <style>
-  .post {
-    border-top: none;
-    padding-top: var(--space-7);
+  .post__header {
+    padding-block: var(--space-7) var(--space-7);
+    border-bottom: var(--line-hair) solid var(--rule);
+    background: radial-gradient(50% 120% at 90% 0%, var(--blue-glow), transparent 70%);
+  }
+
+  .post__header-inner {
+    max-width: calc(52rem + 2 * var(--gutter));
   }
 
   .post__back {
-    display: inline-block;
-    margin-bottom: var(--space-6);
+    display: block;
+    width: fit-content;
+    margin-bottom: var(--space-7);
     font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
     text-decoration: none;
   }
 
   .post__back:hover {
-    color: var(--color-signal-strong);
+    color: var(--text);
+  }
+
+  .post__title {
+    margin-top: var(--space-5);
+    font-size: var(--text-3xl);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .post__description {
+    margin-top: var(--space-5);
+    max-width: var(--measure);
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    color: var(--text-muted);
   }
 
   .post__meta {
     display: flex;
-    align-items: center;
     flex-wrap: wrap;
-    gap: var(--space-3);
-    font-size: var(--text-xs);
-    color: var(--color-text-faint);
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: var(--line-hair) solid var(--rule);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
   }
 
-  .post__tag {
-    padding: 0.2em 0.6em;
-    border-radius: var(--radius-full);
-    border: 1px solid var(--color-border-strong);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+  .post__body {
+    max-width: calc(52rem + 2 * var(--gutter));
+    padding-block: var(--space-8) var(--space-9);
   }
 
-  .post__title {
-    margin-top: var(--space-4);
-    font-size: var(--text-2xl);
-  }
-
-  .post__description {
-    margin-top: var(--space-4);
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-  }
-
-  .post__content {
-    margin-top: var(--space-8);
-    padding-top: var(--space-7);
-    border-top: 1px solid var(--color-border);
-    color: var(--color-text);
-    line-height: var(--leading-normal);
-  }
-
-  .post__content :global(h2) {
-    margin-top: var(--space-7);
+  /* First paragraph reads as a lede: lighter and larger. */
+  .post__content > :global(p:first-child) {
+    font-family: var(--font-serif);
+    font-style: italic;
     font-size: var(--text-xl);
-  }
-
-  .post__content :global(p) {
-    margin-top: var(--space-4);
-    color: var(--color-text-muted);
-  }
-
-  .post__content :global(p:first-child) {
-    margin-top: 0;
-  }
-
-  .post__content :global(a) {
-    color: var(--color-signal-strong);
-  }
-
-  .post__content :global(code) {
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-    background: var(--color-bg-inset);
-    padding: 0.15em 0.4em;
-    border-radius: var(--radius-sm);
+    line-height: var(--leading-snug);
   }
 
   @media (min-width: 48em) {
     .post__title {
-      font-size: var(--text-3xl);
+      font-size: var(--text-4xl);
     }
   }
 </style>

@@ -1,6 +1,8 @@
 ---
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { name } from '../config/site';
 import LanguageToggle from './LanguageToggle.astro';
+import Button from './Button.astro';
 
 interface Props {
   locale: Locale;
@@ -16,13 +18,17 @@ const navItems = [
   { href: `${home}#skills`, label: t('nav.skills') },
   { href: `${home}#lab`, label: t('nav.lab') },
   { href: localizePath(locale, '/blog'), label: t('nav.blog') },
-  { href: `${home}#contact`, label: t('nav.contact') },
 ];
 ---
 
 <header class="header">
   <div class="container header__inner">
-    <a href={home} class="header__brand mono">JL_</a>
+    <a href={home} class="header__brand">
+      <svg class="header__mark" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M9.5 1 3 9h4.5L6.5 15 13 7H8.5z" fill="currentColor"></path>
+      </svg>
+      {name}
+    </a>
 
     <nav class="header__nav" aria-label="Primary">
       <ul>
@@ -36,7 +42,10 @@ const navItems = [
       </ul>
     </nav>
 
-    <LanguageToggle locale={locale} href={altHref} />
+    <div class="header__actions">
+      <LanguageToggle locale={locale} href={altHref} />
+      <Button href={`${home}#contact`} variant="quiet" size="sm">{t('header.cta')}</Button>
+    </div>
   </div>
 </header>
 
@@ -45,60 +54,84 @@ const navItems = [
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: rgba(10, 13, 16, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--color-border);
+    background: var(--charcoal-glass);
+    backdrop-filter: blur(var(--blur-glass));
+    -webkit-backdrop-filter: blur(var(--blur-glass));
+    border-bottom: var(--line-hair) solid var(--rule);
   }
 
   .header__inner {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    padding-block: var(--space-4);
+    gap: var(--space-7);
+    min-height: var(--header-height);
   }
 
   .header__brand {
-    font-size: var(--text-lg);
-    font-weight: var(--weight-bold);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    white-space: nowrap;
     text-decoration: none;
-    color: var(--color-signal-strong);
+  }
+
+  .header__mark {
+    width: 1rem;
+    height: 1rem;
+    color: var(--blue-500);
   }
 
   .header__nav {
     flex: 1;
     min-width: 0;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .header__nav::-webkit-scrollbar {
-    display: none;
   }
 
   .header__nav ul {
     display: flex;
-    gap: var(--space-4);
-    width: max-content;
+    gap: var(--space-6);
   }
 
   .header__nav a {
-    display: inline-block;
-    padding-block: var(--space-1);
     font-size: var(--text-sm);
-    color: var(--color-text-muted);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
     text-decoration: none;
     white-space: nowrap;
     transition: color var(--duration-base) var(--ease-out);
   }
 
   .header__nav a:hover {
-    color: var(--color-text);
+    color: var(--text);
   }
 
-  @media (min-width: 56em) {
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 48em) {
+    .header__inner {
+      flex-wrap: wrap;
+      gap: var(--space-3) var(--space-4);
+      padding-block: var(--space-3);
+    }
+
+    .header__brand {
+      flex: 1;
+    }
+
+    .header__nav {
+      order: 3;
+      flex-basis: 100%;
+    }
+
     .header__nav ul {
-      gap: var(--space-6);
+      gap: var(--space-5);
     }
   }
 </style>

@@ -14,15 +14,17 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "avatar:fetch": "node scripts/fetch-github-avatar.mjs",
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "test:e2e": "playwright test",
     "test": "npm run test:unit && npm run test:e2e"
   },
   "dependencies": {
-    "astro": "7.3.8",
-    "@astrojs/sitemap": "3.7.4"
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "astro": "7.3.8"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

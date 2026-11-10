@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Section from '../../../components/Section.astro';
 import SectionHeading from '../../../components/SectionHeading.astro';
 import BlogCard from '../../../components/BlogCard.astro';
 import { useTranslations, localizePath } from '../../../i18n/utils';
@@ -15,47 +16,51 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
 ---
 
 <BaseLayout locale={locale} title={t('blog.pageTitle')} description={t('blog.subtitle')}>
-  <section class="section">
-    <div class="container">
-      <SectionHeading eyebrow={t('blog.eyebrow')} title={t('blog.title')} subtitle={t('blog.subtitle')} />
+  <Section>
+    <SectionHeading
+      as="h1"
+      kicker={t('blog.eyebrow')}
+      title={t('blog.title')}
+      accent={t('blog.titleAccent')}
+      subtitle={t('blog.subtitle')}
+    />
 
-      {
-        posts.length > 0 ? (
-          <div class="blog-grid">
-            {posts.map((post) => (
-              <BlogCard
-                locale={locale}
-                href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
-                title={post.data.title}
-                description={post.data.description}
-                date={post.data.date}
-                tags={post.data.tags}
-              />
-            ))}
-          </div>
-        ) : (
-          <p>{t('blog.empty')}</p>
-        )
-      }
-    </div>
-  </section>
+    {
+      posts.length > 0 ? (
+        <div class="journal">
+          {posts.map((post) => (
+            <BlogCard
+              locale={locale}
+              href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+            />
+          ))}
+        </div>
+      ) : (
+        <p>{t('blog.empty')}</p>
+      )
+    }
+  </Section>
 </BaseLayout>
 
 <style>
-  .blog-grid {
+  .journal {
     display: grid;
     gap: var(--space-4);
   }
 
   @media (min-width: 48em) {
-    .blog-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .journal {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
-  @media (min-width: 64em) {
-    .blog-grid {
-      grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 72em) {
+    .journal {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 </style>

@@ -14,12 +14,12 @@ const { locale, href, title, description, date, tags } = Astro.props;
 const t = useTranslations(locale);
 const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
   year: 'numeric',
-  month: 'long',
+  month: 'short',
   day: 'numeric',
 });
 ---
 
-<article class="post-card">
+<article class="post-card card">
   <a class="post-card__link" href={href}>
     <div class="post-card__meta">
       <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
@@ -27,30 +27,29 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
     </div>
     <h3 class="post-card__title">{title}</h3>
     <p class="post-card__description">{description}</p>
-    <span class="post-card__cta">{t('blog.readMore')} →</span>
+    <span class="post-card__cta">{t('blog.readMore')}</span>
   </a>
 </article>
 
 <style>
   .post-card {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    background: var(--color-bg-raised);
-    transition: border-color var(--duration-base) var(--ease-out);
+    transition:
+      border-color var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
   }
 
   .post-card:hover {
-    border-color: var(--color-border-strong);
+    border-color: var(--text-faint);
   }
 
   .post-card__link {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    padding: var(--space-5);
+    height: 100%;
+    padding: var(--space-6);
     text-decoration: none;
     color: inherit;
-    height: 100%;
   }
 
   .post-card__meta {
@@ -58,31 +57,32 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
     align-items: center;
     gap: var(--space-3);
     font-size: var(--text-xs);
-    color: var(--color-text-faint);
+    color: var(--text-muted);
   }
 
   .post-card__tag {
-    padding: 0.2em 0.6em;
+    padding: 0.2em 0.65em;
+    border: var(--line-hair) solid var(--rule);
     border-radius: var(--radius-full);
-    border: 1px solid var(--color-border-strong);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
   }
 
   .post-card__title {
-    font-size: var(--text-lg);
+    margin-top: var(--space-2);
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
   }
 
   .post-card__description {
-    color: var(--color-text-muted);
-    font-size: var(--text-sm);
-    line-height: var(--leading-normal);
     flex: 1;
+    font-size: var(--text-sm);
+    line-height: var(--leading-text);
+    color: var(--text-muted);
   }
 
   .post-card__cta {
+    margin-top: var(--space-3);
     font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    color: var(--color-signal-strong);
+    font-weight: var(--weight-semibold);
+    color: var(--link);
   }
 </style>

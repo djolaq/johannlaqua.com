@@ -15,8 +15,9 @@ export const ui = {
     'nav.skipToContent': 'Aller au contenu',
 
     'hero.eyebrow': 'Développeur senior · Red & Blue team',
-    'hero.avatarAlt': 'Portrait de Johann Laqua',
-    'hero.title': "Je construis des logiciels solides, et je les sécurise.",
+    'hero.kicker': 'Développeur senior, IA et cybersécurité',
+    'hero.title': 'Je construis des logiciels solides,',
+    'hero.titleAccent': 'et je les sécurise.',
     'hero.subtitle':
       'Développeur senior, dopé à l’IA pour aller plus vite sans sacrifier la rigueur — avec un œil de red teamer sur tout ce qui est mis en production.',
     'hero.cta.primary': 'Voir mes compétences',
@@ -28,9 +29,26 @@ export const ui = {
     'hero.stat.disciplineLabel': 'Dev & Sécurité',
     'hero.stat.mode': 'mode de travail',
     'hero.stat.modeValue': 'IA-first',
+    'hero.stat.teamValue': 'Red & Blue',
+    'hero.stat.team': 'team, attaque et défense',
+
+    'announce.badge': 'Nouveau',
+    'announce.prefix': 'Dans le journal :',
+    'header.cta': 'Me contacter',
+
+    'chart.kicker': 'Ma méthode',
+    'chart.title': 'Vite, et sans dette',
+    'chart.speed': 'Vitesse de livraison',
+    'chart.debt': 'Dette technique',
+    'chart.step1': 'Cadrage',
+    'chart.step2': 'Build',
+    'chart.step3': 'Revue sécu',
+    'chart.step4': 'Prod',
+    'chart.alt': 'Schéma : la vitesse de livraison monte à chaque étape tandis que la dette technique reste basse.',
 
     'about.eyebrow': 'À propos',
-    'about.title': 'Un développeur qui pense comme un attaquant',
+    'about.title': 'Un développeur qui pense',
+    'about.titleAccent': 'comme un attaquant.',
     'about.body1':
       "Je conçois et je construis des applications de bout en bout, en m'appuyant fortement sur des outils IA pour accélérer la production tout en gardant un haut niveau d'exigence sur l'architecture et la qualité du code.",
     'about.body2':
@@ -39,7 +57,8 @@ export const ui = {
       'Résultat : du code qui va vite à produire, et qui reste difficile à casser.',
 
     'skills.eyebrow': 'Compétences',
-    'skills.title': 'Ce que je sais faire',
+    'skills.title': 'Ce que je sais',
+    'skills.titleAccent': 'faire.',
     'skills.subtitle':
       'Trois disciplines que je pratique au quotidien, et qui se renforcent l’une l’autre.',
     'skills.dev.tag': 'Build',
@@ -69,7 +88,8 @@ export const ui = {
     'skills.blue.item4': 'Security by design',
 
     'lab.eyebrow': 'Lab',
-    'lab.title': 'Le code parle pour moi',
+    'lab.title': 'Le code parle',
+    'lab.titleAccent': 'pour moi.',
     'lab.subtitle':
       'Une sélection de projets open source où ces compétences sont mises en pratique. Tout est lisible sur GitHub.',
     'lab.agentSkills.body':
@@ -81,7 +101,8 @@ export const ui = {
     'lab.viewCode': 'Voir le code',
 
     'blog.eyebrow': 'Journal',
-    'blog.title': 'Notes récentes',
+    'blog.title': 'Notes',
+    'blog.titleAccent': 'récentes.',
     'blog.subtitle':
       'Retours d’expérience sur le développement assisté par IA et la cybersécurité offensive/défensive.',
     'blog.viewAll': 'Tous les articles',
@@ -123,8 +144,9 @@ export const ui = {
     'nav.skipToContent': 'Skip to content',
 
     'hero.eyebrow': 'Senior developer · Red & Blue team',
-    'hero.avatarAlt': 'Portrait of Johann Laqua',
-    'hero.title': 'I build software that holds up, and I make it hard to break.',
+    'hero.kicker': 'Senior developer, AI and cybersecurity',
+    'hero.title': 'I build software that holds up,',
+    'hero.titleAccent': 'and make it hard to break.',
     'hero.subtitle':
       'Senior developer, AI-boosted to move faster without cutting corners — with a red teamer’s eye on everything that ships.',
     'hero.cta.primary': 'See my skills',
@@ -136,9 +158,26 @@ export const ui = {
     'hero.stat.disciplineLabel': 'Dev & Security',
     'hero.stat.mode': 'working mode',
     'hero.stat.modeValue': 'AI-first',
+    'hero.stat.teamValue': 'Red & Blue',
+    'hero.stat.team': 'team, offense and defense',
+
+    'announce.badge': 'New',
+    'announce.prefix': 'On the blog:',
+    'header.cta': 'Get in touch',
+
+    'chart.kicker': 'How I work',
+    'chart.title': 'Fast, without the debt',
+    'chart.speed': 'Delivery speed',
+    'chart.debt': 'Technical debt',
+    'chart.step1': 'Scoping',
+    'chart.step2': 'Build',
+    'chart.step3': 'Security review',
+    'chart.step4': 'Prod',
+    'chart.alt': 'Diagram: delivery speed rises at every step while technical debt stays low.',
 
     'about.eyebrow': 'About',
-    'about.title': 'A developer who thinks like an attacker',
+    'about.title': 'A developer who thinks',
+    'about.titleAccent': 'like an attacker.',
     'about.body1':
       'I design and build applications end to end, relying heavily on AI tooling to move fast while holding a high bar for architecture and code quality.',
     'about.body2':
@@ -147,7 +186,8 @@ export const ui = {
       'The result: code that ships fast, and stays hard to crack.',
 
     'skills.eyebrow': 'Skills',
-    'skills.title': 'What I do',
+    'skills.title': 'What I',
+    'skills.titleAccent': 'do.',
     'skills.subtitle':
       'Three disciplines I practice every day, each one sharpening the others.',
     'skills.dev.tag': 'Build',
@@ -177,7 +217,8 @@ export const ui = {
     'skills.blue.item4': 'Security by design',
 
     'lab.eyebrow': 'Lab',
-    'lab.title': 'Let the code speak',
+    'lab.title': 'Let the code',
+    'lab.titleAccent': 'speak.',
     'lab.subtitle':
       'A selection of open-source projects where these skills are put into practice. Everything is readable on GitHub.',
     'lab.agentSkills.body':
@@ -189,7 +230,8 @@ export const ui = {
     'lab.viewCode': 'View the code',
 
     'blog.eyebrow': 'Blog',
-    'blog.title': 'Recent notes',
+    'blog.title': 'Recent',
+    'blog.titleAccent': 'notes.',
     'blog.subtitle':
       'Field notes on AI-assisted development and offensive/defensive cybersecurity.',
     'blog.viewAll': 'All posts',
