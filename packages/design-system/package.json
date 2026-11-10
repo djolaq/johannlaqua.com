@@ -1,0 +1,29 @@
+{
+  "name": "@johannlaqua/design-system",
+  "version": "2.2.0",
+  "private": true,
+  "description": "Design system of johannlaqua.com: tokens, base styles, fonts, visuals and a specimen page.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.css",
+    "./index.css": "./src/index.css",
+    "./tokens.css": "./src/tokens.css",
+    "./global.css": "./src/global.css",
+    "./fonts.css": "./src/fonts.css",
+    "./tokens.json": "./tokens/tokens.json",
+    "./network-field": {
+      "types": "./src/network-field.d.ts",
+      "default": "./src/network-field.js"
+    },
+    "./assets/*": "./assets/*"
+  },
+  "scripts": {
+    "build": "node scripts/build-tokens.mjs && node scripts/export-network-field.mjs",
+    "check": "node scripts/build-tokens.mjs --check && node scripts/export-network-field.mjs --check"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0"
+  }
+}

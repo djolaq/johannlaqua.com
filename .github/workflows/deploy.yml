@@ -1,0 +1,116 @@
+name: Deploy
+
+# Test → build → deploy, on every push to main (or manually).
+# The build is host-agnostic: it always produces the `site-dist` artifact.
+# Which host receives it is decided by the repository variable DEPLOY_TARGET
+# (Settings → Secrets and variables → Actions → Variables):
+#   (unset)        build only — nothing is published
+#   rsync          upload over SSH with deploy/rsync.sh (classic web hosting)
+#   github-pages   publish with GitHub Pages
+# See deploy/README.md for the secrets each target needs.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false # never interrupt a deployment half-way
+
+jobs:
+  test:
+    name: Test
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Build
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build the site
+        run: npm run build
+
+      - name: Upload the built site
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-dist
+          path: apps/site/dist/
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Note when no host is configured
+        if: vars.DEPLOY_TARGET == ''
+        run: echo "Built, not deployed — set the repository variable DEPLOY_TARGET (see deploy/README.md)." >> "$GITHUB_STEP_SUMMARY"
+
+  deploy-rsync:
+    name: Deploy (rsync over SSH)
+    if: vars.DEPLOY_TARGET == 'rsync'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://johannlaqua.com
+    steps:
+      - name: Checkout (deploy script only)
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy
+
+      - name: Download the built site
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Upload to the host
+        run: ./deploy/rsync.sh dist
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_SSH_KNOWN_HOSTS: ${{ secrets.DEPLOY_SSH_KNOWN_HOSTS }}
+          DEPLOY_SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
+          DEPLOY_SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
+          DEPLOY_SSH_PORT: ${{ vars.DEPLOY_SSH_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+
+  deploy-github-pages:
+    name: Deploy (GitHub Pages)
+    if: vars.DEPLOY_TARGET == 'github-pages'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download the built site
+        uses: actions/download-artifact@v4
+        with:
+          name: site-dist
+          path: dist
+
+      - name: Package for Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Publish
+        id: deployment
+        uses: actions/deploy-pages@v4

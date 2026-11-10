@@ -1,8 +1,27 @@
 # Design system — johannlaqua.com
 
-> Living reference. Source of truth for values: `src/styles/tokens.css`.
+> Living reference. Source of truth for values: `src/tokens.css` (this package).
 > Any change to a token is mirrored here (and in the claude.ai Project doc
 > `claude/design-system.md`). Last update: 2026-11-11 (v2.2).
+
+## This package
+
+`@johannlaqua/design-system` — imported by the site (`apps/site`), depends on nothing else in the repo.
+
+| Path | Content |
+|---|---|
+| `src/tokens.css` | Every visual value (custom properties). **Edit here.** |
+| `src/global.css` | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link` |
+| `src/fonts.css` | Self-hosted fonts through `@fontsource` |
+| `src/index.css` | Fonts + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
+| `src/network-field.js` | Geometry of the hero visual, shared by the site and the SVG export |
+| `tokens/tokens.json` | Generated: the tokens as JSON (Figma / Tokens Studio…) |
+| `assets/` | `network-field.svg` (generated), `mark.svg`, `favicon.svg` |
+| `specimen/index.html` | Visual reference page — open it from disk after `npm install` at the repo root |
+| `references/` | The inspiration image and what was kept from it |
+
+After changing tokens or the hero geometry, run `npm run design:build` from
+the repo root. `npm run check` (and CI) fails if the generated files are stale.
 
 ## Idea in one line
 
@@ -95,12 +114,17 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 
 ## Rules for evolving the system
 
-- New value → `tokens.css` first, then this doc. No raw hex/rgba in components (exception: `<meta name="theme-color">`).
+- New value → `src/tokens.css` first, then this doc, then `npm run design:build`. No raw hex/rgba in components (exception: `<meta name="theme-color">`).
 - Blue stays for actions, links, the curve and the single featured card.
 - The italic serif accent is used once per heading, at its end — never mid-sentence.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.2 — 2026-11-11**: no visual change. The design system becomes its own
+  workspace package (`packages/design-system`) consumed by the site; hero
+  geometry shared through `src/network-field.js`; specimen page, JSON token
+  export and reference image added.
 
 - **v2.2 — 2026-11-11**: merged the skills/lab showcase (PR #22) into the v2
   system: Skills cards (mono tag + item list) and Lab cards (repo name +
