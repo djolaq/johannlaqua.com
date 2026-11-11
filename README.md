@@ -11,9 +11,21 @@ Personal website of Johann Laqua — senior developer, AI-assisted development a
 - **Native CSS** with design tokens (custom properties) — no CSS framework, to keep the bundle minimal
 - **Native Astro i18n** — FR at the root (`/`), EN under `/en/`
 
+## Repository layout
+
+```
+apps/site/                the Astro website (the only deployable)
+packages/design-system/   tokens, base styles, fonts, visuals, specimen page
+deploy/                   deployment scripts and guide
+docs/                     architecture and decision records
+.github/workflows/        ci.yml (tests) · deploy.yml (test → build → deploy)
+```
+
+npm workspaces, one lockfile. Why it is split this way: [`docs/architecture.md`](docs/architecture.md).
+
 ## Local development
 
-Prerequisites: Node.js 22.12+ (required by Astro 7).
+Prerequisites: Node.js 22.12+ (required by Astro 7). Run everything from the repo root.
 
 ```bash
 npm install
@@ -25,15 +37,16 @@ The site is served at http://localhost:4321. Pages reload automatically.
 ## Other commands
 
 ```bash
-npm run check    # TypeScript / Astro type checking
-npm run build    # production static build into dist/
-npm run preview  # serves the production build locally for final checks
+npm run check         # type checking + design-system generated files
+npm run build         # production static build into apps/site/dist/
+npm run preview       # serves the production build locally for final checks
+npm run design:build  # regenerates tokens.json and the exported hero SVG
 ```
 
 ## Tests
 
-- **Unit** ([Vitest](https://vitest.dev)) — pure i18n logic (`src/i18n/utils.ts`) in `tests/unit/`.
-- **Integration / e2e** ([Playwright](https://playwright.dev)) — real served pages (build + `astro preview`) in `tests/e2e/` : navigation, home page content, FR/EN language switching (including on a blog post, whose slug differs per language).
+- **Unit** ([Vitest](https://vitest.dev)) — pure i18n logic in `apps/site/tests/unit/`.
+- **Integration / e2e** ([Playwright](https://playwright.dev)) — real served pages (build + `astro preview`) in `apps/site/tests/e2e/`: navigation, home page content, FR/EN language switching, legal pages.
 
 ```bash
 npm run test:unit   # unit tests
@@ -41,41 +54,27 @@ npm run test:e2e    # build + e2e tests (install browsers first: npx playwright 
 npm test            # both
 ```
 
-These tests run automatically on every push/PR via GitHub Actions (`.github/workflows/ci.yml`).
-
-## Project structure
-
-```
-src/
-  components/        reusable UI components (Hero, Skills, Lab, BlogCard, ...)
-  layouts/            BaseLayout (head, header, footer) and BlogPostLayout
-  i18n/                FR/EN translation dictionary and routing helpers
-  content/blog/fr|en/  journal posts, one Markdown file per post and language
-  content.config.ts   "blog" collection schema
-  pages/               fr at the root, en under /en/
-  styles/              tokens.css (design system) + global.css (reset and base styles)
-public/                favicon, robots.txt
-tests/
-  unit/                Vitest tests (pure logic)
-  e2e/                 Playwright tests (real pages)
-```
+These tests run on every PR and branch push via GitHub Actions (`.github/workflows/ci.yml`), and again on `main` before any deployment.
 
 ## Design system
 
 Charcoal `#1E1E1C`, Sand `#D8CBB3` and Electric blue `#2F6BFF`, set in
 Geist, Instrument Serif and JetBrains Mono (self-hosted).
-The values live in `src/styles/tokens.css` (source of truth); the full
-reference — palette, tones, type scale, layout, rules, changelog — is
-[`docs/design-system.md`](docs/design-system.md). Keep both in sync.
+It lives in [`packages/design-system`](packages/design-system/README.md): the
+values in `src/tokens.css`, the reference in its README, and a specimen page
+(`specimen/index.html`, opens from disk after `npm install`).
 
 ## Content to customize
 
-- `src/i18n/ui.ts` — all site copy (bio, skills, lab, etc.)
-- `src/data/projects.ts` — public projects shown in the Lab section
-- `src/content/blog/` — journal posts
-- `src/config/site.ts` — contact email and GitHub/LinkedIn profiles (used by the footer and the contact section)
+- `apps/site/src/i18n/ui.ts` — all site copy (bio, skills, lab, etc.)
+- `apps/site/src/data/projects.ts` — public projects shown in the Lab section
+- `apps/site/src/content/blog/` — journal posts
+- `apps/site/src/config/site.ts` — contact email and GitHub/LinkedIn profiles
 
 ## Deployment
 
-The site builds into pure static files (`npm run build` → `dist/`), deployable on
-any static host (Netlify, Vercel, Cloudflare Pages, GitHub Pages, etc.).
+The site builds into pure static files, deployable on any static host.
+`.github/workflows/deploy.yml` tests, builds and publishes on every push to
+`main`; the host is selected with the `DEPLOY_TARGET` repository variable and
+is **not chosen yet** (until then the workflow only builds). See
+[`deploy/README.md`](deploy/README.md).
