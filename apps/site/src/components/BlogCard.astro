@@ -8,9 +8,11 @@ interface Props {
   description: string;
   date: Date;
   tags: string[];
+  /** Heading level, so the card fits the outline of the page it sits on (h2 on the blog index, h3 under a section heading). */
+  headingLevel?: 'h2' | 'h3';
 }
 
-const { locale, href, title, description, date, tags } = Astro.props;
+const { locale, href, title, description, date, tags, headingLevel: Heading = 'h3' } = Astro.props;
 const t = useTranslations(locale);
 const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
   year: 'numeric',
@@ -25,7 +27,7 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
       <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
       {tags.length > 0 && <span class="post-card__tag">{tags[0]}</span>}
     </div>
-    <h3 class="post-card__title">{title}</h3>
+    <Heading class="post-card__title">{title}</Heading>
     <p class="post-card__description">{description}</p>
     <span class="post-card__cta">{t('blog.readMore')}</span>
   </a>

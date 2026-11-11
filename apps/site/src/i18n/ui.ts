@@ -13,6 +13,11 @@ export const ui = {
     'nav.blog': 'Journal',
     'nav.contact': 'Contact',
     'nav.skipToContent': 'Aller au contenu',
+    'aria.primaryNav': 'Navigation principale',
+    'aria.footerNav': 'Navigation de pied de page',
+    'aria.announce': 'Annonce',
+    'aria.switchToFrench': 'Afficher la version française',
+    'aria.switchToEnglish': 'Afficher la version anglaise',
 
     'hero.eyebrow': 'Développeur senior · Red & Blue team',
     'hero.kicker': 'Développeur senior, IA et cybersécurité',
@@ -142,6 +147,11 @@ export const ui = {
     'nav.blog': 'Blog',
     'nav.contact': 'Contact',
     'nav.skipToContent': 'Skip to content',
+    'aria.primaryNav': 'Primary',
+    'aria.footerNav': 'Footer',
+    'aria.announce': 'Announcement',
+    'aria.switchToFrench': 'View the French version',
+    'aria.switchToEnglish': 'View the English version',
 
     'hero.eyebrow': 'Senior developer · Red & Blue team',
     'hero.kicker': 'Senior developer, AI and cybersecurity',

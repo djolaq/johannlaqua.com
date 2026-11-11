@@ -32,7 +32,14 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
 });
 ---
 
-<BaseLayout locale={locale} title={title} description={description} altHref={altHref}>
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={description}
+  altHref={altHref}
+  ogType="article"
+  publishedTime={date.toISOString()}
+>
   <article class="post">
     <header class="post__header">
       <div class="container post__header-inner">

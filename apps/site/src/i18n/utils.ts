@@ -17,9 +17,23 @@ export function useTranslations(locale: Locale) {
   };
 }
 
+/**
+ * Astro emits directory-style URLs (`/blog/post/index.html` → `/blog/post/`), and
+ * `Astro.url.pathname` therefore carries the trailing slash. Internal links and
+ * `hreflang` alternates must use that exact shape, otherwise they disagree with
+ * the canonical URL and point at a redirect.
+ */
+export function withTrailingSlash(path: string): string {
+  const [, base = path, suffix = ''] = path.match(/^([^?#]*)([?#].*)?$/) ?? [];
+  if (base.endsWith('/')) return `${base}${suffix}`;
+  // A file-like last segment (`rss.xml`, `favicon.svg`) is not a directory.
+  const lastSegment = base.slice(base.lastIndexOf('/') + 1);
+  return lastSegment.includes('.') ? `${base}${suffix}` : `${base}/${suffix}`;
+}
+
 /** Prefix a path with the locale, except for the default locale (which lives at the root). */
 export function localizePath(locale: Locale, path: string): string {
-  const clean = path.startsWith('/') ? path : `/${path}`;
+  const clean = withTrailingSlash(path.startsWith('/') ? path : `/${path}`);
   if (locale === defaultLocale) return clean;
   return `/${locale}${clean}`;
 }
