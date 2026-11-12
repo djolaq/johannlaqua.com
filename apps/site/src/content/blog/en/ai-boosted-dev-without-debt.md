@@ -1,9 +1,9 @@
 ---
-title: "Building with AI without piling up technical debt"
-description: "How I fit AI assistants into my daily workflow without trading away code quality."
+title: 'Building with AI without piling up technical debt'
+description: 'How I fit AI assistants into my daily workflow without trading away code quality.'
 date: 2026-06-12
-tags: ["ai", "development"]
-translationId: "ai-boosted-dev"
+tags: ['ai', 'development']
+translationId: 'ai-boosted-dev'
 ---
 
 AI assistants change how fast you can write code, but not automatically how good it is. Here are the three rules I apply to keep both.
@@ -18,4 +18,4 @@ An assistant can hallucinate behavior. Automated tests remain the only reliable 
 
 ## 3. Document decisions, not code
 
-Generated code already explains *what*. What's often missing is the *why* — the part that stays useful for the next person (human or AI) who touches that file.
+Generated code already explains _what_. What's often missing is the _why_ — the part that stays useful for the next person (human or AI) who touches that file.

@@ -24,9 +24,6 @@ export const ui = {
     'hero.cta.secondary': 'Voir le journal',
     'hero.stat.experience': "ans d'expérience",
     'hero.stat.experienceValue': '10+',
-    'hero.stat.discipline': 'disciplines',
-    'hero.stat.disciplineValue': '2',
-    'hero.stat.disciplineLabel': 'Dev & Sécurité',
     'hero.stat.mode': 'mode de travail',
     'hero.stat.modeValue': 'IA-first',
     'hero.stat.teamValue': 'Red & Blue',
@@ -53,14 +50,12 @@ export const ui = {
       "Je conçois et je construis des applications de bout en bout, en m'appuyant fortement sur des outils IA pour accélérer la production tout en gardant un haut niveau d'exigence sur l'architecture et la qualité du code.",
     'about.body2':
       "Ce qui distingue mon approche : une pratique active de la cybersécurité, côté attaque (red team) comme côté défense (blue team). Je sais où un système va lâcher parce que je m'entraîne à le faire lâcher.",
-    'about.body3':
-      'Résultat : du code qui va vite à produire, et qui reste difficile à casser.',
+    'about.body3': 'Résultat : du code qui va vite à produire, et qui reste difficile à casser.',
 
     'skills.eyebrow': 'Compétences',
     'skills.title': 'Ce que je sais',
     'skills.titleAccent': 'faire.',
-    'skills.subtitle':
-      'Trois disciplines que je pratique au quotidien, et qui se renforcent l’une l’autre.',
+    'skills.subtitle': 'Trois disciplines que je pratique au quotidien, et qui se renforcent l’une l’autre.',
     'skills.dev.tag': 'Build',
     'skills.dev.title': 'Développement IA-boosted',
     'skills.dev.body':
@@ -153,9 +148,6 @@ export const ui = {
     'hero.cta.secondary': 'Read the blog',
     'hero.stat.experience': 'years of experience',
     'hero.stat.experienceValue': '10+',
-    'hero.stat.discipline': 'disciplines',
-    'hero.stat.disciplineValue': '2',
-    'hero.stat.disciplineLabel': 'Dev & Security',
     'hero.stat.mode': 'working mode',
     'hero.stat.modeValue': 'AI-first',
     'hero.stat.teamValue': 'Red & Blue',
@@ -182,14 +174,12 @@ export const ui = {
       'I design and build applications end to end, relying heavily on AI tooling to move fast while holding a high bar for architecture and code quality.',
     'about.body2':
       'What sets my approach apart: an active cybersecurity practice, on the offense (red team) as well as the defense (blue team). I know where a system will break because I train to break it.',
-    'about.body3':
-      'The result: code that ships fast, and stays hard to crack.',
+    'about.body3': 'The result: code that ships fast, and stays hard to crack.',
 
     'skills.eyebrow': 'Skills',
     'skills.title': 'What I',
     'skills.titleAccent': 'do.',
-    'skills.subtitle':
-      'Three disciplines I practice every day, each one sharpening the others.',
+    'skills.subtitle': 'Three disciplines I practice every day, each one sharpening the others.',
     'skills.dev.tag': 'Build',
     'skills.dev.title': 'AI-boosted development',
     'skills.dev.body':
@@ -232,8 +222,7 @@ export const ui = {
     'blog.eyebrow': 'Blog',
     'blog.title': 'Recent',
     'blog.titleAccent': 'notes.',
-    'blog.subtitle':
-      'Field notes on AI-assisted development and offensive/defensive cybersecurity.',
+    'blog.subtitle': 'Field notes on AI-assisted development and offensive/defensive cybersecurity.',
     'blog.viewAll': 'All posts',
     'blog.readMore': 'Read the post',
     'blog.back': 'Back to the blog',

@@ -88,14 +88,23 @@
               <div class="swatch__meta"><strong>--blue-700</strong>Links on sand (4.8:1)</div>
             </div>
             <div class="swatch">
-              <div class="swatch__chip" style="background: var(--charcoal-900); color: var(--sand-300); box-shadow: inset 0 0 0 1px var(--sand-hairline)">14%</div>
+              <div
+                class="swatch__chip"
+                style="
+                  background: var(--charcoal-900);
+                  color: var(--sand-300);
+                  box-shadow: inset 0 0 0 1px var(--sand-hairline);
+                "
+              >
+                14%
+              </div>
               <div class="swatch__meta"><strong>--sand-hairline</strong>Borders and hairlines</div>
             </div>
           </div>
           <p class="ds-note" style="margin-top: var(--space-5)">
-            Components never use these values directly: they go through the semantic tokens
-            (<code>--surface</code>, <code>--text</code>, <code>--text-muted</code>, <code>--rule</code>, <code>--link</code>…),
-            redefined by <code>.tone-charcoal</code> (default) and <code>.tone-sand</code>.
+            Components never use these values directly: they go through the semantic tokens (<code>--surface</code>,
+            <code>--text</code>, <code>--text-muted</code>, <code>--rule</code>, <code>--link</code>…), redefined by
+            <code>.tone-charcoal</code> (default) and <code>.tone-sand</code>.
           </p>
         </div>
       </section>
@@ -122,17 +131,49 @@
 
           <h3>Scale (Bringhurst)</h3>
           <div class="scale">
-            <div class="scale__row"><code>--text-hero</code><span style="font-size: var(--text-hero); font-weight: 500; letter-spacing: var(--tracking-display)">I build <span class="accent">and I secure.</span></span></div>
-            <div class="scale__row"><code>--text-5xl 72</code><span style="font-size: var(--text-5xl); font-weight: 500; letter-spacing: var(--tracking-display)">A project</span></div>
-            <div class="scale__row"><code>--text-4xl 60</code><span style="font-size: var(--text-4xl); font-weight: 500; letter-spacing: var(--tracking-display)">Section titles</span></div>
-            <div class="scale__row"><code>--text-3xl 48</code><span style="font-size: var(--text-3xl); font-weight: 500">Page titles</span></div>
-            <div class="scale__row"><code>--text-2xl 36</code><span style="font-size: var(--text-2xl); font-weight: 300">10+ · Red &amp; Blue · AI-first</span></div>
-            <div class="scale__row"><code>--text-xl 24</code><span style="font-size: var(--text-xl)">Card titles, ledes</span></div>
-            <div class="scale__row"><code>--text-lg 21</code><span style="font-size: var(--text-lg)">Subtitles</span></div>
-            <div class="scale__row"><code>--text-md 18</code><span style="font-size: var(--text-md)">Article text</span></div>
-            <div class="scale__row"><code>--text-base 16</code><span style="font-size: var(--text-base)">Body text, buttons</span></div>
-            <div class="scale__row"><code>--text-sm 14</code><span style="font-size: var(--text-sm)">Navigation, metadata</span></div>
-            <div class="scale__row"><code>--text-xs 12</code><span class="kicker" style="font-size: var(--text-xs)">Tracked-caps label</span></div>
+            <div class="scale__row">
+              <code>--text-hero</code
+              ><span style="font-size: var(--text-hero); font-weight: 500; letter-spacing: var(--tracking-display)"
+                >I build <span class="accent">and I secure.</span></span
+              >
+            </div>
+            <div class="scale__row">
+              <code>--text-5xl 72</code
+              ><span style="font-size: var(--text-5xl); font-weight: 500; letter-spacing: var(--tracking-display)"
+                >A project</span
+              >
+            </div>
+            <div class="scale__row">
+              <code>--text-4xl 60</code
+              ><span style="font-size: var(--text-4xl); font-weight: 500; letter-spacing: var(--tracking-display)"
+                >Section titles</span
+              >
+            </div>
+            <div class="scale__row">
+              <code>--text-3xl 48</code><span style="font-size: var(--text-3xl); font-weight: 500">Page titles</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-2xl 36</code
+              ><span style="font-size: var(--text-2xl); font-weight: 300">10+ · Red &amp; Blue · AI-first</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-xl 24</code><span style="font-size: var(--text-xl)">Card titles, ledes</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-lg 21</code><span style="font-size: var(--text-lg)">Subtitles</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-md 18</code><span style="font-size: var(--text-md)">Article text</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-base 16</code><span style="font-size: var(--text-base)">Body text, buttons</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-sm 14</code><span style="font-size: var(--text-sm)">Navigation, metadata</span>
+            </div>
+            <div class="scale__row">
+              <code>--text-xs 12</code><span class="kicker" style="font-size: var(--text-xs)">Tracked-caps label</span>
+            </div>
           </div>
 
           <h3>Weights</h3>
@@ -141,7 +182,9 @@
             <span style="font-weight: 400">Aa<small>400 text</small></span>
             <span style="font-weight: 500">Aa<small>500 headings</small></span>
             <span style="font-weight: 600">Aa<small>600 buttons</small></span>
-            <span class="accent">Aa<small style="font-family: var(--font-sans); font-style: normal">italic serif</small></span>
+            <span class="accent"
+              >Aa<small style="font-family: var(--font-sans); font-style: normal">italic serif</small></span
+            >
           </div>
         </div>
       </section>
@@ -179,7 +222,10 @@
           <h2>The building blocks <span class="accent">of the site.</span></h2>
 
           <h3>Announcement bar</h3>
-          <div class="announce"><span class="pill">New</span>On the blog: Thinking like an attacker when writing code <span aria-hidden="true">→</span></div>
+          <div class="announce">
+            <span class="pill">New</span>On the blog: Thinking like an attacker when writing code
+            <span aria-hidden="true">→</span>
+          </div>
 
           <h3>Buttons and pills</h3>
           <div class="demo-row">
@@ -191,24 +237,41 @@
 
           <h3>Kicker and title</h3>
           <p class="kicker">About</p>
-          <p style="margin-top: var(--space-4); font-size: var(--text-4xl); font-weight: 500; line-height: 1; letter-spacing: var(--tracking-display)">
+          <p
+            style="
+              margin-top: var(--space-4);
+              font-size: var(--text-4xl);
+              font-weight: 500;
+              line-height: 1;
+              letter-spacing: var(--tracking-display);
+            "
+          >
             A developer who thinks <span class="accent">like an attacker.</span>
           </p>
 
           <h3>Cards</h3>
           <div class="demo-grid demo-grid--3">
             <article class="card demo-card">
-              <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M8 7 3 12l5 5M16 7l5 5-5 5M14 4l-4 16"></path></svg></span>
+              <span class="icon-tile"
+                ><svg viewBox="0 0 24 24"><path d="M8 7 3 12l5 5M16 7l5 5-5 5M14 4l-4 16"></path></svg
+              ></span>
               <h4>AI-boosted development</h4>
               <p>Standard card: translucent background, 14% hairline, 12px radius.</p>
             </article>
             <article class="card demo-card">
-              <span class="icon-tile"><svg viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6L12 3Zm-3 9 2 2 4-4"></path></svg></span>
+              <span class="icon-tile"
+                ><svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 3 4.5 6v5.5c0 4.6 3.1 8.2 7.5 9.5 4.4-1.3 7.5-4.9 7.5-9.5V6L12 3Zm-3 9 2 2 4-4"
+                  ></path></svg
+              ></span>
               <h4>Offensive and defensive security</h4>
               <p>Light-blue icon on a veiled tile, 24px title, 14px secondary text.</p>
             </article>
             <article class="card demo-card">
-              <p class="mono" style="margin: 0; font-size: var(--text-xs)">Apr 3, 2026 <span class="pill pill--quiet" style="font-family: var(--font-sans)">security</span></p>
+              <p class="mono" style="margin: 0; font-size: var(--text-xs)">
+                Apr 3, 2026 <span class="pill pill--quiet" style="font-family: var(--font-sans)">security</span>
+              </p>
               <h4 style="margin-top: var(--space-4)">Thinking like an attacker when writing code</h4>
               <p>Post card: mono date, tag, blue link.</p>
               <p style="color: var(--link); font-weight: 600">Read the post</p>
@@ -218,14 +281,28 @@
           <h3>Key figures and the “method” card</h3>
           <div class="demo-grid demo-grid--2">
             <dl class="stats">
-              <div><dt>years of experience</dt><dd>10+</dd></div>
-              <div><dt>team, offense and defense</dt><dd>Red &amp; Blue</dd></div>
-              <div><dt>working mode</dt><dd>AI-first</dd></div>
+              <div>
+                <dt>years of experience</dt>
+                <dd>10+</dd>
+              </div>
+              <div>
+                <dt>team, offense and defense</dt>
+                <dd>Red &amp; Blue</dd>
+              </div>
+              <div>
+                <dt>working mode</dt>
+                <dd>AI-first</dd>
+              </div>
             </dl>
             <figure class="card chart" style="margin: 0">
               <small>How I work</small>
               <strong>Fast, without the debt</strong>
-              <svg viewBox="0 0 320 120" preserveAspectRatio="none" role="img" aria-label="Illustrative diagram: speed rises, debt stays low">
+              <svg
+                viewBox="0 0 320 120"
+                preserveAspectRatio="none"
+                role="img"
+                aria-label="Illustrative diagram: speed rises, debt stays low"
+              >
                 <defs>
                   <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="0" stop-color="#2f6bff" stop-opacity="0.45" />
@@ -237,14 +314,34 @@
                   <line x1="0" y1="60" x2="320" y2="60" />
                   <line x1="0" y1="90" x2="320" y2="90" />
                 </g>
-                <path d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12 L 320 120 L 0 120 Z" fill="url(#fill)" />
-                <path d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12" fill="none" stroke="#2f6bff" stroke-width="2.5" vector-effect="non-scaling-stroke" />
-                <path d="M0 100 C 80 99, 160 101, 240 98 S 300 99, 320 98" fill="none" stroke="#a39a88" stroke-width="1.5" stroke-dasharray="4 4" vector-effect="non-scaling-stroke" />
+                <path
+                  d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12 L 320 120 L 0 120 Z"
+                  fill="url(#fill)"
+                />
+                <path
+                  d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12"
+                  fill="none"
+                  stroke="#2f6bff"
+                  stroke-width="2.5"
+                  vector-effect="non-scaling-stroke"
+                />
+                <path
+                  d="M0 100 C 80 99, 160 101, 240 98 S 300 99, 320 98"
+                  fill="none"
+                  stroke="#a39a88"
+                  stroke-width="1.5"
+                  stroke-dasharray="4 4"
+                  vector-effect="non-scaling-stroke"
+                />
               </svg>
-              <div class="chart__axis"><span>Scoping</span><span>Build</span><span>Security review</span><span>Prod</span></div>
+              <div class="chart__axis">
+                <span>Scoping</span><span>Build</span><span>Security review</span><span>Prod</span>
+              </div>
             </figure>
           </div>
-          <p class="ds-note" style="margin-top: var(--space-4)">The curve is a diagram, not data: it never carries an invented figure.</p>
+          <p class="ds-note" style="margin-top: var(--space-4)">
+            The curve is a diagram, not data: it never carries an invented figure.
+          </p>
         </div>
       </section>
 
@@ -253,17 +350,32 @@
           <p class="kicker">Signature visual</p>
           <h2>A network map, <span class="accent">an attack path.</span></h2>
           <div class="demo-grid demo-grid--2">
-            <div class="visual"><img src="../assets/network-field.svg" alt="Network map in sand hairlines crossed by a blue attack path" /></div>
+            <div class="visual">
+              <img
+                src="../assets/network-field.svg"
+                alt="Network map in sand hairlines crossed by a blue attack path"
+              />
+            </div>
             <div class="rules">
               <div class="card" style="padding: var(--space-5)">
                 <strong>What it says</strong>
-                <p class="ds-note">Nodes and links (a system), a dashed entry point, a blue path hopping from node to node up to the target. It is how an attacker maps a system.</p>
+                <p class="ds-note">
+                  Nodes and links (a system), a dashed entry point, a blue path hopping from node to node up to the
+                  target. It is how an attacker maps a system.
+                </p>
               </div>
               <div class="card" style="padding: var(--space-5)">
                 <strong>How it is made</strong>
-                <p class="ds-note">Generated as SVG from a fixed seed: identical on every build, no image to load. The geometry lives in <code>src/network-field.js</code>, used by the site (<code>NetworkField.astro</code>) and by the <code>assets/network-field.svg</code> export.</p>
+                <p class="ds-note">
+                  Generated as SVG from a fixed seed: identical on every build, no image to load. The geometry lives in
+                  <code>src/network-field.js</code>, used by the site (<code>NetworkField.astro</code>) and by the
+                  <code>assets/network-field.svg</code> export.
+                </p>
               </div>
-              <div class="card" style="padding: var(--space-5); display: flex; gap: var(--space-5); align-items: center">
+              <div
+                class="card"
+                style="padding: var(--space-5); display: flex; gap: var(--space-5); align-items: center"
+              >
                 <img src="../assets/mark.svg" alt="" width="40" height="40" />
                 <img src="../assets/favicon.svg" alt="" width="40" height="40" />
                 <p class="ds-note">Brand mark (blue bolt) and favicon.</p>
@@ -278,17 +390,40 @@
           <p class="kicker">Rules</p>
           <h2>Keeping it <span class="accent">consistent.</span></h2>
           <ul class="rules">
-            <li class="card"><strong>Blue stays rare</strong><p>Actions, links, the curve and the attack path. If two blue things compete on one screen, remove one.</p></li>
-            <li class="card"><strong>The italic ends the title</strong><p>One italic serif part per heading, always at the end. Never mid-sentence.</p></li>
-            <li class="card"><strong>No hardcoded value</strong><p>Any new colour or size goes into <code>src/tokens.css</code> first, then the README. Components only use tokens.</p></li>
-            <li class="card"><strong>Accessibility</strong><p>Text at least 4.5:1. Pure #2F6BFF is never used for small text. Animations are off when the user prefers reduced motion.</p></li>
+            <li class="card">
+              <strong>Blue stays rare</strong>
+              <p>
+                Actions, links, the curve and the attack path. If two blue things compete on one screen, remove one.
+              </p>
+            </li>
+            <li class="card">
+              <strong>The italic ends the title</strong>
+              <p>One italic serif part per heading, always at the end. Never mid-sentence.</p>
+            </li>
+            <li class="card">
+              <strong>No hardcoded value</strong>
+              <p>
+                Any new colour or size goes into <code>src/tokens.css</code> first, then the README. Components only use
+                tokens.
+              </p>
+            </li>
+            <li class="card">
+              <strong>Accessibility</strong>
+              <p>
+                Text at least 4.5:1. Pure #2F6BFF is never used for small text. Animations are off when the user prefers
+                reduced motion.
+              </p>
+            </li>
           </ul>
         </div>
       </section>
     </main>
 
     <footer class="ds-footer">
-      <div class="container">johannlaqua.com design system — v2.2, 2026-11-11. Fonts under the SIL Open Font License, installed through @fontsource.</div>
+      <div class="container">
+        johannlaqua.com design system — v2.2, 2026-11-11. Fonts under the SIL Open Font License, installed through
+        @fontsource.
+      </div>
     </footer>
   </body>
 </html>

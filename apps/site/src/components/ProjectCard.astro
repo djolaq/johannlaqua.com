@@ -14,7 +14,9 @@ const { name, href, description, stack, linkLabel } = Astro.props;
   <h3 class="project__name mono">{name}</h3>
   <p class="project__body">{description}</p>
   <ul class="project__stack">
-    {stack.map((item) => <li>{item}</li>)}
+    {stack.map((item) => (
+      <li>{item}</li>
+    ))}
   </ul>
   <a class="project__link link" href={href} target="_blank" rel="noopener noreferrer">
     {linkLabel} ↗

@@ -27,27 +27,27 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
       accent={t('blog.titleAccent')}
       subtitle={t('blog.subtitle')}
     />
-    <Button href={localizePath(locale, '/blog')} variant="quiet">{t('blog.viewAll')}</Button>
+    <Button href={localizePath(locale, '/blog')} variant="quiet">
+      {t('blog.viewAll')}
+    </Button>
   </div>
 
-  {
-    posts.length > 0 ? (
-      <div class="blog-preview__grid">
-        {posts.map((post) => (
-          <BlogCard
-            locale={locale}
-            href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            tags={post.data.tags}
-          />
-        ))}
-      </div>
-    ) : (
-      <p class="blog-preview__empty">{t('blog.empty')}</p>
-    )
-  }
+  {posts.length > 0 ? (
+    <div class="blog-preview__grid">
+      {posts.map((post) => (
+        <BlogCard
+          locale={locale}
+          href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="blog-preview__empty">{t('blog.empty')}</p>
+  )}
 </Section>
 
 <style>

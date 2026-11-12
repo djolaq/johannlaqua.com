@@ -7,7 +7,16 @@ export const WIDTH = 800;
 export const HEIGHT = 800;
 const COLS = 9;
 const ROWS = 9;
-const PATH_CELLS = [[1, 7], [2, 6], [3, 6], [4, 5], [5, 4], [5, 3], [6, 2], [7, 2]];
+const PATH_CELLS = [
+  [1, 7],
+  [2, 6],
+  [3, 6],
+  [4, 5],
+  [5, 4],
+  [5, 3],
+  [6, 2],
+  [7, 2],
+];
 
 /** Small deterministic PRNG (mulberry32). */
 function createRandom(seed) {

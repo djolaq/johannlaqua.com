@@ -44,7 +44,7 @@ const cart = await Astro.session?.get('cart');
 ```typescript
 // src/pages/api/addToCart.ts
 export async function POST(context: APIContext) {
-  const cart = await context.session?.get('cart') || [];
+  const cart = (await context.session?.get('cart')) || [];
   const data = await context.request.json<{ item: string }>();
 
   if (!data?.item) {
@@ -67,7 +67,7 @@ export const server = {
   addToCart: defineAction({
     input: z.object({ productId: z.string() }),
     handler: async (input, context) => {
-      const cart = await context.session?.get('cart') || [];
+      const cart = (await context.session?.get('cart')) || [];
       cart.push(input.productId);
       await context.session?.set('cart', cart);
       return cart;
@@ -91,12 +91,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
 ## Session API
 
-| Method | Description |
-|--------|-------------|
-| `session.get(key)` | Get a value by key |
-| `session.set(key, value)` | Set a value |
-| `session.regenerate()` | Create a new session ID (use after login) |
-| `session.destroy()` | Delete the entire session (use on logout) |
+| Method                    | Description                               |
+| ------------------------- | ----------------------------------------- |
+| `session.get(key)`        | Get a value by key                        |
+| `session.set(key, value)` | Set a value                               |
+| `session.regenerate()`    | Create a new session ID (use after login) |
+| `session.destroy()`       | Delete the entire session (use on logout) |
 
 ## Type Safety
 

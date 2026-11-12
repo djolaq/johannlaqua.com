@@ -47,7 +47,9 @@ const domains = [
     subtitle={t('skills.subtitle')}
   />
   <div class="skills__grid">
-    {domains.map((domain) => <SkillCard {...domain} />)}
+    {domains.map((domain) => (
+      <SkillCard {...domain} />
+    ))}
   </div>
 </Section>
 

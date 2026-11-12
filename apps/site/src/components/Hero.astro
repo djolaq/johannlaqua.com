@@ -28,13 +28,15 @@ const stats = [
     <div class="hero__content">
       <p class="kicker">{t('hero.kicker')}</p>
       <h1 class="hero__title">
-        {t('hero.title')}{' '}<span class="accent">{t('hero.titleAccent')}</span>
+        {t('hero.title')} <span class="accent">{t('hero.titleAccent')}</span>
       </h1>
       <p class="hero__subtitle">{t('hero.subtitle')}</p>
 
       <div class="hero__actions">
         <Button href={`${localizePath(locale, '/')}#skills`}>{t('hero.cta.primary')}</Button>
-        <Button href={localizePath(locale, '/blog')} variant="quiet">{t('hero.cta.secondary')}</Button>
+        <Button href={localizePath(locale, '/blog')} variant="quiet">
+          {t('hero.cta.secondary')}
+        </Button>
       </div>
 
       <p class="hero__status">
@@ -48,14 +50,12 @@ const stats = [
     </div>
 
     <dl class="hero__stats">
-      {
-        stats.map((stat) => (
-          <div class="stat">
-            <dt class="stat__label">{stat.label}</dt>
-            <dd class="stat__value">{stat.value}</dd>
-          </div>
-        ))
-      }
+      {stats.map((stat) => (
+        <div class="stat">
+          <dt class="stat__label">{stat.label}</dt>
+          <dd class="stat__value">{stat.value}</dd>
+        </div>
+      ))}
     </dl>
   </div>
 </section>
@@ -201,8 +201,7 @@ const stats = [
 
     .hero__visual :global(.field) {
       mask-image:
-        linear-gradient(to right, transparent 0%, black 38%),
-        linear-gradient(to top, transparent 0%, black 30%);
+        linear-gradient(to right, transparent 0%, black 38%), linear-gradient(to top, transparent 0%, black 30%);
       mask-composite: intersect;
     }
 

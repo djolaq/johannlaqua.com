@@ -14,10 +14,12 @@ const home = localizePath(defaultLocale, '/');
 const homeEn = localizePath('en', '/');
 ---
 
-<BaseLayout locale={defaultLocale} title={t('notFound.title')}>
+<BaseLayout locale={defaultLocale} title={t('notFound.title')} languageToggle={false}>
   <section class="section not-found">
     <div class="container">
-      <p class="not-found__code" aria-hidden="true">404</p>
+      <p class="not-found__code" aria-hidden="true">
+        404
+      </p>
 
       <div class="not-found__langs">
         <div class="not-found__lang">
@@ -29,7 +31,9 @@ const homeEn = localizePath('en', '/');
         <div class="not-found__lang" lang="en">
           <h1 class="not-found__title">{tEn('notFound.title')}</h1>
           <p class="not-found__body">{tEn('notFound.body')}</p>
-          <Button href={homeEn} variant="quiet">{tEn('notFound.cta')}</Button>
+          <Button href={homeEn} variant="quiet">
+            {tEn('notFound.cta')}
+          </Button>
         </div>
       </div>
     </div>

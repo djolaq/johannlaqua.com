@@ -27,10 +27,20 @@ const groups = [
   ['motion', /^(ease|duration)-/],
   ['zIndex', /^z-/],
 ];
-const typeOf = { color: 'color', semantic: 'color', font: 'fontFamily', fontSize: 'dimension', space: 'dimension', radius: 'dimension', fontWeight: 'fontWeight' };
+const typeOf = {
+  color: 'color',
+  semantic: 'color',
+  font: 'fontFamily',
+  fontSize: 'dimension',
+  space: 'dimension',
+  radius: 'dimension',
+  fontWeight: 'fontWeight',
+};
 
 const json = {};
-for (const [, name, rawValue, comment] of rootBlock.matchAll(/--([a-z0-9-]+):\s*([^;]+);(?:[ \t]*\/\*\s*([^*]+?)\s*\*\/)?/g)) {
+for (const [, name, rawValue, comment] of rootBlock.matchAll(
+  /--([a-z0-9-]+):\s*([^;]+);(?:[ \t]*\/\*\s*([^*]+?)\s*\*\/)?/g,
+)) {
   const group = groups.find(([, re]) => re.test(name))?.[0] ?? 'other';
   const value = rawValue.trim().replace(/\s+/g, ' ');
   const token = { $value: /^var\(--[a-z0-9-]+\)$/.test(value) ? `{${value.slice(6, -1)}}` : value };

@@ -16,13 +16,7 @@ test.describe('404 page', () => {
     await expect(page.getByRole('heading', { name: 'Page introuvable' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Page not found' })).toBeVisible();
 
-    await expect(page.getByRole('link', { name: "Retour à l'accueil" })).toHaveAttribute(
-      'href',
-      '/',
-    );
-    await expect(page.getByRole('link', { name: 'Back to home' })).toHaveAttribute(
-      'href',
-      '/en/',
-    );
+    await expect(page.getByRole('link', { name: "Retour à l'accueil" })).toHaveAttribute('href', '/');
+    await expect(page.getByRole('link', { name: 'Back to home' })).toHaveAttribute('href', '/en/');
   });
 });

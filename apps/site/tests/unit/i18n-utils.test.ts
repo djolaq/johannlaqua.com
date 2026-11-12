@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  getAlternateLocalePath,
-  getLangFromUrl,
-  localizePath,
-  useTranslations,
-} from '../../src/i18n/utils';
+import { getAlternateLocalePath, getLangFromUrl, localizePath, useTranslations } from '../../src/i18n/utils';
 
 describe('getLangFromUrl', () => {
   it('returns the default locale (fr) for the root path', () => {

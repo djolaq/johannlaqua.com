@@ -24,6 +24,7 @@ import { ClientRouter } from 'astro:transitions';
 ## How It Works
 
 With `<ClientRouter />` enabled:
+
 1. User clicks a link
 2. Astro intercepts the navigation
 3. New page content is fetched
@@ -39,9 +40,7 @@ With `<ClientRouter />` enabled:
 import { fade } from 'astro:transitions';
 ---
 
-<div transition:animate={fade({ duration: '0.4s' })}>
-  Content fades in and out
-</div>
+<div transition:animate={fade({ duration: '0.4s' })}>Content fades in and out</div>
 ```
 
 ### slide
@@ -51,9 +50,7 @@ import { fade } from 'astro:transitions';
 import { slide } from 'astro:transitions';
 ---
 
-<div transition:animate={slide({ duration: '0.3s' })}>
-  Content slides in from the side
-</div>
+<div transition:animate={slide({ duration: '0.3s' })}>Content slides in from the side</div>
 ```
 
 ### initial
@@ -61,9 +58,7 @@ import { slide } from 'astro:transitions';
 Prevents animation on first page load:
 
 ```astro
-<div transition:animate="initial">
-  No animation on initial load
-</div>
+<div transition:animate="initial">No animation on initial load</div>
 ```
 
 ### none
@@ -71,9 +66,7 @@ Prevents animation on first page load:
 Disables transition for an element:
 
 ```astro
-<div transition:animate="none">
-  Instant swap, no animation
-</div>
+<div transition:animate="none">Instant swap, no animation</div>
 ```
 
 ## Transition Directives
@@ -84,16 +77,10 @@ Link elements across pages for morphing:
 
 ```astro
 <!-- Page 1: List -->
-<img
-  src={post.image}
-  transition:name={`hero-${post.slug}`}
-/>
+<img src={post.image} transition:name={`hero-${post.slug}`} />
 
 <!-- Page 2: Detail -->
-<img
-  src={post.data.image}
-  transition:name={`hero-${post.slug}`}
-/>
+<img src={post.data.image} transition:name={`hero-${post.slug}`} />
 ```
 
 Elements with matching `transition:name` will morph into each other.
@@ -103,13 +90,9 @@ Elements with matching `transition:name` will morph into each other.
 Control animation behavior:
 
 ```astro
-<header transition:animate="none">
-  <!-- Static header, no animation -->
-</header>
+<header transition:animate="none"><!-- Static header, no animation --></header>
 
-<main transition:animate={slide({ duration: '0.5s' })}>
-  <!-- Slides in -->
-</main>
+<main transition:animate={slide({ duration: '0.5s' })}><!-- Slides in --></main>
 ```
 
 ### transition:persist
@@ -150,13 +133,25 @@ import { slide } from 'astro:transitions';
 
 <style>
   @keyframes slideInFromLeft {
-    from { transform: translateX(-100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
 
   @keyframes slideOutToRight {
-    from { transform: translateX(0); opacity: 1; }
-    to { transform: translateX(100%); opacity: 0; }
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
   }
 </style>
 
@@ -203,9 +198,7 @@ export const customSlide = {
 import { customSlide } from '../transitions/custom';
 ---
 
-<div transition:animate={customSlide}>
-  Uses custom animation
-</div>
+<div transition:animate={customSlide}>Uses custom animation</div>
 ```
 
 ## Navigation Controls
@@ -231,9 +224,7 @@ import { customSlide } from '../transitions/custom';
   Full page reload
 </a>
 
-<form data-astro-reload>
-  Submit causes full reload
-</form>
+<form data-astro-reload>Submit causes full reload</form>
 ```
 
 ## Lifecycle Events
@@ -300,6 +291,7 @@ Forms work with view transitions:
 ## Fallback Behavior
 
 Browsers without View Transitions API get:
+
 - Full page navigation (no JavaScript errors)
 - Graceful degradation
 
@@ -319,7 +311,9 @@ Check support:
 
 ```astro
 <!-- Skip view transitions -->
-<a href="/page" data-astro-reload>Full Reload</a>
+<a href="/page" data-astro-reload>
+  Full Reload
+</a>
 ```
 
 ### Prefetching
@@ -336,10 +330,18 @@ export default defineConfig({
 
 ```astro
 <!-- Manual prefetch control -->
-<a href="/page" data-astro-prefetch="hover">Prefetch on hover</a>
-<a href="/page" data-astro-prefetch="viewport">Prefetch when visible</a>
-<a href="/page" data-astro-prefetch="load">Prefetch immediately</a>
-<a href="/page" data-astro-prefetch="false">Never prefetch</a>
+<a href="/page" data-astro-prefetch="hover">
+  Prefetch on hover
+</a>
+<a href="/page" data-astro-prefetch="viewport">
+  Prefetch when visible
+</a>
+<a href="/page" data-astro-prefetch="load">
+  Prefetch immediately
+</a>
+<a href="/page" data-astro-prefetch="false">
+  Never prefetch
+</a>
 ```
 
 ## Common Patterns
@@ -365,18 +367,12 @@ export default defineConfig({
 <!-- List page -->
 {images.map((img) => (
   <a href={`/gallery/${img.id}`}>
-    <img
-      src={img.thumb}
-      transition:name={`image-${img.id}`}
-    />
+    <img src={img.thumb} transition:name={`image-${img.id}`} />
   </a>
 ))}
 
 <!-- Detail page -->
-<img
-  src={image.full}
-  transition:name={`image-${image.id}`}
-/>
+<img src={image.full} transition:name={`image-${image.id}`} />
 ```
 
 ## Best Practices

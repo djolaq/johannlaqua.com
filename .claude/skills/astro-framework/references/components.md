@@ -49,12 +49,16 @@ interface Props {
   items: string[];
 }
 
-const { name, greeting = "Hello", items } = Astro.props;
+const { name, greeting = 'Hello', items } = Astro.props;
 ---
 
-<h1>{greeting}, {name}!</h1>
+<h1>
+  {greeting}, {name}!
+</h1>
 <ul>
-  {items.map((item) => <li>{item}</li>)}
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
 </ul>
 ```
 
@@ -75,10 +79,9 @@ const allProps = Astro.props;
 
 ```astro
 <!-- Wrapper.astro -->
----
----
+--- ---
 <div class="wrapper">
-  <slot />  <!-- Children go here -->
+  <slot /> <!-- Children go here -->
 </div>
 ```
 
@@ -93,14 +96,13 @@ const allProps = Astro.props;
 
 ```astro
 <!-- Layout.astro -->
----
----
+--- ---
 <div class="container">
   <header>
     <slot name="header" />
   </header>
   <main>
-    <slot />  <!-- Default slot -->
+    <slot /> <!-- Default slot -->
   </main>
   <footer>
     <slot name="footer" />
@@ -155,7 +157,7 @@ const html = await Astro.slots.render('default');
 
 ```astro
 ---
-const name = "Astro";
+const name = 'Astro';
 const items = ['Apple', 'Banana', 'Cherry'];
 const visible = true;
 ---
@@ -166,7 +168,9 @@ const visible = true;
 
 <!-- Lists -->
 <ul>
-  {items.map((item) => <li>{item}</li>)}
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
 </ul>
 
 <!-- Conditional rendering -->
@@ -180,11 +184,13 @@ const visible = true;
 
 ```astro
 ---
-const dynamicId = "my-id";
-const dynamicClass = "active";
+const dynamicId = 'my-id';
+const dynamicClass = 'active';
 ---
 
-<div id={dynamicId} class={dynamicClass}>Content</div>
+<div id={dynamicId} class={dynamicClass}>
+  Content
+</div>
 
 <!-- Boolean attributes -->
 <input type="checkbox" checked={true} />
@@ -202,12 +208,7 @@ const isActive = true;
 const isDisabled = false;
 ---
 
-<div class:list={[
-  'base-class',
-  { 'active': isActive },
-  { 'disabled': isDisabled },
-  isActive && 'conditional-class',
-]}>
+<div class:list={['base-class', { active: isActive }, { disabled: isDisabled }, isActive && 'conditional-class']}>
   Content
 </div>
 <!-- Output: <div class="base-class active conditional-class">Content</div> -->
@@ -221,7 +222,7 @@ Inject raw HTML (be careful with user input - XSS risk):
 
 ```astro
 ---
-const rawHTML = "<strong>Bold</strong>";
+const rawHTML = '<strong>Bold</strong>';
 ---
 
 <div set:html={rawHTML} />
@@ -233,7 +234,7 @@ Safely set text content:
 
 ```astro
 ---
-const text = "Some text content";
+const text = 'Some text content';
 ---
 
 <p set:text={text} />

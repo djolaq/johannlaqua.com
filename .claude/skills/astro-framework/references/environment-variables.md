@@ -65,7 +65,7 @@ import { API_SECRET, PORT } from 'astro:env/server';
 
 const data = await fetch(`${API_URL}/users`, {
   headers: {
-    'Authorization': `Bearer ${API_SECRET}`,
+    Authorization: `Bearer ${API_SECRET}`,
   },
 });
 ---
@@ -80,21 +80,21 @@ const data = await fetch(`${API_URL}/users`, {
 
 There are three kinds, determined by `context` + `access`:
 
-| Kind | Context | Access | Available In | In Bundle? |
-|------|---------|--------|-------------|-----------|
-| Public client | `client` | `public` | Client + Server | Yes |
-| Public server | `server` | `public` | Server only | Yes |
-| Secret server | `server` | `secret` | Server only | No |
+| Kind          | Context  | Access   | Available In    | In Bundle? |
+| ------------- | -------- | -------- | --------------- | ---------- |
+| Public client | `client` | `public` | Client + Server | Yes        |
+| Public server | `server` | `public` | Server only     | Yes        |
+| Secret server | `server` | `secret` | Server only     | No         |
 
 **Secret client variables are not supported** — there's no safe way to send secrets to the client.
 
 ## Data Types
 
 ```javascript
-envField.string({ context: 'server', access: 'public' })
-envField.number({ context: 'server', access: 'public' })
-envField.boolean({ context: 'client', access: 'public' })
-envField.enum({ context: 'server', access: 'public', values: ['a', 'b'] })
+envField.string({ context: 'server', access: 'public' });
+envField.number({ context: 'server', access: 'public' });
+envField.boolean({ context: 'client', access: 'public' });
+envField.enum({ context: 'server', access: 'public', values: ['a', 'b'] });
 ```
 
 Common options: `default`, `optional`, `min`, `max`, `length`, `url`, `includes`, `startsWith`, `endsWith`.

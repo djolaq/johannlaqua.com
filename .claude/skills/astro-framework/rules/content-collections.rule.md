@@ -1,10 +1,10 @@
 ---
 description: Rules for content collections and type-safe content
 globs:
-  - "src/content/**/*"
-  - "src/content.config.ts"
-  - "src/content/config.ts"
-  - "src/live.config.ts"
+  - 'src/content/**/*'
+  - 'src/content.config.ts'
+  - 'src/content/config.ts'
+  - 'src/live.config.ts'
 ---
 
 # Content Collections Rules
@@ -20,17 +20,18 @@ import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string().max(160),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    draft: z.boolean().default(false),
-    cover: image(),
-    coverAlt: z.string(),
-    author: reference('authors'),
-    tags: z.array(z.string()).default([]),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().max(160),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      draft: z.boolean().default(false),
+      cover: image(),
+      coverAlt: z.string(),
+      author: reference('authors'),
+      tags: z.array(z.string()).default([]),
+    }),
 });
 
 export const collections = { blog };
@@ -60,9 +61,11 @@ export const collections = { blog };
 
 ```typescript
 // Get all published posts, sorted by date
-const posts = (await getCollection('blog', ({ data }) => {
-  return import.meta.env.PROD ? !data.draft : true;
-})).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const posts = (
+  await getCollection('blog', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  })
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Get single entry
 const post = await getEntry('blog', 'my-post-slug');
@@ -85,7 +88,7 @@ const { Content, headings } = await render(post);
 <article>
   <h1>{post.data.title}</h1>
   <nav>
-    {headings.map(h => (
+    {headings.map((h) => (
       <a href={`#${h.slug}`}>{h.text}</a>
     ))}
   </nav>
@@ -102,7 +105,7 @@ import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({
+  return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
   }));

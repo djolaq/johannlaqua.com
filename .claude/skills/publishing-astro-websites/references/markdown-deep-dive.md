@@ -17,7 +17,7 @@ Astro treats Markdown as build-time content with zero runtime cost:
 
 ```typescript
 // src/content/config.ts
-import { defineCollection, z, reference } from "astro:content";
+import { defineCollection, z, reference } from 'astro:content';
 
 export const collections = {
   // Blog with author references
@@ -28,10 +28,10 @@ export const collections = {
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       heroImage: z.string().optional(),
-      author: reference('authors'),  // Reference another collection
+      author: reference('authors'), // Reference another collection
       tags: z.array(z.string()).default([]),
-      draft: z.boolean().default(false)
-    })
+      draft: z.boolean().default(false),
+    }),
   }),
 
   // Authors collection
@@ -39,8 +39,8 @@ export const collections = {
     schema: z.object({
       name: z.string(),
       avatar: z.string(),
-      bio: z.string()
-    })
+      bio: z.string(),
+    }),
   }),
 
   // Documentation with ordering
@@ -48,12 +48,14 @@ export const collections = {
     schema: z.object({
       title: z.string(),
       description: z.string().optional(),
-      sidebar: z.object({
-        order: z.number(),
-        label: z.string().optional()
-      }).optional()
-    })
-  })
+      sidebar: z
+        .object({
+          order: z.number(),
+          label: z.string().optional(),
+        })
+        .optional(),
+    }),
+  }),
 };
 ```
 
@@ -61,7 +63,7 @@ export const collections = {
 
 ```astro
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 // Filter out drafts in production
 const publishedPosts = await getCollection('blog', ({ data }) => {
@@ -69,9 +71,7 @@ const publishedPosts = await getCollection('blog', ({ data }) => {
 });
 
 // Sort by date
-const sortedPosts = publishedPosts.sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+const sortedPosts = publishedPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 // Filter by tag
 const rustPosts = await getCollection('blog', ({ data }) => {
@@ -94,36 +94,40 @@ export default defineConfig({
       // Or use dual themes for light/dark mode
       themes: {
         light: 'github-light',
-        dark: 'github-dark'
+        dark: 'github-dark',
       },
       // Enable word wrap
       wrap: true,
       // Add custom languages
-      langs: []
-    }
-  }
+      langs: [],
+    },
+  },
 });
 ```
 
 ### Line Highlighting Syntax
 
-```markdown
+````markdown
 <!-- Highlight lines 2-4 -->
+
 ```js {2-4}
 const a = 1;
 const b = 2;
 const c = 3;
 const d = 4;
 ```
+````
 
 <!-- Highlight with markers -->
+
 ```js {2} ins={3} del={4}
 const original = 1;
-const modified = 2;  // highlighted
-const added = 3;     // green (inserted)
-const removed = 4;   // red (deleted)
+const modified = 2; // highlighted
+const added = 3; // green (inserted)
+const removed = 4; // red (deleted)
 ```
-```
+
+````
 
 ### Code Block Titles
 
@@ -132,8 +136,9 @@ const removed = 4;   // red (deleted)
 export function helper() {
   return 'Hello';
 }
-```
-```
+````
+
+````
 
 ## MDX Integration
 
@@ -141,7 +146,7 @@ Install and configure:
 
 ```bash
 npx astro add mdx
-```
+````
 
 ```javascript
 // astro.config.mjs
@@ -149,7 +154,7 @@ import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 
 export default defineConfig({
-  integrations: [mdx()]
+  integrations: [mdx()],
 });
 ```
 
@@ -159,14 +164,13 @@ export default defineConfig({
 ---
 title: My Article
 ---
+
 import Callout from '../components/Callout.astro';
 import CodeDemo from '../components/CodeDemo.jsx';
 
 # {frontmatter.title}
 
-<Callout type="warning">
-  This is an important warning!
-</Callout>
+<Callout type="warning">This is an important warning!</Callout>
 
 Here's an interactive demo:
 
@@ -189,11 +193,13 @@ const post = await getEntry('blog', slug);
 const { Content } = await post.render();
 ---
 
-<Content components={{
-  h1: CustomHeading,
-  h2: CustomHeading,
-  pre: CustomCode
-}} />
+<Content
+  components={{
+    h1: CustomHeading,
+    h2: CustomHeading,
+    pre: CustomCode,
+  }}
+/>
 ```
 
 ## Remark and Rehype Plugins
@@ -211,16 +217,9 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
   markdown: {
-    remarkPlugins: [
-      remarkToc,
-      remarkMath
-    ],
-    rehypePlugins: [
-      rehypeSlug,
-      [rehypeAutolinkHeadings, { behavior: 'wrap' }],
-      rehypeKatex
-    ]
-  }
+    remarkPlugins: [remarkToc, remarkMath],
+    rehypePlugins: [rehypeSlug, [rehypeAutolinkHeadings, { behavior: 'wrap' }], rehypeKatex],
+  },
 });
 ```
 
@@ -246,8 +245,8 @@ import { remarkReadingTime } from './plugins/remark-reading-time.mjs';
 
 export default defineConfig({
   markdown: {
-    remarkPlugins: [remarkReadingTime]
-  }
+    remarkPlugins: [remarkReadingTime],
+  },
 });
 ```
 
@@ -290,9 +289,11 @@ const { Content, headings } = await post.render();
 
 ```markdown
 <!-- Use relative paths for optimization -->
+
 ![Alt text](./hero.png)
 
 <!-- Or import in MDX -->
+
 import heroImage from './hero.png';
 
 <img src={heroImage.src} alt="Hero" />
@@ -305,8 +306,8 @@ import heroImage from './hero.png';
 export default defineConfig({
   image: {
     domains: ['images.unsplash.com'],
-    remotePatterns: [{ protocol: 'https' }]
-  }
+    remotePatterns: [{ protocol: 'https' }],
+  },
 });
 ```
 
@@ -315,12 +316,7 @@ export default defineConfig({
 import { Image } from 'astro:assets';
 ---
 
-<Image
-  src="https://images.unsplash.com/photo-..."
-  alt="Description"
-  width={800}
-  height={600}
-/>
+<Image src="https://images.unsplash.com/photo-..." alt="Description" width={800} height={600} />
 ```
 
 ## Custom Frontmatter Fields
@@ -352,19 +348,23 @@ console.log(post.data.customField); // "Special Value"
 ## Troubleshooting Markdown Issues
 
 **Frontmatter validation errors:**
+
 ```bash
 astro check  # Shows detailed schema errors
 ```
 
 **Code block not highlighting:**
+
 - Ensure language tag is specified: \`\`\`javascript
 - Check theme is properly configured
 
 **MDX components not rendering:**
+
 - Verify component is imported at top of file
 - Check component path is correct
 - Ensure MDX integration is installed
 
 **Slow builds with many Markdown files:**
+
 - Consider incremental builds
 - Use `content.config.ts` type generation caching

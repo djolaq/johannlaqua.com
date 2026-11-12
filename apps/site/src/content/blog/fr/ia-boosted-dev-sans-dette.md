@@ -2,8 +2,8 @@
 title: "Développer avec l'IA sans accumuler de dette technique"
 description: "Comment j'intègre les assistants IA dans mon flux de travail quotidien sans sacrifier la qualité du code."
 date: 2026-06-12
-tags: ["ia", "developpement"]
-translationId: "ai-boosted-dev"
+tags: ['ia', 'developpement']
+translationId: 'ai-boosted-dev'
 ---
 
 Les assistants IA changent la vitesse à laquelle on écrit du code, mais pas automatiquement sa qualité. Voici les trois règles que j'applique pour garder les deux.
@@ -18,4 +18,4 @@ Un assistant peut halluciner un comportement. Les tests automatisés restent la 
 
 ## 3. Documenter les décisions, pas le code
 
-Le code généré explique déjà *quoi*. Ce qui manque souvent, c'est le *pourquoi* — ce qui reste utile pour la prochaine personne (humaine ou IA) qui touchera ce fichier.
+Le code généré explique déjà _quoi_. Ce qui manque souvent, c'est le _pourquoi_ — ce qui reste utile pour la prochaine personne (humaine ou IA) qui touchera ce fichier.

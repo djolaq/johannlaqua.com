@@ -1,10 +1,10 @@
 ---
 description: Rules for TypeScript configuration in Astro projects
 globs:
-  - "tsconfig.json"
-  - "src/env.d.ts"
-  - "**/*.ts"
-  - "**/*.astro"
+  - 'tsconfig.json'
+  - 'src/env.d.ts'
+  - '**/*.ts'
+  - '**/*.astro'
 ---
 
 # Astro TypeScript Rules
@@ -52,12 +52,7 @@ interface Props {
   variant?: 'primary' | 'secondary';
 }
 
-const {
-  title,
-  description = 'Default description',
-  tags,
-  variant = 'primary',
-} = Astro.props;
+const { title, description = 'Default description', tags, variant = 'primary' } = Astro.props;
 ---
 ```
 

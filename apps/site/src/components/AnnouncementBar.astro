@@ -15,20 +15,18 @@ const [latest] = (await getCollection('blog', ({ id, data }) => id.startsWith(`$
 const href = latest ? localizePath(locale, `/blog/${latest.id.replace(`${locale}/`, '')}`) : undefined;
 ---
 
-{
-  latest && (
-    <div class="announce">
-      <a class="announce__link" href={href}>
-        <span class="announce__badge">{t('announce.badge')}</span>
-        <span class="announce__text">
-          <span class="announce__prefix">{t('announce.prefix')} </span>
-          {latest.data.title}
-        </span>
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
-  )
-}
+{latest && (
+  <div class="announce">
+    <a class="announce__link" href={href}>
+      <span class="announce__badge">{t('announce.badge')}</span>
+      <span class="announce__text">
+        <span class="announce__prefix">{t('announce.prefix')} </span>
+        {latest.data.title}
+      </span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+)}
 
 <style>
   .announce {

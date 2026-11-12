@@ -1,7 +1,7 @@
 ---
 description: Rules for writing Astro components
 globs:
-  - "**/*.astro"
+  - '**/*.astro'
 ---
 
 # Astro Component Rules
@@ -36,7 +36,9 @@ const posts = await getCollection('blog');
 
 <!-- 6. Scoped styles -->
 <style>
-  h1 { color: navy; }
+  h1 {
+    color: navy;
+  }
 </style>
 ```
 
@@ -71,9 +73,17 @@ const hasFooter = Astro.slots.has('footer');
 ---
 
 <article>
-  <header><h1>{title}</h1></header>
-  <main><slot /></main>
-  {hasFooter && <footer><slot name="footer" /></footer>}
+  <header>
+    <h1>{title}</h1>
+  </header>
+  <main>
+    <slot />
+  </main>
+  {hasFooter && (
+    <footer>
+      <slot name="footer" />
+    </footer>
+  )}
 </article>
 ```
 
@@ -81,15 +91,11 @@ const hasFooter = Astro.slots.has('footer');
 
 ```astro
 ---
-const id = "main";
+const id = 'main';
 const isActive = true;
 ---
 
-<div
-  id={id}
-  class:list={['base', { active: isActive }]}
-  data-active={isActive}
->
+<div id={id} class:list={['base', { active: isActive }]} data-active={isActive}>
   Content
 </div>
 ```
@@ -106,6 +112,8 @@ const items = ['a', 'b', 'c'];
 {show ? <p>Yes</p> : <p>No</p>}
 
 <ul>
-  {items.map(item => <li>{item}</li>)}
+  {items.map((item) => (
+    <li>{item}</li>
+  ))}
 </ul>
 ```

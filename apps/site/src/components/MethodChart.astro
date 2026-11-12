@@ -36,18 +36,30 @@ const steps = [t('chart.step1'), t('chart.step2'), t('chart.step3'), t('chart.st
     <path
       class="chart__area"
       d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12 L 320 120 L 0 120 Z"
-      fill="url(#chart-fill)"></path>
-    <path class="chart__speed" d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12"></path>
+      fill="url(#chart-fill)"
+    ></path>
+    <path
+      class="chart__speed"
+      d="M0 104 C 40 100, 60 92, 90 86 S 140 70, 170 62 S 220 40, 250 34 S 300 18, 320 12"
+    ></path>
     <path class="chart__debt" d="M0 100 C 80 99, 160 101, 240 98 S 300 99, 320 98"></path>
   </svg>
 
   <div class="chart__axis" aria-hidden="true">
-    {steps.map((step) => <span>{step}</span>)}
+    {steps.map((step) => (
+      <span>{step}</span>
+    ))}
   </div>
 
   <ul class="chart__legend">
-    <li><span class="chart__swatch chart__swatch--speed"></span>{t('chart.speed')}</li>
-    <li><span class="chart__swatch chart__swatch--debt"></span>{t('chart.debt')}</li>
+    <li>
+      <span class="chart__swatch chart__swatch--speed"></span>
+      {t('chart.speed')}
+    </li>
+    <li>
+      <span class="chart__swatch chart__swatch--debt"></span>
+      {t('chart.debt')}
+    </li>
   </ul>
 </figure>
 
