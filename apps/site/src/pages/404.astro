@@ -8,29 +8,53 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
 import { defaultLocale, useTranslations, localizePath } from '../i18n/utils';
 
+// One block per locale: a way back home, to the blog, and to the contact section.
+const blocks = (['fr', 'en'] as const).map((locale) => {
+  const t = useTranslations(locale);
+  return {
+    locale,
+    t,
+    links: [
+      { href: localizePath(locale, '/'), label: t('notFound.cta') },
+      { href: localizePath(locale, '/blog'), label: t('notFound.blog') },
+      { href: `${localizePath(locale, '/')}#contact`, label: t('notFound.contact') },
+    ],
+  };
+});
 const t = useTranslations(defaultLocale);
-const tEn = useTranslations('en');
-const home = localizePath(defaultLocale, '/');
-const homeEn = localizePath('en', '/');
 ---
 
-<BaseLayout locale={defaultLocale} title={t('notFound.title')} noindex>
+<BaseLayout locale={defaultLocale} title={t('notFound.title')} description={t('notFound.description')} noindex>
   <section class="section not-found">
     <div class="container">
       <p class="not-found__code" aria-hidden="true">404</p>
 
       <div class="not-found__langs">
-        <div class="not-found__lang">
-          <h1 class="not-found__title">{t('notFound.title')}</h1>
-          <p class="not-found__body">{t('notFound.body')}</p>
-          <Button href={home}>{t('notFound.cta')}</Button>
-        </div>
-
-        <div class="not-found__lang" lang="en">
-          <h2 class="not-found__title">{tEn('notFound.title')}</h2>
-          <p class="not-found__body">{tEn('notFound.body')}</p>
-          <Button href={homeEn} variant="quiet">{tEn('notFound.cta')}</Button>
-        </div>
+        {
+          blocks.map(({ locale, t: tl, links }, index) => {
+            const Heading = index === 0 ? 'h1' : 'h2';
+            return (
+              <div class="not-found__lang" lang={locale}>
+                <Heading class="not-found__title">{tl('notFound.title')}</Heading>
+                <p class="not-found__body">{tl('notFound.body')}</p>
+                <nav class="not-found__nav" aria-label={tl('notFound.nav')}>
+                  <Button href={links[0].href} variant={index === 0 ? 'primary' : 'quiet'}>
+                    {links[0].label}
+                  </Button>
+                  <ul>
+                    {links.slice(1).map((link) => (
+                      <li>
+                        <a class="link" href={link.href}>
+                          {link.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </div>
+            );
+          })
+        }
       </div>
     </div>
   </section>
@@ -69,6 +93,21 @@ const homeEn = localizePath('en', '/');
 
   .not-found__title {
     font-size: var(--text-2xl);
+    font-weight: var(--weight-medium);
+  }
+
+  .not-found__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .not-found__nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    font-size: var(--text-sm);
     font-weight: var(--weight-medium);
   }
 

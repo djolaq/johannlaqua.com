@@ -1,4 +1,5 @@
 ---
+import ExternalLink from './ExternalLink.astro';
 interface Props {
   name: string;
   href: string;
@@ -16,9 +17,7 @@ const { name, href, description, stack, linkLabel } = Astro.props;
   <ul class="project__stack">
     {stack.map((item) => <li>{item}</li>)}
   </ul>
-  <a class="project__link link" href={href} target="_blank" rel="noopener noreferrer">
-    {linkLabel} ↗
-  </a>
+  <ExternalLink class="project__link link" href={href}>{linkLabel}</ExternalLink>
 </article>
 
 <style>
@@ -61,7 +60,7 @@ const { name, href, description, stack, linkLabel } = Astro.props;
     padding: 0.15em 0.55em;
   }
 
-  .project__link {
+  .project :global(.project__link) {
     margin-top: var(--space-2);
     align-self: flex-start;
     font-size: var(--text-sm);

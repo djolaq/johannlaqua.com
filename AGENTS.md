@@ -18,8 +18,10 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | i18n | Native Astro i18n (`i18n.defaultLocale: 'fr'`, `locales: ['fr','en']`, `prefixDefaultLocale: false`) | FR at the root `/`, EN under `/en/` |
 | Blog content | Content Layer API (`apps/site/src/content.config.ts`, `glob` loader) — **not** the legacy Content Collections API | Required with Astro 7 |
 | CSS | Native CSS + custom properties, no framework, from `@johannlaqua/design-system` | Minimal bundle, a single token file as source of truth |
-| Sitemap | `@astrojs/sitemap` | SEO |
-| Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils) |
+| Sitemap | `@astrojs/sitemap`, alternates/`lastmod` from `apps/site/src/lib/sitemap.ts` | SEO — explicit FR/EN pairs because post and legal slugs differ per locale |
+| Feeds | `@astrojs/rss` (`/rss.xml`, `/en/rss.xml`) | One RSS 2.0 feed per locale |
+| Social images | `satori` + `sharp`, fonts from static `@fontsource/geist` + `@fontsource/jetbrains-mono` (WOFF, which satori needs) | One 1200×630 PNG per page, rendered at build time — no image service (privacy policy) |
+| Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils, blog translation parity) |
 | e2e tests | Playwright (`apps/site/playwright.config.ts`) | Real served pages (build + `astro preview`) |
 | Repo layout | npm workspaces: `apps/site`, `packages/design-system` | One repo, one lockfile, clear boundaries (ADR 0001) |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every PR/branch push, Node read from `.nvmrc` (22.x) required by Astro 7 |
@@ -45,6 +47,10 @@ apps/
         AnnouncementBar.astro blue strip above the header linking to the latest post
         MethodChart.astro     hero glass card with the illustrative method chart (no data)
         LegalArticle.astro    prose wrapper (eyebrow, title, last-updated date) shared by the legal pages
+        ExternalLink.astro    every target="_blank" link: visible ↗ + visually hidden "(opens in a new tab)"
+        Breadcrumb.astro      visible Home › Blog › page trail (posts, tag pages)
+        TagFilter.astro       topic links on the blog index and tag pages (plain links, no JS)
+        PostGrid.astro        card grid shared by the blog index and tag pages
       layouts/
         BaseLayout.astro      <head>, Header, Footer, i18n/SEO meta — root layout of every page
         BlogPostLayout.astro  layout specific to posts (on top of BaseLayout)
@@ -55,7 +61,13 @@ apps/
         projects.ts           public repos shown in the home "Lab" section (name, URL, stack, i18n description key) — SINGLE SOURCE
       i18n/
         ui.ts                 FR/EN translation dictionary — SINGLE SOURCE of UI strings, UiKey type derived from FR keys
-        utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath
+        utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath, ogImagePath, ogLocale, formatDate/isoDate (the only date formatting)
+      lib/                     build-time helpers with no UI (importable from the Astro config and unit tests unless noted)
+        blog.ts                pure blog logic (paths, ordering, prev/next, related posts, tag translation) — takes entries as arguments, never imports astro:content, unit-tested
+        blog-files.ts          reads post frontmatter from disk (no astro:content) + findTranslationIssues (FR/EN parity)
+        sitemap.ts             per-URL FR/EN/x-default alternates + lastmod (pages, posts, tag pages via tagCounterpart), consumed by astro.config.mjs
+        og-image.ts            social card renderer (satori → sharp PNG), colours from the design-system tokens.json
+        feed.ts                RSS feed builder (uses astro:content: endpoints only)
       content/
         blog/fr/*.md           FR posts
         blog/en/*.md            EN posts
@@ -67,8 +79,12 @@ apps/
         en/index.astro           EN home
         en/blog/index.astro      EN post list
         en/blog/[slug].astro      EN post
+        blog/tags/[tag].astro     FR tag page (EN: en/blog/tags/[tag].astro), one per tag used by a published post
+        404.astro                 single bilingual 404 (FR + EN blocks, noindex) — there is no en/404
         mentions-legales.astro    FR legal notice (EN: en/legal-notice.astro)
         confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
+        rss.xml.ts                FR feed (EN: en/rss.xml.ts)
+        og/[...path].png.ts       one social image per page; its list of pages must follow new routes (an e2e test fails otherwise)
     public/                    favicon.svg, robots.txt (static assets served as-is)
     tests/
       unit/                    Vitest — pure logic only
@@ -108,6 +124,8 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 - One post = two Markdown files, one per language, linked by the `translationId` field (same value on both sides) defined in `content.config.ts`. That is what lets the language switch find the translated post.
 - Schema (`apps/site/src/content.config.ts`) : `title`, `description`, `date` (coercible), `tags: string[]` (default `[]`), `draft: boolean` (default `false`), `translationId: string` (required).
 - FR and EN slugs can differ (the slug comes from the filename via the `glob` loader) — `translationId`, not the slug, links the two versions.
+- `tags` are lowercase slugs (schema-enforced) and become `/blog/tags/<tag>/` pages. Tags are spelled per locale (`securite` / `security`); a tag page's `hreflang` counterpart is inferred by **position** in the translated post's `tags` array (`tagCounterpart` in `lib/blog.ts`), so keep the same order on both sides. An unpaired tag points at the other locale's blog index.
+- Dates go through `formatDate()` / `isoDate()` (`i18n/utils.ts`): `fr-FR` / `en-GB`, long month, formatted in UTC so the build machine's time zone cannot shift the day; `<time datetime>` carries `YYYY-MM-DD`.
 
 ### Design system
 - Lives in `packages/design-system` (see ADR 0002). Full reference: **`packages/design-system/README.md`** (palette, tones, type scale, layout, signature elements, rules, changelog). Values: `packages/design-system/src/tokens.css`. After changing tokens or the hero geometry run `npm run design:build` (CI fails if `tokens.json` / `network-field.svg` are stale).
@@ -124,8 +142,12 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
-- Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `Person` whose `sameAs` is derived from `apps/site/src/config/site.ts`. Any new profile is added in `site.ts` only.
-- Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default.
+- Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `@graph` with a `Person` (`@id` `/#person`, `sameAs` derived from `apps/site/src/config/site.ts`) and a `WebSite`; pages add nodes through the `jsonLd` prop (posts: `BlogPosting` + `BreadcrumbList`). Any new profile is added in `site.ts` only.
+- SEO per page: `BaseLayout` emits canonical, `hreflang` fr/en/x-default (x-default = FR), `og:locale(:alternate)`, `og:image`/`twitter:image` (`/og/<page path>.png`), the RSS link and the robots meta. Every page passes its own `description` (an e2e test rejects duplicates). A new route needs: an entry in `pages/og/[...path].png.ts`, and in `PAGE_PAIRS` of `lib/sitemap.ts` if its slug is translated. Tag pages are covered by both already (one card and one alternate pair per tag); their description is per tag (`blog.tag.description`).
+- URLs: `trailingSlash: 'always'` — internal links and test paths end with `/` (`localizePath` does it); slash-less paths 404 in `astro preview`.
+- Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default. Decided case: a "copy email" button on the contact CTA was **declined** (audit lot G, UX-07) — the address stays visible, selectable text next to the `mailto:` button.
+- New-tab links go through `ExternalLink.astro` (or `Button` with `external`), never a bare `target="_blank"`. Parent styles that target those links need `:global(a)`, since a scoped selector does not reach a child component's markup.
+- Print: elements that are site chrome (navigation, announcements, post navigation) carry the `.no-print` class; the print rules live in the design system's `global.css`.
 
 ## Tests & CI
 

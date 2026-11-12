@@ -1,5 +1,5 @@
 ---
-import { useTranslations, type Locale } from '../i18n/utils';
+import { useTranslations, formatDate, isoDate, type Locale } from '../i18n/utils';
 import { legal } from '../data/legal';
 import Section from './Section.astro';
 
@@ -10,18 +10,14 @@ interface Props {
 
 const { locale, title } = Astro.props;
 const t = useTranslations(locale);
-const updated = new Date(legal.lastUpdated).toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-GB', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const updated = new Date(legal.lastUpdated);
 ---
 
 <Section>
   <article class="legal">
     <p class="kicker">{t('legal.eyebrow')}</p>
     <h1 class="legal__title">{title}</h1>
-    <p class="legal__updated">{t('legal.updated')} <time datetime={legal.lastUpdated}>{updated}</time></p>
+    <p class="legal__updated">{t('legal.updated')} <time datetime={isoDate(updated)}>{formatDate(updated, locale)}</time></p>
     <div class="legal__body prose">
       <slot />
     </div>

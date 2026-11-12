@@ -3,16 +3,17 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Section from '../../../components/Section.astro';
 import SectionHeading from '../../../components/SectionHeading.astro';
-import BlogCard from '../../../components/BlogCard.astro';
-import { useTranslations, localizePath } from '../../../i18n/utils';
+import TagFilter from '../../../components/TagFilter.astro';
+import PostGrid from '../../../components/PostGrid.astro';
+import { useTranslations } from '../../../i18n/utils';
+import { publishedPosts, tagsOf } from '../../../lib/blog';
 
 const locale = 'en' as const;
 const t = useTranslations(locale);
 
-const posts = (await getCollection('blog', ({ id, data }) => id.startsWith(`${locale}/`) && !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
-const stripLocale = (id: string) => id.replace(`${locale}/`, '');
+const allPosts = await getCollection('blog');
+const posts = publishedPosts(allPosts, locale);
+const tags = tagsOf(allPosts, locale);
 ---
 
 <BaseLayout locale={locale} title={t('blog.pageTitle')} description={t('blog.subtitle')}>
@@ -25,43 +26,7 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
       subtitle={t('blog.subtitle')}
     />
 
-    {
-      posts.length > 0 ? (
-        <div class="journal">
-          {posts.map((post) => (
-            <BlogCard
-              locale={locale}
-              href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-              headingLevel="h2"
-            />
-          ))}
-        </div>
-      ) : (
-        <p>{t('blog.empty')}</p>
-      )
-    }
+    <TagFilter locale={locale} tags={tags} />
+    <PostGrid locale={locale} posts={posts} />
   </Section>
 </BaseLayout>
-
-<style>
-  .journal {
-    display: grid;
-    gap: var(--space-4);
-  }
-
-  @media (min-width: 48em) {
-    .journal {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  @media (min-width: 72em) {
-    .journal {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-</style>

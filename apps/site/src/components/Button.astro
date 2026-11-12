@@ -1,4 +1,6 @@
 ---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
 interface Props {
   href: string;
   variant?: 'primary' | 'quiet';
@@ -7,6 +9,7 @@ interface Props {
 }
 
 const { href, variant = 'primary', size = 'md', external = false } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <a
@@ -16,6 +19,8 @@ const { href, variant = 'primary', size = 'md', external = false } = Astro.props
   rel={external ? 'noopener noreferrer' : undefined}
 >
   <slot />
+  {external && <span aria-hidden="true">↗</span>}
+  {external && <span class="visually-hidden">{` ${t('aria.newTab')}`}</span>}
 </a>
 
 <style>

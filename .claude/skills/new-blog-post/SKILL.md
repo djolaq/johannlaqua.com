@@ -14,7 +14,7 @@ The content schema lives in `apps/site/src/content.config.ts` (`blog` collection
 - `title: string` (required)
 - `description: string` (required)
 - `date` (coercible to `Date`, e.g. `2026-09-12`)
-- `tags: string[]` (default `[]`)
+- `tags: string[]` (default `[]`) — lowercase slugs (`red-team`, enforced by the schema; each becomes a `/blog/tags/<tag>/` page). Keep the **same order** in the FR and EN files (`["securite", "red-team"]` ↔ `["security", "red-team"]`): tag pages find their translation by position.
 - `draft: boolean` (default `false`)
 - `translationId: string` (**required**) — the exact same value on the FR and EN side; it is what links the two translations for the language switch (see `getAlternateLocalePath` in `apps/site/src/i18n/utils.ts`)
 

@@ -20,13 +20,6 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BlogPostLayout
-  locale={locale}
-  title={post.data.title}
-  description={post.data.description}
-  date={post.data.date}
-  tags={post.data.tags}
-  translationId={post.data.translationId}
->
+<BlogPostLayout locale={locale} post={post}>
   <Content />
 </BlogPostLayout>

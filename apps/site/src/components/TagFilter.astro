@@ -1,0 +1,70 @@
+---
+// Topic filter for the blog: plain links to the generated tag pages, no JS.
+import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { tagPath } from '../lib/blog';
+
+interface Props {
+  locale: Locale;
+  tags: string[];
+  /** The tag page being viewed; undefined on the blog index ("All"). */
+  current?: string;
+}
+
+const { locale, tags, current } = Astro.props;
+const t = useTranslations(locale);
+const links = [
+  { label: t('blog.tags.all'), href: localizePath(locale, '/blog'), active: current === undefined },
+  ...tags.map((tag) => ({ label: `#${tag}`, href: tagPath(locale, tag), active: tag === current })),
+];
+---
+
+{
+  tags.length > 0 && (
+    <nav class="tag-filter no-print" aria-label={t('blog.tags.label')}>
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a class="tag-filter__link mono" href={link.href} aria-current={link.active ? 'page' : undefined}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .tag-filter {
+    margin-bottom: var(--space-6);
+  }
+
+  .tag-filter ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .tag-filter__link {
+    display: inline-block;
+    padding: 0.35em 0.9em;
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-decoration: none;
+    border: var(--line-hair) solid var(--rule);
+    border-radius: var(--radius-full);
+    transition:
+      color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  .tag-filter__link:hover {
+    color: var(--text);
+    border-color: var(--text-faint);
+  }
+
+  .tag-filter__link[aria-current='page'] {
+    color: var(--text);
+    border-color: var(--accent-stroke);
+  }
+</style>

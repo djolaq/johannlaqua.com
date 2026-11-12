@@ -39,6 +39,12 @@
   --blue-700: #1d46c4; /* hover of filled actions; blue text on sand (4.8:1) */
   --on-blue: #ffffff;
 
+  /* Print: plain black on white, whatever the screen tone (see @media print in global.css). */
+  --print-paper: #ffffff;
+  --print-ink: #000000;
+  --print-ink-muted: #444444;
+  --print-rule: #999999;
+
   /* Translucent layers for "glass" cards over imagery. */
   --charcoal-glass: rgb(30 30 28 / 0.72);
   --sand-veil: rgb(216 203 179 / 0.06);

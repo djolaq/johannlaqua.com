@@ -1,35 +1,69 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import { useTranslations, localizePath, locales, type Locale } from '../i18n/utils';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import BlogCard from '../components/BlogCard.astro';
+import { useTranslations, localizePath, formatDate, isoDate, ogImagePath, type Locale } from '../i18n/utils';
+import { adjacentPosts, counterpartOf, otherLocale, postPath, relatedPosts, tagPath } from '../lib/blog';
+import { name } from '../config/site';
 
 interface Props {
   locale: Locale;
-  title: string;
-  description: string;
-  date: Date;
-  tags: string[];
-  /** Shared id linking this post to its translation, used to resolve the language-switch link. */
-  translationId: string;
+  post: CollectionEntry<'blog'>;
 }
 
-const { locale, title, description, date, tags, translationId } = Astro.props;
+const { locale, post } = Astro.props;
+const { title, description, date, tags } = post.data;
 const t = useTranslations(locale);
 
-const otherLocale = locales.find((l) => l !== locale)!;
-const counterpart = (await getCollection('blog')).find(
-  (post) => post.id.startsWith(`${otherLocale}/`) && post.data.translationId === translationId && !post.data.draft,
-);
+const allPosts = await getCollection('blog');
+const counterpart = counterpartOf(allPosts, post);
 // Fall back to the blog index in the other locale when no translated counterpart exists,
 // since the slug (and therefore the naive prefix-swap) isn't guaranteed to match.
-const altHref = counterpart
-  ? localizePath(otherLocale, `/blog/${counterpart.id.replace(`${otherLocale}/`, '')}`)
-  : localizePath(otherLocale, '/blog');
-const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+const altHref = counterpart ? postPath(counterpart) : localizePath(otherLocale(locale), '/blog');
+const { previous, next } = adjacentPosts(allPosts, post);
+const related = relatedPosts(allPosts, post);
+
+// Home › Blog › post: one trail for both the visible breadcrumb and the
+// schema.org BreadcrumbList, so the two can never disagree.
+const crumbs = [
+  { label: t('breadcrumb.home'), href: localizePath(locale, '/') },
+  { label: t('nav.blog'), href: localizePath(locale, '/blog') },
+  { label: title },
+];
+
+// schema.org BlogPosting + BreadcrumbList, merged into BaseLayout's graph so
+// `author`/`publisher` can point at its Person node.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const person = { '@type': 'Person', '@id': new URL('/#person', Astro.site).href, name, url: new URL('/', Astro.site).href };
+const jsonLd = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${pageUrl}#article`,
+    headline: title,
+    description,
+    datePublished: date.toISOString(),
+    // No separate "updated" field in the content schema yet: a post is
+    // last modified when it is published.
+    dateModified: date.toISOString(),
+    author: person,
+    publisher: person,
+    image: new URL(ogImagePath(Astro.url.pathname), Astro.site).href,
+    inLanguage: locale,
+    keywords: tags,
+    url: pageUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: crumbs.map((crumb, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: crumb.label,
+      item: new URL(crumb.href ?? Astro.url.pathname, Astro.site).href,
+    })),
+  },
+];
 ---
 
 <BaseLayout
@@ -39,18 +73,34 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
   altHref={altHref}
   ogType="article"
   publishedTime={date.toISOString()}
+  jsonLd={jsonLd}
 >
   <article class="post">
     <header class="post__header">
       <div class="container post__header-inner">
-        <a class="post__back" href={localizePath(locale, '/blog')}>← {t('blog.back')}</a>
-        <p class="kicker">{t('blog.eyebrow')}</p>
+        <Breadcrumb
+          locale={locale}
+          items={crumbs}
+        />
+        <p class="kicker post__kicker">{t('blog.eyebrow')}</p>
         <h1 class="post__title">{title}</h1>
         <p class="post__description">{description}</p>
-        <p class="post__meta">
-          <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
-          {tags.map((tag) => <span class="mono">#{tag}</span>)}
-        </p>
+        <div class="post__meta">
+          <time class="mono" datetime={isoDate(date)}>{formatDate(date, locale)}</time>
+          {
+            tags.length > 0 && (
+              <ul class="post__tags">
+                {tags.map((tag) => (
+                  <li>
+                    <a class="mono" href={tagPath(locale, tag)}>
+                      #{tag}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+        </div>
       </div>
     </header>
 
@@ -60,6 +110,47 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
       </div>
     </div>
   </article>
+
+  {
+    (previous || next) && (
+      <nav class="container post__nav no-print" aria-label={t('blog.postNav')}>
+        {previous && (
+          <a class="post__nav-link card" href={postPath(previous)} rel="prev">
+            <span class="post__nav-label">← {t('blog.previous')}</span>
+            <span class="post__nav-title">{previous.data.title}</span>
+          </a>
+        )}
+        {next && (
+          <a class="post__nav-link post__nav-link--next card" href={postPath(next)} rel="next">
+            <span class="post__nav-label">{t('blog.next')} →</span>
+            <span class="post__nav-title">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="container post__related no-print" aria-labelledby="related-title">
+        <h2 id="related-title" class="post__related-title">
+          {t('blog.related')}
+        </h2>
+        <div class="post__related-grid">
+          {related.map((p) => (
+            <BlogCard
+              locale={locale}
+              href={postPath(p)}
+              title={p.data.title}
+              description={p.data.description}
+              date={p.data.date}
+              tags={p.data.tags}
+            />
+          ))}
+        </div>
+      </section>
+    )
+  }
 </BaseLayout>
 
 <style>
@@ -73,18 +164,8 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
     max-width: calc(52rem + 2 * var(--gutter));
   }
 
-  .post__back {
-    display: block;
-    width: fit-content;
-    margin-bottom: var(--space-7);
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    color: var(--text-muted);
-    text-decoration: none;
-  }
-
-  .post__back:hover {
-    color: var(--text);
+  .post__kicker {
+    margin-top: var(--space-7);
   }
 
   .post__title {
@@ -119,6 +200,73 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
     padding-block: var(--space-8) var(--space-9);
   }
 
+  .post__tags {
+    display: contents;
+  }
+
+  .post__tags a {
+    text-decoration: none;
+  }
+
+  .post__tags a:hover {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: var(--underline-offset);
+  }
+
+  .post__nav,
+  .post__related {
+    max-width: calc(52rem + 2 * var(--gutter));
+  }
+
+  .post__nav {
+    display: grid;
+    gap: var(--space-4);
+    padding-bottom: var(--space-8);
+  }
+
+  .post__nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    text-decoration: none;
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+
+  .post__nav-link:hover {
+    border-color: var(--text-faint);
+  }
+
+  .post__nav-link--next {
+    text-align: right;
+    grid-column: -2;
+  }
+
+  .post__nav-label {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .post__nav-title {
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+  }
+
+  .post__related {
+    padding-bottom: var(--space-9);
+  }
+
+  .post__related-title {
+    margin-bottom: var(--space-5);
+    font-size: var(--text-xl);
+  }
+
+  .post__related-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
   /* First paragraph reads as a lede: lighter and larger. */
   .post__content > :global(p:first-child) {
     font-family: var(--font-serif);
@@ -130,6 +278,11 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
   @media (min-width: 48em) {
     .post__title {
       font-size: var(--text-4xl);
+    }
+
+    .post__nav,
+    .post__related-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
