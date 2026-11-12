@@ -1,10 +1,10 @@
 import { expect, test } from '@playwright/test';
 
 const pages = [
-  { path: '/mentions-legales', lang: 'fr', heading: 'Mentions légales' },
-  { path: '/confidentialite', lang: 'fr', heading: 'Politique de confidentialité' },
-  { path: '/en/legal-notice', lang: 'en', heading: 'Legal notice' },
-  { path: '/en/privacy', lang: 'en', heading: 'Privacy policy' },
+  { path: '/mentions-legales/', lang: 'fr', heading: 'Mentions légales' },
+  { path: '/confidentialite/', lang: 'fr', heading: 'Politique de confidentialité' },
+  { path: '/en/legal-notice/', lang: 'en', heading: 'Legal notice' },
+  { path: '/en/privacy/', lang: 'en', heading: 'Privacy policy' },
 ];
 
 test.describe('legal pages', () => {

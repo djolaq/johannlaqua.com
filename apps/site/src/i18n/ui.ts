@@ -7,6 +7,7 @@ export const ui = {
     'site.title': 'Johann Laqua — Développeur Senior · IA · Cybersécurité',
     'site.description':
       "Développeur senior spécialisé en développement assisté par l'IA et en cybersécurité offensive/défensive (red & blue team).",
+    'site.role': 'Développeur Senior · IA · Cybersécurité',
     'nav.about': 'À propos',
     'nav.skills': 'Compétences',
     'nav.lab': 'Lab',
@@ -115,6 +116,8 @@ export const ui = {
     'blog.back': 'Retour au journal',
     'blog.empty': 'Aucun article pour le moment. Revenez bientôt.',
     'blog.pageTitle': 'Journal',
+    'blog.breadcrumbHome': 'Accueil',
+    'blog.feedTitle': 'Journal de Johann Laqua',
 
     'contact.eyebrow': 'Contact',
     'contact.title': 'Échangeons',
@@ -132,15 +135,21 @@ export const ui = {
     'legal.updated': 'Dernière mise à jour :',
     'legal.notice.title': 'Mentions légales',
     'legal.privacy.title': 'Politique de confidentialité',
+    'legal.notice.description':
+      'Mentions légales de johannlaqua.com : éditeur du site, directeur de la publication, hébergeur et propriété intellectuelle.',
+    'legal.privacy.description':
+      'Politique de confidentialité de johannlaqua.com : aucun cookie ni traceur, journaux techniques de l’hébergeur, données des échanges par e-mail et vos droits RGPD.',
 
     'notFound.title': 'Page introuvable',
     'notFound.body': "La page que vous cherchez n'existe pas ou a été déplacée.",
     'notFound.cta': "Retour à l'accueil",
+    'notFound.description': 'Cette page n’existe pas sur johannlaqua.com. Retour à l’accueil ou au journal.',
   },
   en: {
     'site.title': 'Johann Laqua — Senior Developer · AI · Cybersecurity',
     'site.description':
       'Senior developer specialized in AI-boosted development and offensive/defensive cybersecurity (red & blue team).',
+    'site.role': 'Senior Developer · AI · Cybersecurity',
     'nav.about': 'About',
     'nav.skills': 'Skills',
     'nav.lab': 'Lab',
@@ -249,6 +258,8 @@ export const ui = {
     'blog.back': 'Back to the blog',
     'blog.empty': 'No posts yet. Check back soon.',
     'blog.pageTitle': 'Blog',
+    'blog.breadcrumbHome': 'Home',
+    'blog.feedTitle': 'Johann Laqua’s blog',
 
     'contact.eyebrow': 'Contact',
     'contact.title': 'Let’s talk shop',
@@ -266,10 +277,15 @@ export const ui = {
     'legal.updated': 'Last updated:',
     'legal.notice.title': 'Legal notice',
     'legal.privacy.title': 'Privacy policy',
+    'legal.notice.description':
+      'Legal notice for johannlaqua.com: publisher, publication director, host and intellectual property.',
+    'legal.privacy.description':
+      'Privacy policy for johannlaqua.com: no cookies or trackers, the host’s technical logs, e-mail correspondence and your GDPR rights.',
 
     'notFound.title': 'Page not found',
     'notFound.body': "The page you're looking for doesn't exist or has moved.",
     'notFound.cta': 'Back to home',
+    'notFound.description': 'This page does not exist on johannlaqua.com. Head back to the home page or the blog.',
   },
 } as const;
 

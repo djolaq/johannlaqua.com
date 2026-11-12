@@ -47,3 +47,20 @@ export function getAlternateLocalePath(currentLocale: Locale, pathname: string):
   }
   return { locale: otherLocale, path: localizePath(otherLocale, rest) };
 }
+
+/** Open Graph locale (`language_TERRITORY`) of a site locale. */
+export function ogLocale(locale: Locale): string {
+  return { fr: 'fr_FR', en: 'en_US' }[locale];
+}
+
+/** Size of the build-time social images (the 1.91:1 Open Graph format). */
+export const ogImageSize = { width: 1200, height: 630 } as const;
+
+/**
+ * Path of the build-time social image of a page (see `pages/og/[...path].png.ts`):
+ * `/` → `/og/index.png`, `/en/` → `/og/en.png`, `/en/blog/x/` → `/og/en/blog/x.png`.
+ */
+export function ogImagePath(pathname: string): string {
+  const key = pathname.replace(/^\/+|\/+$/g, '') || 'index';
+  return `/og/${key}.png`;
+}
