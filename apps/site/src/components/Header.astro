@@ -30,7 +30,7 @@ const navItems = [
       {name}
     </a>
 
-    <nav class="header__nav" aria-label="Primary">
+    <nav class="header__nav" aria-label={t('aria.primaryNav')}>
       <ul>
         {
           navItems.map((item) => (
@@ -92,6 +92,7 @@ const navItems = [
 
   .header__nav ul {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-6);
   }
 
@@ -131,7 +132,7 @@ const navItems = [
     }
 
     .header__nav ul {
-      gap: var(--space-5);
+      gap: var(--space-3);
     }
   }
 </style>

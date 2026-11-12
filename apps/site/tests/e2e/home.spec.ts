@@ -72,6 +72,35 @@ test.describe('Home page (en)', () => {
   });
 });
 
+test.describe('Narrow viewport (320px)', () => {
+  for (const path of ['/', '/en/', '/blog/', '/blog/penser-comme-un-attaquant/']) {
+    test(`does not scroll horizontally (${path})`, async ({ page }) => {
+      await page.setViewportSize({ width: 320, height: 800 });
+      await page.goto(path);
+
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+      );
+      expect(overflow).toBe(0);
+    });
+  }
+
+  test('keeps the hero stats on their own column', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await page.goto('/');
+
+    const boxes = await page.locator('.stat__value').evaluateAll((els) =>
+      els.map((el) => {
+        const { left, right } = el.getBoundingClientRect();
+        return { left, right };
+      }),
+    );
+    for (let i = 1; i < boxes.length; i++) {
+      expect(boxes[i].left).toBeGreaterThanOrEqual(boxes[i - 1].right);
+    }
+  });
+});
+
 test.describe('Social links', () => {
   const profiles = ['https://github.com/djolaq', 'https://www.linkedin.com/in/johannlaqua/'];
 

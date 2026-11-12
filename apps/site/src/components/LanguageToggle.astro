@@ -1,5 +1,5 @@
 ---
-import { getAlternateLocalePath, type Locale } from '../i18n/utils';
+import { getAlternateLocalePath, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
   locale: Locale;
@@ -8,6 +8,7 @@ interface Props {
 }
 
 const { locale, href } = Astro.props;
+const t = useTranslations(locale);
 const alternate = getAlternateLocalePath(locale, Astro.url.pathname);
 const labels: Record<Locale, string> = { fr: 'FR', en: 'EN' };
 ---
@@ -16,9 +17,11 @@ const labels: Record<Locale, string> = { fr: 'FR', en: 'EN' };
   class="lang-toggle"
   href={href ?? alternate.path}
   hreflang={alternate.locale}
-  aria-label={`Switch language to ${labels[alternate.locale]}`}
 >
-  {labels[alternate.locale]}
+  <span class="visually-hidden">
+    {t(alternate.locale === 'fr' ? 'aria.switchToFrench' : 'aria.switchToEnglish')}
+  </span>
+  <span lang={alternate.locale} aria-hidden="true">{labels[alternate.locale]}</span>
 </a>
 
 <style>

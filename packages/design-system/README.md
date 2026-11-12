@@ -2,7 +2,7 @@
 
 > Living reference. Source of truth for values: `src/tokens.css` (this package).
 > Any change to a token is mirrored here (and in the claude.ai Project doc
-> `claude/design-system.md`). Last update: 2026-11-11 (v2.2).
+> `claude/design-system.md`). Last update: 2026-11-11 (v2.3).
 
 ## This package
 
@@ -44,17 +44,20 @@ tracked-caps kicker, glass chart card, stats split by hairlines).
 | **Sand** (brand) | `--sand-300` | `#D8CBB3` | Headlines and body text on charcoal; sand tone background |
 | Sand muted | `--sand-500` | `#A39A88` | Muted text on charcoal (6:1) |
 | Sand light / rule / ink | `--sand-50` `--sand-400` `--sand-ink-600/700` | `#ECE4D5` `#C6B89D` `#6E675B` `#57524A` | Only for the optional `.tone-sand` band |
-| **Electric blue** (brand) | `--blue-500` | `#2F6BFF` | Primary buttons, announcement bar, chart curve, featured card border, focus ring |
-| Blue hover | `--blue-600` | `#2459E0` | Hover of filled buttons |
+| **Electric blue** (brand) | `--blue-500` | `#2F6BFF` | Chart curve, focus ring, strokes, the hero pulse — never behind text |
+| Fill (actions) | `--accent-fill` | `#2459E0` | Primary buttons, announcement bar, skip link (white text 5.9:1) |
+| Fill hover | `--accent-fill-hover` | `#1D46C4` | Hover of filled actions |
 | Blue text on charcoal | `--blue-300` | `#8FB0FF` | Links, icons (7.8:1) |
 | Blue text on sand | `--blue-700` | `#1D46C4` | Links in the sand tone (4.8:1) |
-| On blue | `--on-blue` | `#FFFFFF` | Text on blue fills (4.5:1) |
+| On blue | `--on-blue` | `#FFFFFF` | Text on `--accent-fill` fills (5.9:1) |
 | Glass | `--charcoal-glass` | charcoal at 72 % | Cards over imagery, sticky header |
 | Veil / hairline | `--sand-veil` / `--sand-hairline` | sand at 6 % / 14 % | Quiet button fill / all hairlines and card borders |
 | Glow | `--blue-glow` | blue at 22 % | Soft glow under primary button, featured card, contact panel |
 
 **Accessibility rule.** `#2F6BFF` is never used for small text (3.7:1 on
-charcoal): text links use `--link` (= `--blue-300` on charcoal).
+charcoal): text links use `--link` (= `--blue-300` on charcoal). It is not
+used behind white text either — `#2F6BFF` + white is 4.499:1, just under AA;
+filled surfaces use `--accent-fill` (`#2459E0`, 5.9:1).
 
 ### Tones
 
@@ -62,7 +65,7 @@ charcoal): text links use `--link` (= `--blue-300` on charcoal).
 light band if ever needed. Both redefine the semantic tokens components
 use: `--surface`, `--surface-raised`, `--surface-card`, `--text`,
 `--text-muted`, `--text-faint`, `--rule`, `--rule-strong`, `--link`,
-`--accent-stroke`.
+`--accent-stroke`, `--accent-fill`, `--accent-fill-hover`.
 
 ## Typography
 
@@ -120,6 +123,13 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.3 — 2026-11-11**: accessibility pass from the site audit. New semantic
+  `--accent-fill` (`#2459E0`) / `--accent-fill-hover` (`#1D46C4`) for surfaces
+  carrying white text — white on `--blue-500` was 4.499:1, just under AA;
+  `--blue-500` keeps strokes, focus rings and the chart curve. New
+  `--scroll-offset` token (96px, `header + 4rem` below 48em) so anchors clear
+  the wrapped mobile header.
 
 - **v2.2 — 2026-11-11**: no visual change. The design system becomes its own
   workspace package (`packages/design-system`) consumed by the site; hero
