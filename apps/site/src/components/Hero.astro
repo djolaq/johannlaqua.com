@@ -185,6 +185,19 @@ const stats = [
     color: var(--text-muted);
   }
 
+  /* Below 34em the three columns are too narrow for the longest value
+     ("Red & Blue"): let it wrap instead of bleeding into the next column. */
+  @media (max-width: 34em) {
+    .stat {
+      padding-inline: var(--space-3);
+    }
+
+    .stat__value {
+      font-size: var(--text-md);
+      white-space: normal;
+    }
+  }
+
   @media (min-width: 64em) {
     .hero {
       padding-block: var(--space-9) var(--space-8);

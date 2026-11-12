@@ -10,7 +10,7 @@
 html {
   color-scheme: dark;
   scroll-behavior: smooth;
-  scroll-padding-top: var(--space-9);
+  scroll-padding-top: var(--scroll-offset);
   -webkit-text-size-adjust: 100%;
   background: var(--charcoal-900);
 }
@@ -75,7 +75,7 @@ pre {
 }
 
 ::selection {
-  background: var(--blue-500);
+  background: var(--accent-fill);
   color: var(--on-blue);
 }
 
@@ -239,7 +239,7 @@ pre {
   z-index: var(--z-overlay);
   padding: var(--space-2) var(--space-4);
   font-family: var(--font-display);
-  background: var(--blue-500);
+  background: var(--accent-fill);
   color: var(--on-blue);
   border-radius: var(--radius-sm);
   transition: top var(--duration-base) var(--ease-out);

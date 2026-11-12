@@ -10,7 +10,7 @@ interface Props {
   as?: 'h1' | 'h2';
 }
 
-const { kicker, title, accent, subtitle, as: Tag = 'h2' } = Astro.props;
+const { kicker, title, accent, subtitle, as: Tag = 'h2' }: Props = Astro.props;
 ---
 
 <div class="heading">

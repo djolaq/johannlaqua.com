@@ -34,9 +34,9 @@
 
   /* ---- Palette: electric blue (accent) ---- */
   --blue-300: #8fb0ff; /* blue text on charcoal (7.8:1) */
-  --blue-500: #2f6bff; /* brand — fills, strokes, focus; white text on it 4.5:1 */
-  --blue-600: #2459e0; /* hover of filled actions */
-  --blue-700: #1d46c4; /* blue text on sand (4.8:1) */
+  --blue-500: #2f6bff; /* brand — strokes, focus rings, chart curve (never behind text) */
+  --blue-600: #2459e0; /* filled actions: white text on it 5.9:1 (AA) */
+  --blue-700: #1d46c4; /* hover of filled actions; blue text on sand (4.8:1) */
   --on-blue: #ffffff;
 
   /* Translucent layers for "glass" cards over imagery. */
@@ -56,6 +56,9 @@
   --rule-strong: var(--charcoal-700);
   --link: var(--blue-300);
   --accent-stroke: var(--blue-500);
+  /* Filled surfaces that carry white text: darkened so the pair clears AA 4.5:1. */
+  --accent-fill: var(--blue-600);
+  --accent-fill-hover: var(--blue-700);
 
   /* ---- Typography: families ---- */
   --font-sans: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -123,6 +126,8 @@
   --gutter: var(--space-5);
   --header-height: 4.5rem;
   --announce-height: 2.25rem;
+  /* Clears the sticky header when jumping to an in-page anchor. */
+  --scroll-offset: var(--space-9);
 
   /* ---- Radii ---- */
   --radius-xs: 4px;
@@ -156,5 +161,12 @@
 @media (min-width: 48em) {
   :root {
     --gutter: var(--space-7);
+  }
+}
+
+@media (max-width: 48em) {
+  :root {
+    /* Below 48em the header wraps onto two rows (brand/actions, then nav). */
+    --scroll-offset: calc(var(--header-height) + var(--space-8));
   }
 }

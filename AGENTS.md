@@ -18,8 +18,10 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | i18n | Native Astro i18n (`i18n.defaultLocale: 'fr'`, `locales: ['fr','en']`, `prefixDefaultLocale: false`) | FR at the root `/`, EN under `/en/` |
 | Blog content | Content Layer API (`apps/site/src/content.config.ts`, `glob` loader) — **not** the legacy Content Collections API | Required with Astro 7 |
 | CSS | Native CSS + custom properties, no framework, from `@johannlaqua/design-system` | Minimal bundle, a single token file as source of truth |
-| Sitemap | `@astrojs/sitemap` | SEO |
-| Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils) |
+| Sitemap | `@astrojs/sitemap`, alternates/`lastmod` from `apps/site/src/lib/sitemap.ts` | SEO — explicit FR/EN pairs because post and legal slugs differ per locale |
+| Feeds | `@astrojs/rss` (`/rss.xml`, `/en/rss.xml`) | One RSS 2.0 feed per locale |
+| Social images | `satori` + `sharp`, fonts from static `@fontsource/geist` + `@fontsource/jetbrains-mono` (WOFF, which satori needs) | One 1200×630 PNG per page, rendered at build time — no image service (privacy policy) |
+| Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils, blog translation parity) |
 | e2e tests | Playwright (`apps/site/playwright.config.ts`) | Real served pages (build + `astro preview`) |
 | Repo layout | npm workspaces: `apps/site`, `packages/design-system` | One repo, one lockfile, clear boundaries (ADR 0001) |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every PR/branch push, Node read from `.nvmrc` (22.x) required by Astro 7 |
@@ -56,7 +58,12 @@ apps/
         projects.ts           public repos shown in the home "Lab" section (name, URL, stack, i18n description key) — SINGLE SOURCE
       i18n/
         ui.ts                 FR/EN translation dictionary — SINGLE SOURCE of UI strings, UiKey type derived from FR keys
-        utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath
+        utils.ts               getLangFromUrl, useTranslations(locale), localizePath, getAlternateLocalePath, ogImagePath, ogLocale
+      lib/                     build-time helpers with no UI (importable from the Astro config and unit tests unless noted)
+        blog-files.ts          reads post frontmatter from disk (no astro:content) + findTranslationIssues (FR/EN parity)
+        sitemap.ts             per-URL FR/EN/x-default alternates + lastmod, consumed by astro.config.mjs
+        og-image.ts            social card renderer (satori → sharp PNG), colours from the design-system tokens.json
+        feed.ts                RSS feed builder (uses astro:content: endpoints only)
       content/
         blog/fr/*.md           FR posts
         blog/en/*.md            EN posts
@@ -70,6 +77,8 @@ apps/
         en/blog/[slug].astro      EN post
         mentions-legales.astro    FR legal notice (EN: en/legal-notice.astro)
         confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
+        rss.xml.ts                FR feed (EN: en/rss.xml.ts)
+        og/[...path].png.ts       one social image per page; its list of pages must follow new routes (an e2e test fails otherwise)
     public/                    favicon.svg, robots.txt, .well-known/security.txt (static assets served as-is)
     tests/
       unit/                    Vitest — pure logic only
@@ -134,7 +143,9 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
-- Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `Person` whose `sameAs` is derived from `apps/site/src/config/site.ts`. Any new profile is added in `site.ts` only.
+- Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `@graph` with a `Person` (`@id` `/#person`, `sameAs` derived from `apps/site/src/config/site.ts`) and a `WebSite`; pages add nodes through the `jsonLd` prop (posts: `BlogPosting` + `BreadcrumbList`). Any new profile is added in `site.ts` only.
+- SEO per page: `BaseLayout` emits canonical, `hreflang` fr/en/x-default (x-default = FR), `og:locale(:alternate)`, `og:image`/`twitter:image` (`/og/<page path>.png`), the RSS link and the robots meta. Every page passes its own `description` (an e2e test rejects duplicates). A new route needs: an entry in `pages/og/[...path].png.ts`, and in `PAGE_PAIRS` of `lib/sitemap.ts` if its slug is translated.
+- URLs: `trailingSlash: 'always'` — internal links and test paths end with `/` (`localizePath` does it); slash-less paths 404 in `astro preview`.
 - Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default.
 
 ## Tests & CI

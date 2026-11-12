@@ -1,7 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
-import { useTranslations, localizePath, locales, type Locale } from '../i18n/utils';
+import { useTranslations, localizePath, locales, ogImagePath, type Locale } from '../i18n/utils';
+import { name } from '../config/site';
 
 interface Props {
   locale: Locale;
@@ -30,9 +31,49 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
   month: 'long',
   day: 'numeric',
 });
+
+// schema.org BlogPosting + BreadcrumbList (Home › Blog › post), merged into
+// BaseLayout's graph so `author`/`publisher` can point at its Person node.
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const person = { '@type': 'Person', '@id': new URL('/#person', Astro.site).href, name, url: new URL('/', Astro.site).href };
+const jsonLd = [
+  {
+    '@type': 'BlogPosting',
+    '@id': `${pageUrl}#article`,
+    headline: title,
+    description,
+    datePublished: date.toISOString(),
+    // No separate "updated" field in the content schema yet: a post is
+    // last modified when it is published.
+    dateModified: date.toISOString(),
+    author: person,
+    publisher: person,
+    image: new URL(ogImagePath(Astro.url.pathname), Astro.site).href,
+    inLanguage: locale,
+    keywords: tags,
+    url: pageUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { name: t('blog.breadcrumbHome'), item: new URL(localizePath(locale, '/'), Astro.site).href },
+      { name: t('blog.pageTitle'), item: new URL(localizePath(locale, '/blog'), Astro.site).href },
+      { name: title, item: pageUrl },
+    ].map((crumb, i) => ({ '@type': 'ListItem', position: i + 1, ...crumb })),
+  },
+];
 ---
 
-<BaseLayout locale={locale} title={title} description={description} altHref={altHref}>
+<BaseLayout
+  locale={locale}
+  title={title}
+  description={description}
+  altHref={altHref}
+  ogType="article"
+  publishedTime={date.toISOString()}
+  jsonLd={jsonLd}
+>
   <article class="post">
     <header class="post__header">
       <div class="container post__header-inner">

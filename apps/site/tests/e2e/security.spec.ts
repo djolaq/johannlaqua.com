@@ -9,7 +9,7 @@ async function allPagePaths(request: APIRequestContext): Promise<string[]> {
     const xml = await (await request.get(sitemap)).text();
     paths.push(...[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname));
   }
-  return [...paths, '/this-page-does-not-exist'];
+  return [...paths, '/this-page-does-not-exist/'];
 }
 
 test.describe('Security & privacy', () => {

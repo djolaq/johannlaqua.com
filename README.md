@@ -10,6 +10,7 @@ Personal website of Johann Laqua — senior developer, AI-assisted development a
 - **Content Collections** (Content Layer API) for the blog/journal posts (Markdown)
 - **Native CSS** with design tokens (custom properties) — no CSS framework, to keep the bundle minimal
 - **Native Astro i18n** — FR at the root (`/`), EN under `/en/`
+- **SEO** — sitemap with FR/EN/x-default alternates, RSS feed per locale, schema.org JSON-LD, and a social image per page generated at build time (satori + sharp, no external service)
 
 ## Repository layout
 

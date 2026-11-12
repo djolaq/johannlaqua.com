@@ -234,13 +234,13 @@
 }
 
 .btn--primary {
-  background: var(--blue-500);
+  background: var(--accent-fill);
   color: var(--on-blue);
   box-shadow: 0 8px 28px -10px var(--blue-glow);
 }
 
 .btn--primary:hover {
-  background: var(--blue-600);
+  background: var(--accent-fill-hover);
 }
 
 .btn--quiet {
@@ -258,7 +258,7 @@
 
 .pill--blue {
   color: var(--on-blue);
-  background: var(--blue-500);
+  background: var(--accent-fill);
 }
 
 .pill--quiet {
@@ -277,7 +277,7 @@
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--on-blue);
-  background: var(--blue-500);
+  background: var(--accent-fill);
   border-radius: var(--radius-sm);
 }
 

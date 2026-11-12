@@ -1,7 +1,16 @@
 ---
 // Design system: self-hosted fonts, tokens and base styles (packages/design-system).
 import '@johannlaqua/design-system';
-import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import {
+  useTranslations,
+  localizePath,
+  withTrailingSlash,
+  ogImagePath,
+  ogLocale,
+  ogImageSize,
+  locales,
+  type Locale,
+} from '../i18n/utils';
 import Header from '../components/Header.astro';
 import AnnouncementBar from '../components/AnnouncementBar.astro';
 import Footer from '../components/Footer.astro';
@@ -14,33 +23,82 @@ interface Props {
   description?: string;
   /** Explicit URL of the translated counterpart page, when the slug differs per locale (e.g. blog posts). */
   altHref?: string;
+  /** Opt out of indexing entirely (the 404, which is served for any unknown path). */
+  noindex?: boolean;
+  /** `article` on blog posts, `website` everywhere else. */
+  ogType?: 'website' | 'article';
+  /** ISO date, emitted as `article:published_time` when `ogType` is `article`. */
+  publishedTime?: string;
+  /** Extra schema.org nodes for this page (e.g. BlogPosting), merged into the site's JSON-LD graph. */
+  jsonLd?: Record<string, unknown>[];
 }
 
-const { locale, title, description, altHref } = Astro.props;
+const {
+  locale,
+  title,
+  description,
+  altHref,
+  noindex = false,
+  ogType = 'website',
+  publishedTime,
+  jsonLd = [],
+} = Astro.props;
 const t = useTranslations(locale);
 
 const pageTitle = title ? `${title} · Johann Laqua` : t('site.title');
 const pageDescription = description ?? t('site.description');
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const siteUrl = new URL('/', Astro.site);
 
 // `altHref` (when given) is the already-localized path of the translated
-// counterpart page — needed whenever the slug differs per locale (blog posts).
+// counterpart page — needed whenever the slug differs per locale (blog posts,
+// legal pages). Normalised here so callers cannot hand us a URL shape that
+// disagrees with the canonical one.
 // Without it, the two locales share the same path shape and a naive prefix
 // swap is enough.
+const counterpartPath = altHref ? withTrailingSlash(altHref) : undefined;
 const fallbackPath = Astro.url.pathname.replace(/^\/en/, '');
-const frPath = locale === 'fr' ? Astro.url.pathname : (altHref ?? localizePath('fr', fallbackPath));
-const enPath = locale === 'en' ? Astro.url.pathname : (altHref ?? localizePath('en', fallbackPath));
+const frPath = locale === 'fr' ? Astro.url.pathname : (counterpartPath ?? localizePath('fr', fallbackPath));
+const enPath = locale === 'en' ? Astro.url.pathname : (counterpartPath ?? localizePath('en', fallbackPath));
 const frAlternateUrl = new URL(frPath, Astro.site);
 const enAlternateUrl = new URL(enPath, Astro.site);
 
-// schema.org Person: ties the site to its owner's public profiles (sameAs).
+// Build-time social image (pages/og/[...path].png.ts). The 404 is served for
+// any unknown path, so it borrows its locale's home image.
+const ogImageUrl = new URL(ogImagePath(noindex ? localizePath(locale, '/') : Astro.url.pathname), Astro.site);
+const ogImageAlt = title ?? t('site.title');
+const feedUrl = new URL(localizePath(locale, '/rss.xml'), Astro.site);
+
+const robots = noindex
+  ? 'noindex'
+  : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+
+// schema.org graph: the owner (Person, tied to their public profiles through
+// sameAs) and the site (WebSite, in this page's language), plus whatever the
+// page adds (BlogPosting, BreadcrumbList on posts).
 // `<` is escaped so the JSON can never close the surrounding <script>.
-const personJsonLd = JSON.stringify({
+const personId = new URL('/#person', Astro.site).href;
+const jsonLdGraph = JSON.stringify({
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name,
-  url: new URL('/', Astro.site).href,
-  sameAs: social.map((s) => s.href),
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name,
+      url: siteUrl.href,
+      sameAs: social.map((s) => s.href),
+      knowsLanguage: [...locales],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', Astro.site).href,
+      name,
+      url: siteUrl.href,
+      inLanguage: locale,
+      publisher: { '@id': personId },
+    },
+    ...jsonLd,
+  ],
 }).replace(/</g, '\\u003c');
 ---
 
@@ -55,28 +113,59 @@ const personJsonLd = JSON.stringify({
     }
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="fr" href={frAlternateUrl} />
-    <link rel="alternate" hreflang="en" href={enAlternateUrl} />
+    {
+      !noindex && (
+        <>
+          <link rel="canonical" href={canonicalUrl} />
+          <link rel="alternate" hreflang="fr" href={frAlternateUrl} />
+          <link rel="alternate" hreflang="en" href={enAlternateUrl} />
+          <link rel="alternate" hreflang="x-default" href={frAlternateUrl} />
+        </>
+      )
+    }
+    <meta name="robots" content={robots} />
+    <link rel="alternate" type="application/rss+xml" title={t('blog.feedTitle')} href={feedUrl} />
 
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={name} />
+    <meta property="og:locale" content={ogLocale(locale)} />
+    {
+      locales
+        .filter((l) => l !== locale)
+        .map((l) => <meta property="og:locale:alternate" content={ogLocale(l)} />)
+    }
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={pageDescription} />
-    <meta property="og:url" content={canonicalUrl} />
-    <meta name="twitter:card" content="summary" />
+    {!noindex && <meta property="og:url" content={canonicalUrl} />}
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(ogImageSize.width)} />
+    <meta property="og:image:height" content={String(ogImageSize.height)} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    {
+      ogType === 'article' && (
+        <>
+          {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+          <meta property="article:author" content={siteUrl} />
+        </>
+      )
+    }
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     <meta name="theme-color" content="#1e1e1c" />
 
     <meta name="generator" content={Astro.generator} />
 
-    <script type="application/ld+json" set:html={personJsonLd} />
+    <script type="application/ld+json" is:inline set:html={jsonLdGraph} />
   </head>
   <body class="tone-charcoal">
     <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
     <AnnouncementBar locale={locale} />
-    <Header locale={locale} altHref={altHref} />
+    <Header locale={locale} altHref={counterpartPath} />
     <main id="main">
       <slot />
     </main>
