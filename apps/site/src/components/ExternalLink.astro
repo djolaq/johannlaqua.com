@@ -1,0 +1,24 @@
+---
+// A link that opens in a new tab, and says so: a visible ↗ (decorative) plus a
+// visually hidden "(opens in a new tab)" in the page's language (WCAG 3.2.5).
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  href: string;
+  class?: string;
+  /** Adds `me` to `rel`, for profile links (IndieWeb / Mastodon identity verification). */
+  me?: boolean;
+}
+
+const { href, class: className, me = false } = Astro.props;
+const t = useTranslations(getLangFromUrl(Astro.url));
+const rel = me ? 'me noopener noreferrer' : 'noopener noreferrer';
+---
+
+<a class:list={['external-link', className]} href={href} target="_blank" rel={rel}><slot /><span class="external-link__icon" aria-hidden="true">↗</span><span class="visually-hidden">{` ${t('aria.newTab')}`}</span></a>
+
+<style>
+  .external-link__icon {
+    margin-left: 0.25em;
+  }
+</style>

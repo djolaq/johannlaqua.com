@@ -1,4 +1,5 @@
 ---
+import ExternalLink from './ExternalLink.astro';
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import { name, social } from '../config/site';
 
@@ -25,7 +26,7 @@ const legalLinks = [
 ];
 ---
 
-<footer class="footer tone-charcoal">
+<footer class="footer tone-charcoal no-print">
   <div class="container footer__inner">
     <div class="footer__brand">
       <a href={home}>{name}</a>
@@ -48,9 +49,9 @@ const legalLinks = [
       {
         social.map((s) => (
           <li>
-            <a href={s.href} target="_blank" rel="me noopener noreferrer">
-              {s.label} ↗
-            </a>
+            <ExternalLink href={s.href} me>
+              {s.label}
+            </ExternalLink>
           </li>
         ))
       }
@@ -105,13 +106,13 @@ const legalLinks = [
     gap: var(--space-3) var(--space-5);
   }
 
-  .footer a {
+  .footer :global(a) {
     color: var(--text-muted);
     text-decoration: none;
     transition: color var(--duration-base) var(--ease-out);
   }
 
-  .footer a:hover {
+  .footer :global(a:hover) {
     color: var(--text);
   }
 

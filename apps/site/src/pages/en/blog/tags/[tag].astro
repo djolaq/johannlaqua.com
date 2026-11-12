@@ -1,0 +1,65 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Section from '../../../../components/Section.astro';
+import SectionHeading from '../../../../components/SectionHeading.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+import TagFilter from '../../../../components/TagFilter.astro';
+import PostGrid from '../../../../components/PostGrid.astro';
+import { useTranslations, localizePath } from '../../../../i18n/utils';
+import { otherLocale, publishedPosts, tagCounterpart, tagPath, tagsOf } from '../../../../lib/blog';
+
+const locale = 'en' as const;
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  return tagsOf(allPosts, 'en').map((tag) => ({
+    params: { tag },
+    props: { tag, allPosts },
+  }));
+}
+
+interface Props {
+  tag: string;
+  allPosts: CollectionEntry<'blog'>[];
+}
+
+const { tag, allPosts }: Props = Astro.props;
+const t = useTranslations(locale);
+const posts = publishedPosts(allPosts, locale).filter((post) => post.data.tags.includes(tag));
+// The same topic may be spelled differently in the other locale (see tagCounterpart).
+const counterpart = tagCounterpart(allPosts, locale, tag);
+const altHref = counterpart ? tagPath(otherLocale(locale), counterpart) : localizePath(otherLocale(locale), '/blog');
+const pageTitle = t('blog.tag.pageTitle').replace('{tag}', `#${tag}`);
+---
+
+<BaseLayout locale={locale} title={pageTitle} description={t('blog.tag.subtitle')} altHref={altHref}>
+  <Section>
+    <Breadcrumb
+      locale={locale}
+      items={[
+        { label: t('breadcrumb.home'), href: localizePath(locale, '/') },
+        { label: t('nav.blog'), href: localizePath(locale, '/blog') },
+        { label: `#${tag}` },
+      ]}
+    />
+    <div class="tag-page__heading">
+      <SectionHeading
+        as="h1"
+        kicker={t('blog.eyebrow')}
+        title={t('blog.tag.title')}
+        accent={`#${tag}`}
+        subtitle={t('blog.tag.subtitle')}
+      />
+    </div>
+
+    <TagFilter locale={locale} tags={tagsOf(allPosts, locale)} current={tag} />
+    <PostGrid locale={locale} posts={posts} />
+  </Section>
+</BaseLayout>
+
+<style>
+  .tag-page__heading {
+    margin-top: var(--space-6);
+  }
+</style>

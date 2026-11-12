@@ -1,0 +1,70 @@
+---
+// Visible breadcrumb trail. The last item is the current page (not a link).
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+  locale: Locale;
+  items: { label: string; href?: string }[];
+}
+
+const { locale, items } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<nav class="breadcrumb no-print" aria-label={t('aria.breadcrumb')}>
+  <ol>
+    {
+      items.map((item, index) => (
+        <li>
+          {item.href && index < items.length - 1 ? (
+            <a href={item.href}>{item.label}</a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  /* One line: the current page title truncates instead of wrapping under the separator. */
+  .breadcrumb ol {
+    display: flex;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .breadcrumb li {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .breadcrumb li:last-child {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .breadcrumb li + li::before {
+    content: '›';
+    color: var(--text-faint);
+  }
+
+  .breadcrumb a {
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--text);
+  }
+
+  .breadcrumb [aria-current] {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text);
+  }
+</style>

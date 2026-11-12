@@ -1,4 +1,5 @@
 ---
+import ExternalLink from '../components/ExternalLink.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LegalArticle from '../components/LegalArticle.astro';
 import { useTranslations } from '../i18n/utils';
@@ -54,7 +55,7 @@ const { publisher, host } = legal;
     <p>
       Pour les exercer, écrivez à <a href={`mailto:${publisher.email}`}>{publisher.email}</a>. Si vous estimez que
       vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de la CNIL
-      (<a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer">cnil.fr</a>).
+      (<ExternalLink href="https://www.cnil.fr">cnil.fr</ExternalLink>).
     </p>
   </LegalArticle>
 </BaseLayout>

@@ -8,7 +8,8 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    tags: z.array(z.string()).default([]),
+    /** Lowercase slugs (they become `/blog/tags/<tag>/` URLs), same order as in the translation. */
+    tags: z.array(z.string().regex(/^[a-z0-9]+(-[a-z0-9]+)*$/)).default([]),
     draft: z.boolean().default(false),
     /** Shared key linking this post to its translation in the other locale, if any. */
     translationId: z.string(),

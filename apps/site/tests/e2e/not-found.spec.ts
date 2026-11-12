@@ -26,6 +26,28 @@ test.describe('404 page', () => {
     );
   });
 
+  for (const path of ['/this-page-does-not-exist', '/en/this-page-does-not-exist']) {
+    test(`${path}: offers home, blog and contact in both languages`, async ({ page }) => {
+      await page.goto(path);
+
+      for (const { name, links } of [
+        {
+          name: 'Où aller ?',
+          links: [["Retour à l'accueil", '/'], ['Lire le journal', '/blog/'], ['Me contacter', '/#contact']],
+        },
+        {
+          name: 'Where to go',
+          links: [['Back to home', '/en/'], ['Read the blog', '/en/blog/'], ['Get in touch', '/en/#contact']],
+        },
+      ]) {
+        const nav = page.getByRole('navigation', { name });
+        for (const [label, href] of links) {
+          await expect(nav.getByRole('link', { name: label })).toHaveAttribute('href', href);
+        }
+      }
+    });
+  }
+
   test('is not indexable and declares no canonical URL', async ({ page }) => {
     await page.goto('/this-page-does-not-exist/');
 

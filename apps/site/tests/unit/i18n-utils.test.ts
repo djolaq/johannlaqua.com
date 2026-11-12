@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
+  formatDate,
   getAlternateLocalePath,
+  isoDate,
   getLangFromUrl,
   localizePath,
   ogImagePath,
@@ -104,5 +106,23 @@ describe('ogLocale', () => {
   it('maps site locales to Open Graph locales', () => {
     expect(ogLocale('fr')).toBe('fr_FR');
     expect(ogLocale('en')).toBe('en_US');
+  });
+});
+
+describe('formatDate / isoDate', () => {
+  const date = new Date('2026-06-12');
+
+  it('formats a calendar date per locale', () => {
+    expect(formatDate(date, 'fr')).toBe('12 juin 2026');
+    expect(formatDate(date, 'en')).toBe('12 June 2026');
+  });
+
+  it('does not shift the day with the build machine time zone', () => {
+    // UTC midnight is still the 11th in any zone west of Greenwich.
+    expect(formatDate(new Date('2026-01-01'), 'en')).toBe('1 January 2026');
+  });
+
+  it('emits a date-only datetime value', () => {
+    expect(isoDate(date)).toBe('2026-06-12');
   });
 });

@@ -38,6 +38,27 @@ export function localizePath(locale: Locale, path: string): string {
   return `/${locale}${clean}`;
 }
 
+const dateLocales: Record<Locale, string> = { fr: 'fr-FR', en: 'en-GB' };
+
+/**
+ * One date format for the whole site (cards, posts, legal pages). Content
+ * dates are calendar dates parsed as UTC midnight, so they are formatted in
+ * UTC: a build machine west of Greenwich would otherwise print the day before.
+ */
+export function formatDate(date: Date, locale: Locale): string {
+  return new Intl.DateTimeFormat(dateLocales[locale], {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC',
+  }).format(date);
+}
+
+/** Machine-readable value for `<time datetime>`: the calendar date, no time part. */
+export function isoDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
 /** Given the current locale and pathname, return the equivalent path in the other locale. */
 export function getAlternateLocalePath(currentLocale: Locale, pathname: string): { locale: Locale; path: string } {
   const otherLocale = locales.find((l) => l !== currentLocale)!;

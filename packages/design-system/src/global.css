@@ -330,3 +330,97 @@ pre {
   background: none;
   font-size: inherit;
 }
+
+/* ---------- Print ----------
+   Posts and legal pages print as a plain document: black on white, no site
+   chrome (header, footer, announcement, breadcrumb, post navigation — all
+   marked `.no-print`), no glass, no glow. Link targets are spelled out
+   because a sheet of paper cannot be clicked. */
+@media print {
+  @page {
+    margin: 2cm;
+  }
+
+  .tone-charcoal,
+  .tone-sand {
+    --surface: var(--print-paper);
+    --surface-raised: var(--print-paper);
+    --surface-card: var(--print-paper);
+    --text: var(--print-ink);
+    --text-muted: var(--print-ink-muted);
+    --text-faint: var(--print-ink-muted);
+    --rule: var(--print-rule);
+    --rule-strong: var(--print-ink);
+    --link: var(--print-ink);
+    --accent-stroke: var(--print-ink);
+  }
+
+  html {
+    color-scheme: light;
+    /* Beats the transparent reset below (an element selector outranks *). */
+    background: var(--print-paper) !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    background: transparent !important;
+    color: var(--print-ink) !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  body {
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  .no-print,
+  .skip-link,
+  .guides {
+    display: none !important;
+  }
+
+  .section,
+  .container {
+    padding-block: 0;
+  }
+
+  .prose {
+    max-width: none;
+    font-size: inherit;
+  }
+
+  .prose a[href^='http']::after,
+  .prose a[href^='mailto:']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.85em;
+    word-break: break-all;
+  }
+
+  .prose pre {
+    white-space: pre-wrap;
+    border-color: var(--print-rule);
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  pre,
+  blockquote,
+  li,
+  img,
+  svg {
+    break-inside: avoid;
+  }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}

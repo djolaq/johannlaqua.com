@@ -1,0 +1,54 @@
+---
+// Grid of post cards shared by the blog index and the tag pages.
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+import { useTranslations, type Locale } from '../i18n/utils';
+import { postPath } from '../lib/blog';
+
+interface Props {
+  locale: Locale;
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { locale, posts } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{
+  posts.length > 0 ? (
+    <div class="journal">
+      {posts.map((post) => (
+        <BlogCard
+          locale={locale}
+          href={postPath(post)}
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          headingLevel="h2"
+        />
+      ))}
+    </div>
+  ) : (
+    <p>{t('blog.empty')}</p>
+  )
+}
+
+<style>
+  .journal {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 48em) {
+    .journal {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 72em) {
+    .journal {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

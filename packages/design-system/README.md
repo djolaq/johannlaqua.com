@@ -124,6 +124,12 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 
 ## Changelog
 
+- **v2.4 — 2026-11-12**: print stylesheet (`@media print` in `global.css`).
+  Posts and legal pages print black on white whatever the screen tone: new
+  `--print-paper` / `--print-ink` / `--print-ink-muted` / `--print-rule`
+  tokens, tone tokens remapped to them, glass/glow removed, `.no-print`
+  hides the site chrome, prose links spell out their URL.
+
 - **v2.3 — 2026-11-11**: accessibility pass from the site audit. New semantic
   `--accent-fill` (`#2459E0`) / `--accent-fill-hover` (`#1D46C4`) for surfaces
   carrying white text — white on `--blue-500` was 4.499:1, just under AA;
