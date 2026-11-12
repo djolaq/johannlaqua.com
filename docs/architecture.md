@@ -43,6 +43,7 @@ from another app; a package never imports from an app.
 | `npm run check` | Type-checks the site, verifies the design system's generated files |
 | `npm test` | Unit + e2e tests of the site |
 | `npm run build` | Production build into `apps/site/dist/` |
+| `npm run size` | Size budget of the build (page weight, client JS, blocking CSS, fonts) |
 | `npm run design:build` | Regenerates `tokens.json` and the exported hero SVG |
 
 ## Where does a change go?
@@ -50,6 +51,7 @@ from another app; a package never imports from an app.
 | I want to… | Edit |
 |---|---|
 | change a colour, font, size, spacing | `packages/design-system/src/tokens.css` (+ its README changelog) |
+| change which font files ship (subsets, weights) | `packages/design-system/src/fonts.js` |
 | change a base style (`.card`, `.kicker`, tones) | `packages/design-system/src/global.css` |
 | add or change a page, a component, copy | `apps/site/src/` |
 | write a post | `apps/site/src/content/blog/{fr,en}/` |

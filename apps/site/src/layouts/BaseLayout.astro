@@ -1,6 +1,8 @@
 ---
-// Design system: self-hosted fonts, tokens and base styles (packages/design-system).
+// Design system: tokens and base styles (packages/design-system). Its fonts
+// are declared in astro.config.mjs and rendered by <Font> below.
 import '@johannlaqua/design-system';
+import { Font } from 'astro:assets';
 import { useTranslations, localizePath, type Locale } from '../i18n/utils';
 import Header from '../components/Header.astro';
 import AnnouncementBar from '../components/AnnouncementBar.astro';
@@ -48,6 +50,11 @@ const personJsonLd = JSON.stringify({
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Preload what the hero headline (the LCP) is set in: Geist and the
+        italic serif of its accent. Mono stays lazy (charts, dates). */}
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-instrument-serif" preload={[{ style: 'italic' }]} />
+    <Font cssVariable="--font-jetbrains-mono" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="fr" href={frAlternateUrl} />

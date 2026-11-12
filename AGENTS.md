@@ -17,12 +17,13 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | Framework | Astro 7 (`apps/site/astro.config.mjs`) | Static by default, reusable components, no imposed JS runtime |
 | i18n | Native Astro i18n (`i18n.defaultLocale: 'fr'`, `locales: ['fr','en']`, `prefixDefaultLocale: false`) | FR at the root `/`, EN under `/en/` |
 | Blog content | Content Layer API (`apps/site/src/content.config.ts`, `glob` loader) — **not** the legacy Content Collections API | Required with Astro 7 |
-| CSS | Native CSS + custom properties, no framework, from `@johannlaqua/design-system` | Minimal bundle, a single token file as source of truth |
+| CSS | Native CSS + custom properties, no framework, from `@johannlaqua/design-system`; inlined in every page (`build.inlineStylesheets: 'always'`) | Minimal bundle, a single token file as source of truth, no render-blocking request (ADR 0004) |
+| Fonts | Astro Fonts API, `local` provider, families declared in `packages/design-system/src/fonts.js`, rendered by `<Font>` in `BaseLayout` | Preload + metric-matched fallbacks (CLS 0), latin woff2 only, offline build (ADR 0004) |
 | Sitemap | `@astrojs/sitemap` | SEO |
 | Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils) |
 | e2e tests | Playwright (`apps/site/playwright.config.ts`) | Real served pages (build + `astro preview`) |
 | Repo layout | npm workspaces: `apps/site`, `packages/design-system` | One repo, one lockfile, clear boundaries (ADR 0001) |
-| CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every PR/branch push, Node read from `.nvmrc` (22.x) required by Astro 7 |
+| CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests + size budget (`npm run size`) on every PR/branch push, Node read from `.nvmrc` (22.x) required by Astro 7 |
 | Deployment | GitHub Actions (`.github/workflows/deploy.yml`) + `deploy/` | Test → build artifact → host job chosen by the `DEPLOY_TARGET` repo variable; host not chosen yet (ADR 0003) |
 | TypeScript | `astro/tsconfigs/strict` | Strict by default |
 | npm environment | `.npmrc` + `.nvmrc` + `engines`/`packageManager` in `package.json`, **exact** versions (no `^`) | Reproducible installs (`npm ci`), engine-strict, systematic audit |
@@ -70,6 +71,8 @@ apps/
         mentions-legales.astro    FR legal notice (EN: en/legal-notice.astro)
         confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
     public/                    favicon.svg, robots.txt (static assets served as-is)
+    scripts/
+      size-budget.mjs          size budget of dist/ (page gzip, client JS, blocking CSS, fonts) — run by CI via `npm run size`
     tests/
       unit/                    Vitest — pure logic only
       e2e/                     Playwright — real pages (home, language switching)
@@ -78,14 +81,15 @@ packages/
     README.md               design reference (palette, tones, type scale, rules, changelog)
     src/tokens.css          design tokens (custom properties) — VISUAL SOURCE OF TRUTH
     src/global.css          reset, tones (.tone-charcoal/.tone-sand), .card, .kicker, .accent, .guides, .prose, .link
-    src/fonts.css           @fontsource imports (Geist, Instrument Serif, JetBrains Mono)
-    src/index.css           fonts + global — what the site imports
+    src/fonts.js            font families for the Astro Fonts API (latin woff2 from @fontsource) — imported by astro.config.mjs
+    src/index.css           tokens + global — what the site imports
     src/network-field.js    geometry of the hero visual (shared by NetworkField.astro and the SVG export)
     tokens/tokens.json      GENERATED from tokens.css (`npm run design:build`)
     assets/                 network-field.svg (GENERATED), mark.svg, favicon.svg
     specimen/index.html     visual reference page, opens from disk
     references/             inspiration image and notes
-deploy/                    host-specific scripts + deployment guide (README.md)
+deploy/                    host-specific scripts + deployment guide (README.md, incl. cache/compression headers)
+  apache/.htaccess          cache headers + Brotli/gzip for Apache hosts, uploaded by rsync.sh
 docs/
   architecture.md          the split, the dependency direction, where a change goes
   adr/                     architecture decision records
@@ -113,7 +117,7 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 - Lives in `packages/design-system` (see ADR 0002). Full reference: **`packages/design-system/README.md`** (palette, tones, type scale, layout, signature elements, rules, changelog). Values: `packages/design-system/src/tokens.css`. After changing tokens or the hero geometry run `npm run design:build` (CI fails if `tokens.json` / `network-field.svg` are stale).
 - Palette: Charcoal `#1E1E1C` (ink, dark bands), Sand `#D8CBB3` (paper, the page), Electric blue `#2F6BFF` (actions, links, graph strokes, focus — never small text: use `--blue-300` on charcoal, `--blue-700` on sand).
 - Components use **semantic tokens** (`--surface`, `--surface-card`, `--text`, `--text-muted`, `--rule`, `--link`, `--accent-stroke`…), redefined by the tone classes `.tone-charcoal` (default, on `<body>`) and `.tone-sand` in `global.css`. Never raw hex in a component.
-- Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*` (dependencies of the design-system package, loaded by its `fonts.css`); `BaseLayout.astro` only does `import '@johannlaqua/design-system'`. No external font CDN (privacy policy promises no third-party requests).
+- Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted from `@fontsource*` (dependencies of the design-system package). `packages/design-system/src/fonts.js` declares them (latin woff2 only) to the Astro Fonts API with the `local` provider; `astro.config.mjs` maps them into `fonts`, `BaseLayout.astro` renders one `<Font cssVariable>` per family. The role tokens (`--font-sans`…) read those variables with a plain-stack fallback. Never `fontProviders.fontsource()`/`npm()` (they fetch from a CDN at build time) and no external font CDN at runtime (privacy policy promises no third-party requests).
 - Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = generated network map (`NetworkField.astro`, no photo) + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
 
 ### Positioning
@@ -125,7 +129,7 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
 - Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `Person` whose `sameAs` is derived from `apps/site/src/config/site.ts`. Any new profile is added in `site.ts` only.
-- Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default.
+- Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need, never by default. The size budget (`apps/site/scripts/size-budget.mjs`) enforces 0 B of client JS, no render-blocking stylesheet, ≤ 16 KB gzip per page and ≤ 128 KB of fonts; raising a limit is an explicit decision in the PR that needs it. Astro `prefetch` is deliberately off (ADR 0004).
 
 ## Tests & CI
 
@@ -135,9 +139,10 @@ npm run check      # astro check (site) + generated-file check (design system)
 npm run test:unit  # Vitest — apps/site/tests/unit/
 npm run test:e2e   # build + astro preview + Playwright — apps/site/tests/e2e/
 npm test           # both
+npm run size       # size budget of apps/site/dist (build first)
 ```
 
-CI (`.github/workflows/ci.yml`) runs `check` → `test:unit` → Playwright browser install → `test:e2e` on every PR and branch push, Node 22. The Playwright report is uploaded only on failure. On `main`, `deploy.yml` calls the same workflow before building and deploying.
+CI (`.github/workflows/ci.yml`) runs `check` → `test:unit` → Playwright browser install → `test:e2e` → `size` (on the `dist/` the e2e run built) on every PR and branch push, Node 22. The Playwright report is uploaded only on failure. On `main`, `deploy.yml` calls the same workflow before building and deploying.
 
 Before proposing a change as done: run `npm run check` and the relevant tests. Any new route or interactive component deserves an e2e test; any new pure function in `i18n/utils.ts` deserves a unit test.
 

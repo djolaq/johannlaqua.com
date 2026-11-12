@@ -1,6 +1,6 @@
 {
   "name": "@johannlaqua/design-system",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "private": true,
   "description": "Design system of johannlaqua.com: tokens, base styles, fonts, visuals and a specimen page.",
   "type": "module",
@@ -9,7 +9,10 @@
     "./index.css": "./src/index.css",
     "./tokens.css": "./src/tokens.css",
     "./global.css": "./src/global.css",
-    "./fonts.css": "./src/fonts.css",
+    "./fonts": {
+      "types": "./src/fonts.d.ts",
+      "default": "./src/fonts.js"
+    },
     "./tokens.json": "./tokens/tokens.json",
     "./network-field": {
       "types": "./src/network-field.d.ts",

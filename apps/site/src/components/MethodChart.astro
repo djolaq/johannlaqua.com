@@ -21,7 +21,14 @@ const steps = [t('chart.step1'), t('chart.step2'), t('chart.step3'), t('chart.st
     <span class="chart__title">{t('chart.title')}</span>
   </figcaption>
 
-  <svg class="chart__plot" viewBox="0 0 320 120" preserveAspectRatio="none" role="img" aria-label={t('chart.alt')}>
+  <svg
+    class="chart__plot"
+    viewBox="0 0 320 120"
+    width="320"
+    height="120"
+    preserveAspectRatio="none"
+    role="img"
+    aria-label={t('chart.alt')}>
     <defs>
       <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stop-color="var(--blue-500)" stop-opacity="0.45"></stop>
@@ -46,8 +53,8 @@ const steps = [t('chart.step1'), t('chart.step2'), t('chart.step3'), t('chart.st
   </div>
 
   <ul class="chart__legend">
-    <li><span class="chart__swatch chart__swatch--speed"></span>{t('chart.speed')}</li>
-    <li><span class="chart__swatch chart__swatch--debt"></span>{t('chart.debt')}</li>
+    <li><span class="chart__swatch chart__swatch--speed" aria-hidden="true"></span>{t('chart.speed')}</li>
+    <li><span class="chart__swatch chart__swatch--debt" aria-hidden="true"></span>{t('chart.debt')}</li>
   </ul>
 </figure>
 

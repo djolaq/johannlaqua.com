@@ -1,0 +1,34 @@
+# Caching and compression for Apache hosts (the `rsync` target).
+# deploy/rsync.sh uploads this file at the web root next to the build.
+# Every directive is guarded by <IfModule>: a module the host lacks is
+# skipped instead of turning the whole site into a 500.
+
+# ---- Caching ---------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Pages, sitemap, robots, favicon: always revalidate, so a deploy is
+  # visible at once (ETag / Last-Modified keep revalidation cheap).
+  Header set Cache-Control "no-cache"
+
+  # /_astro/ only holds files whose name contains a content hash (CSS, JS,
+  # fonts): a new version gets a new URL, so they can be cached for good.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+</IfModule>
+
+# ---- Compression -----------------------------------------------------------
+# Brotli when the host has it, gzip otherwise. woff2 and images are already
+# compressed and are left alone.
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/css text/plain text/xml application/xml application/javascript application/json image/svg+xml
+</IfModule>
+<IfModule !mod_brotli.c>
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/xml application/javascript application/json image/svg+xml
+  </IfModule>
+</IfModule>
+
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/svg+xml .svg
+</IfModule>

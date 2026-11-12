@@ -1,3 +1,4 @@
-/* Everything a consumer needs: fonts, tokens, base styles. */
-@import './fonts.css';
+/* Everything a consumer's stylesheet needs: tokens and base styles.
+   Fonts are not CSS imports: they are declared to the Astro Fonts API
+   from ./fonts.js (see astro.config.mjs) and rendered in <head>. */
 @import './global.css';

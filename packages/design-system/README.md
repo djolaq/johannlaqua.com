@@ -2,7 +2,7 @@
 
 > Living reference. Source of truth for values: `src/tokens.css` (this package).
 > Any change to a token is mirrored here (and in the claude.ai Project doc
-> `claude/design-system.md`). Last update: 2026-11-11 (v2.2).
+> `claude/design-system.md`). Last update: 2026-11-12 (v2.3).
 
 ## This package
 
@@ -12,8 +12,8 @@
 |---|---|
 | `src/tokens.css` | Every visual value (custom properties). **Edit here.** |
 | `src/global.css` | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link` |
-| `src/fonts.css` | Self-hosted fonts through `@fontsource` |
-| `src/index.css` | Fonts + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
+| `src/fonts.js` | The three font families for the Astro Fonts API (latin woff2 from `@fontsource`) — `@johannlaqua/design-system/fonts` |
+| `src/index.css` | Tokens + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
 | `src/network-field.js` | Geometry of the hero visual, shared by the site and the SVG export |
 | `tokens/tokens.json` | Generated: the tokens as JSON (Figma / Tokens Studio…) |
 | `assets/` | `network-field.svg` (generated), `mark.svg`, `favicon.svg` |
@@ -67,7 +67,11 @@ use: `--surface`, `--surface-raised`, `--surface-card`, `--text`,
 ## Typography
 
 Three self-hosted fonts (`@fontsource*`, bundled at build — no request
-to Google Fonts, the privacy policy stays true).
+to Google Fonts, the privacy policy stays true). `src/fonts.js` declares
+them to the Astro Fonts API: latin subset, woff2 only, with metric-matched
+fallbacks. The role tokens read the variables it defines
+(`--font-sans: var(--font-geist, …stack)`), so a page without Astro (the
+specimen) still gets the plain stack.
 
 | Family | Token | Role |
 |---|---|---|
@@ -120,6 +124,12 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.3 — 2026-11-12**: no visual change on desktop. Fonts move from CSS
+  imports (`src/fonts.css`, removed) to `src/fonts.js` for the Astro Fonts
+  API: latin woff2 only (286 → 110 KB), preload and fallback metrics. `.card`
+  drops its backdrop blur and turns opaque (`--surface-raised`) below 48em
+  and under `prefers-reduced-transparency`.
 
 - **v2.2 — 2026-11-11**: no visual change. The design system becomes its own
   workspace package (`packages/design-system`) consumed by the site; hero

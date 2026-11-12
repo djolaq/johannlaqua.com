@@ -51,10 +51,46 @@ Add a `deploy-<host>` job to `deploy.yml` with
 `if: vars.DEPLOY_TARGET == '<host>'` and `needs: build`, that downloads
 `site-dist` and uploads it with the host's CLI or action. Nothing else changes.
 
+## Caching and compression
+
+Everything under `/_astro/` has a content hash in its name (fonts today; CSS
+or JS if they ever stop being inlined), so it can be cached forever. Pages
+must always be revalidated, so a deploy shows at once.
+
+| Path | `Cache-Control` |
+|---|---|
+| `/_astro/*` | `public, max-age=31536000, immutable` |
+| everything else (HTML, sitemap, favicon…) | `no-cache` (revalidated with ETag / Last-Modified) |
+
+Text responses (HTML, XML, SVG, CSS, JS) are compressed with Brotli, gzip as
+a fallback. woff2 is already compressed.
+
+Per target:
+
+- **`rsync` (Apache)** — [`apache/.htaccess`](apache/.htaccess) sets both.
+  `rsync.sh` uploads it at the web root with the build; every directive is
+  inside `<IfModule>`, so a missing module is skipped rather than breaking
+  the site. Check on the host: `curl -sI -H 'Accept-Encoding: br' https://johannlaqua.com/`
+  shows `content-encoding: br` (or `gzip`) and `cache-control: no-cache`; the
+  same on a `/_astro/fonts/*.woff2` URL shows the `immutable` header.
+- **`github-pages`** — headers cannot be configured: Pages serves everything
+  with `max-age=600` and gzip. Acceptable, but a reason to prefer another
+  host.
+- **Cloudflare Pages / Netlify** — add a `_headers` file to the build (or the
+  host's equivalent) with only the `/_astro/*` rule: both hosts already
+  revalidate HTML by default, and a `/*` rule would be merged into the
+  `/_astro/*` one (every matching rule applies). Both compress with Brotli.
+
+  ```
+  /_astro/*
+    Cache-Control: public, max-age=31536000, immutable
+  ```
+
 ## Status
 
 - [ ] Host chosen
 - [ ] `DEPLOY_TARGET` set, secrets added
 - [ ] First deployment verified (the `rsync` and `github-pages` jobs have not run against a real host yet)
 - [ ] DNS for johannlaqua.com pointed at the host, HTTPS checked
+- [ ] Cache and compression headers checked on the host (see above)
 - [ ] Security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`) configured on the host

@@ -60,6 +60,14 @@ const navItems = [
     border-bottom: var(--line-hair) solid var(--rule);
   }
 
+  @media (prefers-reduced-transparency: reduce) {
+    .header {
+      background: var(--surface);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
   .header__inner {
     display: flex;
     align-items: center;
