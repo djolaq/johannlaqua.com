@@ -43,4 +43,15 @@ export default defineConfig({
     },
   },
   compressHTML: true,
+  // The CSP (src/config/security.ts) only allows same-origin files, so nothing
+  // may be inlined: no <style> tags (style-src 'self') and no data: fonts
+  // (font-src 'self') — Vite would otherwise inline the smallest font subsets.
+  build: {
+    inlineStylesheets: 'never',
+  },
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
 });

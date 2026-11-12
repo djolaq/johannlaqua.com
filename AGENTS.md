@@ -52,6 +52,7 @@ apps/
         BlogPostLayout.astro  layout specific to posts (on top of BaseLayout)
       config/
         site.ts               contact email + social profiles (GitHub, LinkedIn) — SINGLE SOURCE, imported by Footer, ContactCTA and BaseLayout's JSON-LD
+        security.ts           Content-Security-Policy of the <meta> fallback (mirror it in deploy/headers/)
       data/
         legal.ts              publisher + host details for the legal pages — SINGLE SOURCE, imported by the legal notice/privacy pages
         projects.ts           public repos shown in the home "Lab" section (name, URL, stack, i18n description key) — SINGLE SOURCE
@@ -78,10 +79,10 @@ apps/
         confidentialite.astro     FR privacy policy (EN: en/privacy.astro)
         rss.xml.ts                FR feed (EN: en/rss.xml.ts)
         og/[...path].png.ts       one social image per page; its list of pages must follow new routes (an e2e test fails otherwise)
-    public/                    favicon.svg, robots.txt (static assets served as-is)
+    public/                    favicon.svg, robots.txt, .well-known/security.txt (static assets served as-is)
     tests/
       unit/                    Vitest — pure logic only
-      e2e/                     Playwright — real pages (home, language switching)
+      e2e/                     Playwright — real pages (home, language switching, security: zero external requests, CSP, security.txt)
 packages/
   design-system/           @johannlaqua/design-system — imported by the site, depends on nothing here
     README.md               design reference (palette, tones, type scale, rules, changelog)
@@ -95,12 +96,14 @@ packages/
     specimen/index.html     visual reference page, opens from disk
     references/             inspiration image and notes
 deploy/                    host-specific scripts + deployment guide (README.md)
+  headers/                 security headers per host (apache.htaccess, _headers)
 docs/
   architecture.md          the split, the dependency direction, where a change goes
   adr/                     architecture decision records
 .github/workflows/
   ci.yml                   check + unit + e2e (PRs, branches, and called by deploy.yml)
   deploy.yml               test → build (artifact) → deploy job selected by the DEPLOY_TARGET variable
+  dependabot.yml           weekly npm + github-actions updates
 .claude/skills/            project skills for Claude Code agents (see below)
 ```
 
@@ -128,6 +131,13 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 ### Positioning
 - The site showcases skills and demonstrates them (Skills + Lab sections, blog); it does **not** sell services. No "hire me" / "available for missions" / pricing copy. Claims should be backed by something visible (a public repo, a post, this site itself).
 
+### Security & privacy
+- **No third-party resource, ever**: no CDN, font service, analytics, tracking pixel, iframe or remote image. The privacy policy promises it and `tests/e2e/security.spec.ts` enforces it on every page of the sitemap.
+- **CSP**: `src/config/security.ts` (meta fallback) and `deploy/headers/*` (host headers) carry the same policy. It denies scripts and inline styles, so never add inline `<style>`/`style=""`, `<script>` or `data:` fonts; `astro.config.mjs` disables CSS and asset inlining for that reason. A real need for client JS means a deliberate CSP change in both places.
+- **If an embed ever becomes unavoidable**: it must be click-to-load (nothing contacts the third party before the visitor opts in), carry `sandbox` with the minimum tokens, `referrerpolicy="no-referrer"` and `loading="lazy"`, be allowed by origin in the CSP (never a wildcard), and the privacy policy must be updated first. Outgoing links to other sites use `rel="noopener noreferrer"`.
+- **Supply chain**: every `uses:` in `.github/workflows/` is pinned to a full commit SHA with the version in a comment (Dependabot keeps both current); CI runs `npm audit --audit-level=high`.
+- `public/.well-known/security.txt`: renew `Expires` (≤ 1 year ahead) when the e2e test warns, 30 days before it lapses.
+
 ### Language
 - Everything about the project is written in **English**: docs, ADRs, skills, code comments, commit messages, PRs, design-system pages. The only French in the repo is the site's own French content (default locale): `ui.fr`, `content/blog/fr/`, the FR legal pages and the tests that assert on them.
 
@@ -148,7 +158,7 @@ npm run test:e2e   # build + astro preview + Playwright — apps/site/tests/e2e/
 npm test           # both
 ```
 
-CI (`.github/workflows/ci.yml`) runs `check` → `test:unit` → Playwright browser install → `test:e2e` on every PR and branch push, Node 22. The Playwright report is uploaded only on failure. On `main`, `deploy.yml` calls the same workflow before building and deploying.
+CI (`.github/workflows/ci.yml`) runs `npm audit --audit-level=high` → `check` → `test:unit` → Playwright browser install → `test:e2e` on every PR and branch push, Node 22. The Playwright report is uploaded only on failure. On `main`, `deploy.yml` calls the same workflow before building and deploying.
 
 Before proposing a change as done: run `npm run check` and the relevant tests. Any new route or interactive component deserves an e2e test; any new pure function in `i18n/utils.ts` deserves a unit test.
 
