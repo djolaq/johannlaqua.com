@@ -29,15 +29,13 @@ const t = useTranslations(locale);
     <div class="contact__social">
       <p>{t('contact.social')}</p>
       <ul>
-        {
-          social.map((s) => (
-            <li>
-              <a href={s.href} target="_blank" rel="me noopener noreferrer">
-                {s.label} ↗
-              </a>
-            </li>
-          ))
-        }
+        {social.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="me noopener noreferrer">
+              {s.label} ↗
+            </a>
+          </li>
+        ))}
       </ul>
     </div>
   </div>
@@ -51,9 +49,7 @@ const t = useTranslations(locale);
     gap: var(--space-7);
     padding: var(--space-7) var(--space-5);
     border-radius: var(--radius-lg);
-    background:
-      radial-gradient(60% 80% at 100% 0%, var(--blue-glow), transparent 70%),
-      var(--surface-raised);
+    background: radial-gradient(60% 80% at 100% 0%, var(--blue-glow), transparent 70%), var(--surface-raised);
   }
 
   .contact__content {

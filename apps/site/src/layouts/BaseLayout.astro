@@ -13,9 +13,11 @@ interface Props {
   description?: string;
   /** Explicit URL of the translated counterpart page, when the slug differs per locale (e.g. blog posts). */
   altHref?: string;
+  /** Hide the language switch on pages that have no translated counterpart (the 404). */
+  languageToggle?: boolean;
 }
 
-const { locale, title, description, altHref } = Astro.props;
+const { locale, title, description, altHref, languageToggle = true } = Astro.props;
 const t = useTranslations(locale);
 
 const pageTitle = title ? `${title} · Johann Laqua` : t('site.title');
@@ -68,9 +70,11 @@ const personJsonLd = JSON.stringify({
     <script type="application/ld+json" set:html={personJsonLd} />
   </head>
   <body class="tone-charcoal">
-    <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
+    <a href="#main" class="skip-link">
+      {t('nav.skipToContent')}
+    </a>
     <AnnouncementBar locale={locale} />
-    <Header locale={locale} altHref={altHref} />
+    <Header locale={locale} altHref={altHref} languageToggle={languageToggle} />
     <main id="main">
       <slot />
     </main>

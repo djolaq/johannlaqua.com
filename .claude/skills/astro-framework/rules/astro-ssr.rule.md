@@ -1,9 +1,9 @@
 ---
 description: Rules for SSR and hybrid rendering
 globs:
-  - "astro.config.mjs"
-  - "src/pages/**/*"
-  - "src/middleware.ts"
+  - 'astro.config.mjs'
+  - 'src/pages/**/*'
+  - 'src/middleware.ts'
 ---
 
 # Astro SSR Rules
@@ -13,9 +13,9 @@ globs:
 ```javascript
 // astro.config.mjs
 export default defineConfig({
-  output: 'static',  // Default - all prerendered
-  output: 'server',  // All server-rendered
-  output: 'hybrid',  // Static default, opt-in SSR
+  output: 'static', // Default - all prerendered
+  output: 'server', // All server-rendered
+  output: 'hybrid', // Static default, opt-in SSR
   adapter: vercel(), // Required for server/hybrid
 });
 ```

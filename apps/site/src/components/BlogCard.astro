@@ -22,7 +22,9 @@ const formattedDate = date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US
 <article class="post-card card">
   <a class="post-card__link" href={href}>
     <div class="post-card__meta">
-      <time class="mono" datetime={date.toISOString()}>{formattedDate}</time>
+      <time class="mono" datetime={date.toISOString()}>
+        {formattedDate}
+      </time>
       {tags.length > 0 && <span class="post-card__tag">{tags[0]}</span>}
     </div>
     <h3 class="post-card__title">{title}</h3>

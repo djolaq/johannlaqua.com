@@ -29,10 +29,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 ```typescript
 export const onRequest = defineMiddleware(async (context, next) => {
   // Request info
-  const url = context.url;           // URL object
-  const pathname = url.pathname;      // /about
-  const params = context.params;      // { slug: 'hello' } for dynamic routes
-  const request = context.request;    // Request object
+  const url = context.url; // URL object
+  const pathname = url.pathname; // /about
+  const params = context.params; // { slug: 'hello' } for dynamic routes
+  const request = context.request; // Request object
 
   // Cookies
   const token = context.cookies.get('session')?.value;
@@ -42,7 +42,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   context.locals.user = await getUser(token);
 
   // Site info
-  const site = context.site;          // From astro.config
+  const site = context.site; // From astro.config
   const generator = context.generator; // "Astro vX.X.X"
 
   // Redirect
@@ -69,9 +69,7 @@ import { verifyToken } from './lib/auth';
 const protectedRoutes = ['/dashboard', '/settings', '/api/user'];
 
 export const onRequest = defineMiddleware(async ({ cookies, url, locals, redirect }, next) => {
-  const isProtected = protectedRoutes.some(route =>
-    url.pathname.startsWith(route)
-  );
+  const isProtected = protectedRoutes.some((route) => url.pathname.startsWith(route));
 
   if (isProtected) {
     const token = cookies.get('auth_token')?.value;

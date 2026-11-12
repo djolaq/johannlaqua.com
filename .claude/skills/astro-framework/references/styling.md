@@ -145,11 +145,13 @@ const backgroundUrl = '/images/hero.jpg';
   <h1>Welcome</h1>
 </div>
 
-<style define:vars={{
-  primaryColor: theme.primaryColor,
-  fontSize: theme.fontSize,
-  bgImage: `url(${backgroundUrl})`
-}}>
+<style
+  define:vars={{
+    primaryColor: theme.primaryColor,
+    fontSize: theme.fontSize,
+    bgImage: `url(${backgroundUrl})`,
+  }}
+>
   .hero {
     background-image: var(--bgImage);
     color: var(--primaryColor);
@@ -169,13 +171,15 @@ const isDisabled = false;
 const size = 'large';
 ---
 
-<button class:list={[
-  'btn',                          // Always applied
-  { 'btn-active': isActive },     // Applied if true
-  { 'btn-disabled': isDisabled }, // Not applied (false)
-  size && `btn-${size}`,          // "btn-large"
-  ['extra', 'classes'],           // Arrays flattened
-]}>
+<button
+  class:list={[
+    'btn', // Always applied
+    { 'btn-active': isActive }, // Applied if true
+    { 'btn-disabled': isDisabled }, // Not applied (false)
+    size && `btn-${size}`, // "btn-large"
+    ['extra', 'classes'], // Arrays flattened
+  ]}
+>
   Click Me
 </button>
 
@@ -263,12 +267,8 @@ npx astro add tailwind
 ---
 
 <div class="max-w-4xl mx-auto p-4">
-  <h1 class="text-3xl font-bold text-blue-600">
-    Hello World
-  </h1>
-  <p class="mt-4 text-gray-700 leading-relaxed">
-    Welcome to my site.
-  </p>
+  <h1 class="text-3xl font-bold text-blue-600">Hello World</h1>
+  <p class="mt-4 text-gray-700 leading-relaxed">Welcome to my site.</p>
 </div>
 ```
 
@@ -279,12 +279,9 @@ npx astro add tailwind
 const isLarge = true;
 ---
 
-<button class:list={[
-  'px-4 py-2 rounded',
-  'bg-blue-500 hover:bg-blue-600',
-  'text-white font-medium',
-  { 'text-lg': isLarge },
-]}>
+<button
+  class:list={['px-4 py-2 rounded', 'bg-blue-500 hover:bg-blue-600', 'text-white font-medium', { 'text-lg': isLarge }]}
+>
   Click Me
 </button>
 ```

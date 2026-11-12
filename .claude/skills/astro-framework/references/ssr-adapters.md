@@ -252,6 +252,7 @@ import ProductReviews from '../components/ProductReviews.astro';
 ```
 
 Key points:
+
 - Requires an adapter (same as SSR)
 - Props must be serializable (no functions)
 - Use `Referer` header to access page URL inside island
@@ -333,7 +334,7 @@ export const GET: APIRoute = async () => {
     async start(controller) {
       for (let i = 0; i < 10; i++) {
         controller.enqueue(encoder.encode(`data: ${i}\n\n`));
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 1000));
       }
       controller.close();
     },

@@ -16,7 +16,9 @@ const { kicker, title, accent, subtitle, as: Tag = 'h2' } = Astro.props;
 <div class="heading">
   {kicker && <p class="kicker">{kicker}</p>}
   <Tag class="heading__title">
-    {title}{accent && ' '}{accent && <span class="accent">{accent}</span>}
+    {title}
+    {accent && ' '}
+    {accent && <span class="accent">{accent}</span>}
   </Tag>
   {subtitle && <p class="heading__subtitle">{subtitle}</p>}
 </div>

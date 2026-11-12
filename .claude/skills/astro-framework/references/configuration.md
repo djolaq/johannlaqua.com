@@ -30,11 +30,12 @@ export default defineConfig({
 import node from '@astrojs/node';
 
 export default defineConfig({
-  output: 'static',    // Default - all pages prerendered
+  output: 'static', // Default - all pages prerendered
   // output: 'server', // All pages server-rendered
   // output: 'hybrid', // Static by default, opt-in to SSR
 
-  adapter: node({      // Required for server/hybrid
+  adapter: node({
+    // Required for server/hybrid
     mode: 'standalone',
   }),
 });
@@ -49,12 +50,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  integrations: [
-    react(),
-    tailwind(),
-    mdx(),
-    sitemap(),
-  ],
+  integrations: [react(), tailwind(), mdx(), sitemap()],
 });
 ```
 
@@ -63,20 +59,20 @@ export default defineConfig({
 ```javascript
 export default defineConfig({
   build: {
-    format: 'directory',  // /about/index.html (default)
+    format: 'directory', // /about/index.html (default)
     // format: 'file',    // /about.html
 
     inlineStylesheets: 'auto', // Inline small stylesheets
     // inlineStylesheets: 'always',
     // inlineStylesheets: 'never',
 
-    assets: '_astro',     // Assets directory name
+    assets: '_astro', // Assets directory name
   },
 
-  compressHTML: true,     // Minify HTML output
+  compressHTML: true, // Minify HTML output
 
-  outDir: './dist',       // Build output directory
-  publicDir: './public',  // Static assets directory
+  outDir: './dist', // Build output directory
+  publicDir: './public', // Static assets directory
 });
 ```
 
@@ -85,13 +81,13 @@ export default defineConfig({
 ```javascript
 export default defineConfig({
   server: {
-    port: 4321,           // Default port
-    host: true,           // Expose to network
-    open: true,           // Open browser on start
+    port: 4321, // Default port
+    host: true, // Expose to network
+    open: true, // Open browser on start
   },
 
   devToolbar: {
-    enabled: true,        // Show dev toolbar
+    enabled: true, // Show dev toolbar
   },
 });
 ```
@@ -101,8 +97,8 @@ export default defineConfig({
 ```javascript
 export default defineConfig({
   prefetch: {
-    prefetchAll: true,              // Prefetch all links
-    defaultStrategy: 'viewport',    // 'hover' | 'viewport' | 'load'
+    prefetchAll: true, // Prefetch all links
+    defaultStrategy: 'viewport', // 'hover' | 'viewport' | 'load'
   },
 });
 ```
@@ -147,7 +143,7 @@ import rehypeSlug from 'rehype-slug';
 
 export default defineConfig({
   markdown: {
-    syntaxHighlight: 'shiki',  // 'shiki' | 'prism' | false
+    syntaxHighlight: 'shiki', // 'shiki' | 'prism' | false
 
     shikiConfig: {
       theme: 'dracula',
@@ -156,15 +152,13 @@ export default defineConfig({
 
     remarkPlugins: [
       remarkToc,
-      [remarkPlugin, { option: true }],  // With options
+      [remarkPlugin, { option: true }], // With options
     ],
 
-    rehypePlugins: [
-      rehypeSlug,
-    ],
+    rehypePlugins: [rehypeSlug],
 
-    gfm: true,                // GitHub Flavored Markdown
-    smartypants: true,        // Smart quotes
+    gfm: true, // GitHub Flavored Markdown
+    smartypants: true, // Smart quotes
   },
 });
 ```
@@ -178,12 +172,12 @@ export default defineConfig({
     locales: ['en', 'es', 'fr', 'de'],
 
     routing: {
-      prefixDefaultLocale: false,  // /about vs /en/about
+      prefixDefaultLocale: false, // /about vs /en/about
       redirectToDefaultLocale: true,
     },
 
     fallback: {
-      es: 'en',  // Fallback to English for Spanish
+      es: 'en', // Fallback to English for Spanish
     },
   },
 });
@@ -250,6 +244,7 @@ export default defineConfig({
 ```
 
 Available presets:
+
 - `astro/tsconfigs/base` - Minimal
 - `astro/tsconfigs/strict` - Recommended
 - `astro/tsconfigs/strictest` - Maximum strictness
@@ -301,11 +296,11 @@ const dbUrl = import.meta.env.DATABASE_URL;
 const apiUrl = import.meta.env.PUBLIC_API_URL;
 
 // Built-in variables
-const mode = import.meta.env.MODE;      // 'development' | 'production'
-const prod = import.meta.env.PROD;      // boolean
-const dev = import.meta.env.DEV;        // boolean
-const site = import.meta.env.SITE;      // From astro.config site
-const base = import.meta.env.BASE_URL;  // From astro.config base
+const mode = import.meta.env.MODE; // 'development' | 'production'
+const prod = import.meta.env.PROD; // boolean
+const dev = import.meta.env.DEV; // boolean
+const site = import.meta.env.SITE; // From astro.config site
+const base = import.meta.env.BASE_URL; // From astro.config base
 ---
 ```
 

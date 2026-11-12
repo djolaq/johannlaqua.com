@@ -7,9 +7,11 @@ import Button from './Button.astro';
 interface Props {
   locale: Locale;
   altHref?: string;
+  /** Hide the language switch (pages with no translated counterpart, e.g. the 404). */
+  languageToggle?: boolean;
 }
 
-const { locale, altHref } = Astro.props;
+const { locale, altHref, languageToggle = true } = Astro.props;
 const t = useTranslations(locale);
 const home = localizePath(locale, '/');
 
@@ -32,19 +34,19 @@ const navItems = [
 
     <nav class="header__nav" aria-label="Primary">
       <ul>
-        {
-          navItems.map((item) => (
-            <li>
-              <a href={item.href}>{item.label}</a>
-            </li>
-          ))
-        }
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href}>{item.label}</a>
+          </li>
+        ))}
       </ul>
     </nav>
 
     <div class="header__actions">
-      <LanguageToggle locale={locale} href={altHref} />
-      <Button href={`${home}#contact`} variant="quiet" size="sm">{t('header.cta')}</Button>
+      {languageToggle && <LanguageToggle locale={locale} href={altHref} />}
+      <Button href={`${home}#contact`} variant="quiet" size="sm">
+        {t('header.cta')}
+      </Button>
     </div>
   </div>
 </header>

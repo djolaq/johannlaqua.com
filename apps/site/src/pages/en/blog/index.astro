@@ -25,24 +25,22 @@ const stripLocale = (id: string) => id.replace(`${locale}/`, '');
       subtitle={t('blog.subtitle')}
     />
 
-    {
-      posts.length > 0 ? (
-        <div class="journal">
-          {posts.map((post) => (
-            <BlogCard
-              locale={locale}
-              href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
-              title={post.data.title}
-              description={post.data.description}
-              date={post.data.date}
-              tags={post.data.tags}
-            />
-          ))}
-        </div>
-      ) : (
-        <p>{t('blog.empty')}</p>
-      )
-    }
+    {posts.length > 0 ? (
+      <div class="journal">
+        {posts.map((post) => (
+          <BlogCard
+            locale={locale}
+            href={localizePath(locale, `/blog/${stripLocale(post.id)}`)}
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+          />
+        ))}
+      </div>
+    ) : (
+      <p>{t('blog.empty')}</p>
+    )}
   </Section>
 </BaseLayout>
 

@@ -91,11 +91,11 @@ astro.config.mjs  # Framework configuration
 
 ## SSG vs SSR vs Hybrid
 
-| Mode | When Pages Render | Use Case |
-|------|-------------------|----------|
-| **SSG** (default) | Build time | Blogs, docs, marketing sites |
-| **SSR** | Each request | Dynamic data, personalization |
-| **Hybrid** | Mix of both | Static pages + dynamic endpoints |
+| Mode              | When Pages Render | Use Case                         |
+| ----------------- | ----------------- | -------------------------------- |
+| **SSG** (default) | Build time        | Blogs, docs, marketing sites     |
+| **SSR**           | Each request      | Dynamic data, personalization    |
+| **Hybrid**        | Mix of both       | Static pages + dynamic endpoints |
 
 For pure static sites, use default `output: 'static'` - no adapter needed.
 
@@ -106,7 +106,7 @@ For pure static sites, use default `output: 'static'` - no adapter needed.
 Define schemas in `src/content/config.ts`:
 
 ```typescript
-import { defineCollection, z } from "astro:content";
+import { defineCollection, z } from 'astro:content';
 
 export const collections = {
   docs: defineCollection({
@@ -115,9 +115,9 @@ export const collections = {
       description: z.string().optional(),
       tags: z.array(z.string()).optional(),
       order: z.number().optional(),
-      draft: z.boolean().default(false)
-    })
-  })
+      draft: z.boolean().default(false),
+    }),
+  }),
 };
 ```
 
@@ -133,13 +133,14 @@ import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/data/blog' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    pubDate: z.coerce.date(),
-    draft: z.boolean().default(false),
-    cover: image(),  // Validates image exists
-    author: reference('authors'),  // Cross-collection reference
-  })
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      pubDate: z.coerce.date(),
+      draft: z.boolean().default(false),
+      cover: image(), // Validates image exists
+      author: reference('authors'), // Cross-collection reference
+    }),
 });
 
 export const collections = { blog };
@@ -148,12 +149,13 @@ export const collections = { blog };
 ### Advanced Schema Patterns
 
 ```typescript
-schema: ({ image }) => z.object({
-  cover: image(),                    // Validates image in src/
-  category: z.enum(['tech', 'news']),
-  author: reference('authors'),      // Cross-collection ref
-  relatedPosts: z.array(reference('blog')).optional(),
-})
+schema: ({ image }) =>
+  z.object({
+    cover: image(), // Validates image in src/
+    category: z.enum(['tech', 'news']),
+    author: reference('authors'), // Cross-collection ref
+    relatedPosts: z.array(reference('blog')).optional(),
+  });
 ```
 
 ### Custom Loaders (Remote Content)
@@ -178,11 +180,11 @@ export function githubReleasesLoader(repo: string): Loader {
           data: {
             version: release.tag_name,
             published_at: release.published_at,
-            body: release.body  // Markdown release notes
-          }
+            body: release.body, // Markdown release notes
+          },
         });
       }
-    }
+    },
   };
 }
 ```
@@ -198,7 +200,7 @@ const releases = defineCollection({
     version: z.string(),
     published_at: z.string(),
     body: z.string(),
-  })
+  }),
 });
 ```
 
@@ -206,13 +208,13 @@ Query and render collections:
 
 ```astro
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const docs = await getCollection("docs");
-  return docs.map(doc => ({
+  const docs = await getCollection('docs');
+  return docs.map((doc) => ({
     params: { slug: doc.slug },
-    props: { doc }
+    props: { doc },
   }));
 }
 
@@ -231,15 +233,15 @@ const { Content } = await doc.render();
 ### Basic Shiki Configuration
 
 ```javascript
-import { defineConfig } from "astro/config";
+import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   markdown: {
     shikiConfig: {
-      theme: "github-dark",
-      wrap: true
-    }
-  }
+      theme: 'github-dark',
+      wrap: true,
+    },
+  },
 });
 ```
 
@@ -258,7 +260,8 @@ Add CSS to switch themes:
 
 ```css
 @media (prefers-color-scheme: dark) {
-  .astro-code, .astro-code span {
+  .astro-code,
+  .astro-code span {
     color: var(--shiki-dark) !important;
     background-color: var(--shiki-dark-bg) !important;
   }
@@ -267,14 +270,14 @@ Add CSS to switch themes:
 
 ### Line Highlighting and Transformers
 
-~~~markdown
+````markdown
 ```typescript {2,4}
 const a = 1;
-const b = 2;  // highlighted
+const b = 2; // highlighted
 const c = 3;
-console.log(a + b + c);  // highlighted
+console.log(a + b + c); // highlighted
 ```
-~~~
+````
 
 **Shiki Transformers (Astro 4.14+):**
 
@@ -287,6 +290,7 @@ shikiConfig: {
 ```
 
 Use notation comments in code:
+
 - `// [!code focus]` - Focus this line
 - `// [!code ++]` - Mark as addition (green)
 - `// [!code --]` - Mark as deletion (red)
@@ -325,19 +329,19 @@ import { defineConfig } from 'astro/config';
 import mermaid from 'astro-mermaid';
 
 export default defineConfig({
-  integrations: [mermaid({ theme: 'default' })]
+  integrations: [mermaid({ theme: 'default' })],
 });
 ```
 
 Use in Markdown:
 
-~~~markdown
+````markdown
 ```mermaid
 graph TD;
     A-->B;
     B-->C;
 ```
-~~~
+````
 
 Features: Client-side rendering, automatic theme switching, offline capable, no Playwright required.
 
@@ -346,26 +350,29 @@ Features: Client-side rendering, automatic theme switching, offline capable, no 
 **Dark Mode Theming Strategies:**
 
 1. **CSS Variables** - Let browser resolve colors at runtime:
+
 ```javascript
 // mermaid config
 mermaid.initialize({
   theme: 'base',
   themeVariables: {
     primaryColor: 'var(--diagram-primary)',
-    lineColor: 'var(--diagram-line)'
-  }
+    lineColor: 'var(--diagram-line)',
+  },
 });
 ```
 
 2. **Picture Element** - Generate both themes, swap with media query:
+
 ```html
 <picture>
-  <source srcset="/diagrams/flow-dark.svg" media="(prefers-color-scheme: dark)">
-  <img src="/diagrams/flow-light.svg" alt="Flow diagram">
+  <source srcset="/diagrams/flow-dark.svg" media="(prefers-color-scheme: dark)" />
+  <img src="/diagrams/flow-light.svg" alt="Flow diagram" />
 </picture>
 ```
 
 3. **Inline SVG** - Target SVG classes with CSS (risk: style collisions):
+
 ```css
 .dark .mermaid-svg .node rect {
   fill: var(--bg-dark);
@@ -380,14 +387,14 @@ npx astro add plantuml
 
 Use in Markdown:
 
-~~~markdown
+````markdown
 ```plantuml
 @startuml
 Alice -> Bob: Hello
 Bob --> Alice: Hi!
 @enduml
 ```
-~~~
+````
 
 ## Client-Side Search
 
@@ -441,22 +448,22 @@ Features: No external service, works offline, automatic indexing, small bundle (
 </main>
 ```
 
-| Attribute | Purpose |
-|-----------|---------|
-| `data-pagefind-body` | Limit indexing to this element only |
-| `data-pagefind-ignore` | Exclude element from index |
-| `data-pagefind-meta="key"` | Define metadata field |
-| `data-pagefind-weight="10"` | Boost relevance (default: 1) |
+| Attribute                   | Purpose                             |
+| --------------------------- | ----------------------------------- |
+| `data-pagefind-body`        | Limit indexing to this element only |
+| `data-pagefind-ignore`      | Exclude element from index          |
+| `data-pagefind-meta="key"`  | Define metadata field               |
+| `data-pagefind-weight="10"` | Boost relevance (default: 1)        |
 
 ### Pagefind vs Fuse.js
 
-| Feature | Pagefind | Fuse.js |
-|---------|----------|---------|
-| Architecture | Pre-built binary chunks | Runtime in-memory |
-| Bandwidth | Low (loads only needed chunks) | High (downloads full index) |
-| Scalability | 10,000+ pages | < 500 pages |
-| Multilingual | Native stemming | Manual config |
-| Use Case | Global site search | Small list filtering |
+| Feature      | Pagefind                       | Fuse.js                     |
+| ------------ | ------------------------------ | --------------------------- |
+| Architecture | Pre-built binary chunks        | Runtime in-memory           |
+| Bandwidth    | Low (loads only needed chunks) | High (downloads full index) |
+| Scalability  | 10,000+ pages                  | < 500 pages                 |
+| Multilingual | Native stemming                | Manual config               |
+| Use Case     | Global site search             | Small list filtering        |
 
 ### Fuse.js (Lightweight Alternative)
 
@@ -464,13 +471,15 @@ For smaller sites with custom UI needs:
 
 ```astro
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 const posts = await getCollection('blog');
-const searchIndex = JSON.stringify(posts.map(post => ({
-  title: post.data.title,
-  slug: post.slug,
-  body: post.body.slice(0, 500)
-})));
+const searchIndex = JSON.stringify(
+  posts.map((post) => ({
+    title: post.data.title,
+    slug: post.slug,
+    body: post.body.slice(0, 500),
+  })),
+);
 ---
 
 <input type="search" id="search" placeholder="Search..." />
@@ -481,7 +490,7 @@ const searchIndex = JSON.stringify(posts.map(post => ({
 
   const fuse = new Fuse(JSON.parse(searchIndex), {
     keys: ['title', 'body'],
-    threshold: 0.3
+    threshold: 0.3,
   });
 
   document.getElementById('search').addEventListener('input', (e) => {
@@ -492,7 +501,7 @@ const searchIndex = JSON.stringify(posts.map(post => ({
     resultsEl.replaceChildren();
 
     // Build results using safe DOM methods
-    results.forEach(r => {
+    results.forEach((r) => {
       const li = document.createElement('li');
       const link = document.createElement('a');
       link.href = `/blog/${r.item.slug}`;
@@ -582,12 +591,12 @@ Configure in `astro.config.mjs`:
 ```javascript
 export default defineConfig({
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "fr", "es"],
+    defaultLocale: 'en',
+    locales: ['en', 'fr', 'es'],
     routing: {
-      prefixDefaultLocale: false
-    }
-  }
+      prefixDefaultLocale: false,
+    },
+  },
 });
 ```
 
@@ -616,7 +625,7 @@ Show English content with a banner when translations don't exist:
 ```astro
 ---
 // src/pages/[lang]/[...slug].astro
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry } from 'astro:content';
 
 const languages = ['en', 'es', 'fr'];
 const defaultLang = 'en';
@@ -635,9 +644,9 @@ export async function getStaticPaths() {
       paths.push({
         params: { lang, slug },
         props: {
-          entry: localizedDoc || doc,  // Fallback to English
-          isFallback: !localizedDoc
-        }
+          entry: localizedDoc || doc, // Fallback to English
+          isFallback: !localizedDoc,
+        },
       });
     }
   }
@@ -648,11 +657,7 @@ const { entry, isFallback } = Astro.props;
 const { Content } = await entry.render();
 ---
 
-{isFallback && (
-  <div class="translation-notice">
-    This page is not yet available in your language.
-  </div>
-)}
+{isFallback && <div class="translation-notice">This page is not yet available in your language.</div>}
 <Content />
 ```
 
@@ -665,12 +670,12 @@ For sites with 50+ posts, split into pages:
 ```astro
 ---
 // src/pages/blog/page/[page].astro
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 const POSTS_PER_PAGE = 10;
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("blog");
+  const allPosts = await getCollection('blog');
   const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 
   return Array.from({ length: totalPages }, (_, i) => ({
@@ -680,21 +685,23 @@ export async function getStaticPaths() {
 
 const { page } = Astro.params;
 const pageNum = parseInt(page);
-const allPosts = await getCollection("blog");
-const sortedPosts = allPosts.sort((a, b) =>
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
-);
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 
 const start = (pageNum - 1) * POSTS_PER_PAGE;
 const posts = sortedPosts.slice(start, start + POSTS_PER_PAGE);
 const totalPages = Math.ceil(allPosts.length / POSTS_PER_PAGE);
 ---
 
-{posts.map(post => <article>{post.data.title}</article>)}
+{posts.map((post) => (
+  <article>{post.data.title}</article>
+))}
 
 <nav>
   {pageNum > 1 && <a href={`/blog/page/${pageNum - 1}`}>← Previous</a>}
-  <span>Page {pageNum} of {totalPages}</span>
+  <span>
+    Page {pageNum} of {totalPages}
+  </span>
   {pageNum < totalPages && <a href={`/blog/page/${pageNum + 1}`}>Next →</a>}
 </nav>
 ```
@@ -706,42 +713,44 @@ Generate a page for each tag:
 ```astro
 ---
 // src/pages/tags/[tag].astro
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("blog");
+  const allPosts = await getCollection('blog');
   const tags = new Set();
-  allPosts.forEach(post => post.data.tags?.forEach(tag => tags.add(tag)));
+  allPosts.forEach((post) => post.data.tags?.forEach((tag) => tags.add(tag)));
 
-  return Array.from(tags).map(tag => ({
+  return Array.from(tags).map((tag) => ({
     params: { tag },
     props: { tag },
   }));
 }
 
 const { tag } = Astro.props;
-const allPosts = await getCollection("blog");
-const postsWithTag = allPosts.filter(post => post.data.tags?.includes(tag));
+const allPosts = await getCollection('blog');
+const postsWithTag = allPosts.filter((post) => post.data.tags?.includes(tag));
 ---
 
 <h1>Posts tagged: {tag}</h1>
-{postsWithTag.map(post => <a href={`/blog/${post.slug}`}>{post.data.title}</a>)}
+{postsWithTag.map((post) => (
+  <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+))}
 ```
 
 ### RSS Feed
 
 ```javascript
 // src/pages/rss.xml.js
-import rss from "@astrojs/rss";
-import { getCollection } from "astro:content";
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
 
 export async function GET(context) {
-  const blog = await getCollection("blog");
+  const blog = await getCollection('blog');
   return rss({
-    title: "My Blog",
-    description: "A blog about Astro",
+    title: 'My Blog',
+    description: 'A blog about Astro',
     site: context.site,
-    items: blog.map(post => ({
+    items: blog.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
@@ -756,6 +765,7 @@ export async function GET(context) {
 For SSG sites, use third-party form handlers:
 
 **Formspree (Easiest):**
+
 ```html
 <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
   <input type="text" name="name" required />
@@ -766,6 +776,7 @@ For SSG sites, use third-party form handlers:
 ```
 
 **Netlify Forms:**
+
 ```html
 <form name="contact" method="POST" data-netlify="true">
   <input type="hidden" name="form-name" value="contact" />
@@ -781,12 +792,12 @@ Add rich snippets for SEO:
 ```astro
 ---
 const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
   headline: entry.data.title,
   description: entry.data.description,
   datePublished: entry.data.pubDate?.toISOString(),
-  author: { "@type": "Person", name: entry.data.author },
+  author: { '@type': 'Person', name: entry.data.author },
 };
 ---
 
@@ -799,20 +810,20 @@ const jsonLd = {
 <button id="theme-toggle">🌙</button>
 
 <script>
-  const toggle = document.getElementById("theme-toggle");
+  const toggle = document.getElementById('theme-toggle');
   const html = document.documentElement;
 
   // Load saved preference or detect system preference
-  const savedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const savedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-    html.classList.add("dark");
+  if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+    html.classList.add('dark');
   }
 
-  toggle?.addEventListener("click", () => {
-    html.classList.toggle("dark");
-    localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
+  toggle?.addEventListener('click', () => {
+    html.classList.toggle('dark');
+    localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
   });
 </script>
 ```
@@ -840,9 +851,9 @@ With Tailwind, enable `darkMode: "class"` in config.
 // astro.config.mjs
 export default defineConfig({
   prefetch: {
-    prefetchAll: true,           // Prefetch all links
-    defaultStrategy: 'viewport'  // When links enter viewport
-  }
+    prefetchAll: true, // Prefetch all links
+    defaultStrategy: 'viewport', // When links enter viewport
+  },
 });
 ```
 
@@ -858,7 +869,7 @@ npm install astro-critters
 import critters from 'astro-critters';
 
 export default defineConfig({
-  integrations: [critters()]
+  integrations: [critters()],
 });
 ```
 
@@ -891,15 +902,17 @@ npm run preview
 Connect Git repository - auto-deploys on push.
 
 **GitHub Pages:**
+
 ```javascript
 // astro.config.mjs
 export default defineConfig({
   site: 'https://username.github.io',
-  base: '/repo-name'
+  base: '/repo-name',
 });
 ```
 
 **Firebase Hosting:**
+
 ```bash
 npm install -g firebase-tools
 firebase login
@@ -909,6 +922,7 @@ firebase deploy
 ```
 
 `firebase.json` (recommended configuration):
+
 ```json
 {
   "hosting": {
@@ -919,7 +933,7 @@ firebase deploy
     "headers": [
       {
         "source": "/_astro/**",
-        "headers": [{"key": "Cache-Control", "value": "public, max-age=31536000, immutable"}]
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
       }
     ]
   }
@@ -927,30 +941,31 @@ firebase deploy
 ```
 
 **Align Astro config** to prevent redirect loops:
+
 ```javascript
 // astro.config.mjs - match Firebase settings
 export default defineConfig({
-  trailingSlash: 'never',  // Must match Firebase trailingSlash: false
+  trailingSlash: 'never', // Must match Firebase trailingSlash: false
   build: {
-    format: 'directory'    // Default - generates /about/index.html
-  }
+    format: 'directory', // Default - generates /about/index.html
+  },
 });
 ```
 
-| Firebase Setting | Astro Setting | Result |
-|------------------|---------------|--------|
-| `trailingSlash: false` | `trailingSlash: 'never'` | `/about` (no slash) |
-| `trailingSlash: true` | `trailingSlash: 'always'` | `/about/` (with slash) |
-| Mismatch | Mismatch | Redirect loops! |
+| Firebase Setting       | Astro Setting             | Result                 |
+| ---------------------- | ------------------------- | ---------------------- |
+| `trailingSlash: false` | `trailingSlash: 'never'`  | `/about` (no slash)    |
+| `trailingSlash: true`  | `trailingSlash: 'always'` | `/about/` (with slash) |
+| Mismatch               | Mismatch                  | Redirect loops!        |
 
 ### Common Deployment Gotchas
 
-| Issue | Solution |
-|-------|----------|
-| Trailing slash problems | Set `trailingSlash: 'always'` or `'never'` |
-| Assets not loading on subpath | Configure `base` in astro.config.mjs |
-| 404 not working | Create custom `404.astro` page |
-| Build fails on deploy | Check Node version matches local |
+| Issue                         | Solution                                   |
+| ----------------------------- | ------------------------------------------ |
+| Trailing slash problems       | Set `trailingSlash: 'always'` or `'never'` |
+| Assets not loading on subpath | Configure `base` in astro.config.mjs       |
+| 404 not working               | Create custom `404.astro` page             |
+| Build fails on deploy         | Check Node version matches local           |
 
 ## Pre-Deploy Checklist
 
@@ -1016,7 +1031,7 @@ import Button from './Button.astro';
 test('Button renders with text', async () => {
   const container = await AstroContainer.create();
   const result = await container.renderToString(Button, {
-    props: { text: 'Click me' }
+    props: { text: 'Click me' },
   });
   expect(result).toContain('Click me');
 });
@@ -1090,15 +1105,19 @@ const posts = await getCollection('blog');
 <Layout title={title}>
   <h1>{title}</h1>
   <ul>
-    {posts.map(post => (
-      <li><a href={`/blog/${post.slug}`}>{post.data.title}</a></li>
+    {posts.map((post) => (
+      <li>
+        <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+      </li>
     ))}
   </ul>
 </Layout>
 
 <style>
   /* Scoped to this component */
-  h1 { color: navy; }
+  h1 {
+    color: navy;
+  }
 </style>
 
 <script>
@@ -1109,23 +1128,20 @@ const posts = await getCollection('blog');
 
 ## File-Based Routing
 
-| File | Route |
-|------|-------|
-| `src/pages/index.astro` | `/` |
-| `src/pages/about.astro` | `/about` |
-| `src/pages/blog/index.astro` | `/blog` |
+| File                          | Route                   |
+| ----------------------------- | ----------------------- |
+| `src/pages/index.astro`       | `/`                     |
+| `src/pages/about.astro`       | `/about`                |
+| `src/pages/blog/index.astro`  | `/blog`                 |
 | `src/pages/blog/[slug].astro` | `/blog/:slug` (dynamic) |
-| `src/pages/[...path].astro` | Catch-all |
+| `src/pages/[...path].astro`   | Catch-all               |
 
 Dynamic routes require `getStaticPaths()` for SSG:
 
 ```astro
 ---
 export function getStaticPaths() {
-  return [
-    { params: { slug: 'post-1' } },
-    { params: { slug: 'post-2' } }
-  ];
+  return [{ params: { slug: 'post-1' } }, { params: { slug: 'post-2' } }];
 }
 ---
 ```
@@ -1173,12 +1189,12 @@ import { SEO } from 'astro-seo';
     description="Page description"
     openGraph={{
       basic: {
-        title: "OG Title",
-        type: "website",
-        image: "/og-image.png",
-      }
+        title: 'OG Title',
+        type: 'website',
+        image: '/og-image.png',
+      },
     }}
-    twitter={{ creator: "@handle" }}
+    twitter={{ creator: '@handle' }}
   />
 </head>
 ```
@@ -1201,25 +1217,30 @@ npm install @astrojs/rss
 ## Troubleshooting
 
 **"Works locally but breaks on deploy"**
+
 - Check environment variables are set on host
 - Verify `base` path configuration
 - Ensure Node version matches (v18+ recommended)
 
 **Dynamic routes missing pages**
+
 - Verify `getStaticPaths()` returns all needed paths
 - Check for typos in params
 
 **Content Collection schema errors**
+
 - Run `astro check` for validation details
 - Ensure frontmatter matches Zod schema exactly
 
 **Assets not loading**
+
 - Use `import` for processed assets
 - Use `public/` for unprocessed static files
 
 ## References
 
 For detailed guides on specific topics, see:
+
 - `references/markdown-deep-dive.md` - Advanced Markdown/MDX patterns
 - `references/deployment-platforms.md` - Platform-specific deployment details
 

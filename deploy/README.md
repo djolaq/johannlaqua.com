@@ -19,19 +19,19 @@ The deploy jobs never rebuild: they publish exactly the files that were tested.
 
 ## Choosing a host
 
-Set `DEPLOY_TARGET` in *Settings → Secrets and variables → Actions → Variables*.
+Set `DEPLOY_TARGET` in _Settings → Secrets and variables → Actions → Variables_.
 
 ### `rsync` — classic web hosting over SSH (e.g. Infomaniak)
 
 Runs [`rsync.sh`](rsync.sh). Create a `production` environment
-(*Settings → Environments*) and add these **secrets** to it:
+(_Settings → Environments_) and add these **secrets** to it:
 
-| Secret | Value |
-|---|---|
-| `DEPLOY_SSH_HOST` | SSH host name of the hosting |
-| `DEPLOY_SSH_USER` | SSH user |
-| `DEPLOY_PATH` | Absolute path of the site's web root on the host |
-| `DEPLOY_SSH_KEY` | Private key of a key pair created **only** for this deployment |
+| Secret                   | Value                                                                                      |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| `DEPLOY_SSH_HOST`        | SSH host name of the hosting                                                               |
+| `DEPLOY_SSH_USER`        | SSH user                                                                                   |
+| `DEPLOY_PATH`            | Absolute path of the site's web root on the host                                           |
+| `DEPLOY_SSH_KEY`         | Private key of a key pair created **only** for this deployment                             |
 | `DEPLOY_SSH_KNOWN_HOSTS` | Output of `ssh-keyscan -p <port> <host>`, checked against the host's published fingerprint |
 
 Optional variable: `DEPLOY_SSH_PORT` (default 22).
@@ -42,7 +42,7 @@ this site. Try it first from your machine with `DRY_RUN=1 deploy/rsync.sh apps/s
 
 ### `github-pages`
 
-In *Settings → Pages*, set the source to "GitHub Actions" and add the custom
+In _Settings → Pages_, set the source to "GitHub Actions" and add the custom
 domain. No secret needed.
 
 ### Another host (Cloudflare Pages, Netlify, S3…)

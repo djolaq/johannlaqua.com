@@ -8,17 +8,17 @@
 
 `@johannlaqua/design-system` — imported by the site (`apps/site`), depends on nothing else in the repo.
 
-| Path | Content |
-|---|---|
-| `src/tokens.css` | Every visual value (custom properties). **Edit here.** |
-| `src/global.css` | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link` |
-| `src/fonts.css` | Self-hosted fonts through `@fontsource` |
-| `src/index.css` | Fonts + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
-| `src/network-field.js` | Geometry of the hero visual, shared by the site and the SVG export |
-| `tokens/tokens.json` | Generated: the tokens as JSON (Figma / Tokens Studio…) |
-| `assets/` | `network-field.svg` (generated), `mark.svg`, `favicon.svg` |
-| `specimen/index.html` | Visual reference page — open it from disk after `npm install` at the repo root |
-| `references/` | The inspiration image and what was kept from it |
+| Path                   | Content                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| `src/tokens.css`       | Every visual value (custom properties). **Edit here.**                               |
+| `src/global.css`       | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link`            |
+| `src/fonts.css`        | Self-hosted fonts through `@fontsource`                                              |
+| `src/index.css`        | Fonts + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
+| `src/network-field.js` | Geometry of the hero visual, shared by the site and the SVG export                   |
+| `tokens/tokens.json`   | Generated: the tokens as JSON (Figma / Tokens Studio…)                               |
+| `assets/`              | `network-field.svg` (generated), `mark.svg`, `favicon.svg`                           |
+| `specimen/index.html`  | Visual reference page — open it from disk after `npm install` at the repo root       |
+| `references/`          | The inspiration image and what was kept from it                                      |
 
 After changing tokens or the hero geometry, run `npm run design:build` from
 the repo root. `npm run check` (and CI) fails if the generated files are stale.
@@ -34,24 +34,24 @@ tracked-caps kicker, glass chart card, stats split by hairlines).
 
 ## Colour
 
-| Role | Token | Hex | Use |
-|---|---|---|---|
-| **Charcoal** (brand) | `--charcoal-900` | `#1E1E1C` | The page background (default tone) |
-| Charcoal deep | `--charcoal-950` | `#161614` | Code blocks |
-| Charcoal raised | `--charcoal-800` | `#2A2A27` | Raised panels (contact panel) |
-| Charcoal rule | `--charcoal-700` | `#3A3935` | Strong rules |
-| Charcoal decor | `--charcoal-500` | `#7C756A` | Decorative only (3.7:1) |
-| **Sand** (brand) | `--sand-300` | `#D8CBB3` | Headlines and body text on charcoal; sand tone background |
-| Sand muted | `--sand-500` | `#A39A88` | Muted text on charcoal (6:1) |
-| Sand light / rule / ink | `--sand-50` `--sand-400` `--sand-ink-600/700` | `#ECE4D5` `#C6B89D` `#6E675B` `#57524A` | Only for the optional `.tone-sand` band |
-| **Electric blue** (brand) | `--blue-500` | `#2F6BFF` | Primary buttons, announcement bar, chart curve, featured card border, focus ring |
-| Blue hover | `--blue-600` | `#2459E0` | Hover of filled buttons |
-| Blue text on charcoal | `--blue-300` | `#8FB0FF` | Links, icons (7.8:1) |
-| Blue text on sand | `--blue-700` | `#1D46C4` | Links in the sand tone (4.8:1) |
-| On blue | `--on-blue` | `#FFFFFF` | Text on blue fills (4.5:1) |
-| Glass | `--charcoal-glass` | charcoal at 72 % | Cards over imagery, sticky header |
-| Veil / hairline | `--sand-veil` / `--sand-hairline` | sand at 6 % / 14 % | Quiet button fill / all hairlines and card borders |
-| Glow | `--blue-glow` | blue at 22 % | Soft glow under primary button, featured card, contact panel |
+| Role                      | Token                                         | Hex                                     | Use                                                                              |
+| ------------------------- | --------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------- |
+| **Charcoal** (brand)      | `--charcoal-900`                              | `#1E1E1C`                               | The page background (default tone)                                               |
+| Charcoal deep             | `--charcoal-950`                              | `#161614`                               | Code blocks                                                                      |
+| Charcoal raised           | `--charcoal-800`                              | `#2A2A27`                               | Raised panels (contact panel)                                                    |
+| Charcoal rule             | `--charcoal-700`                              | `#3A3935`                               | Strong rules                                                                     |
+| Charcoal decor            | `--charcoal-500`                              | `#7C756A`                               | Decorative only (3.7:1)                                                          |
+| **Sand** (brand)          | `--sand-300`                                  | `#D8CBB3`                               | Headlines and body text on charcoal; sand tone background                        |
+| Sand muted                | `--sand-500`                                  | `#A39A88`                               | Muted text on charcoal (6:1)                                                     |
+| Sand light / rule / ink   | `--sand-50` `--sand-400` `--sand-ink-600/700` | `#ECE4D5` `#C6B89D` `#6E675B` `#57524A` | Only for the optional `.tone-sand` band                                          |
+| **Electric blue** (brand) | `--blue-500`                                  | `#2F6BFF`                               | Primary buttons, announcement bar, chart curve, featured card border, focus ring |
+| Blue hover                | `--blue-600`                                  | `#2459E0`                               | Hover of filled buttons                                                          |
+| Blue text on charcoal     | `--blue-300`                                  | `#8FB0FF`                               | Links, icons (7.8:1)                                                             |
+| Blue text on sand         | `--blue-700`                                  | `#1D46C4`                               | Links in the sand tone (4.8:1)                                                   |
+| On blue                   | `--on-blue`                                   | `#FFFFFF`                               | Text on blue fills (4.5:1)                                                       |
+| Glass                     | `--charcoal-glass`                            | charcoal at 72 %                        | Cards over imagery, sticky header                                                |
+| Veil / hairline           | `--sand-veil` / `--sand-hairline`             | sand at 6 % / 14 %                      | Quiet button fill / all hairlines and card borders                               |
+| Glow                      | `--blue-glow`                                 | blue at 22 %                            | Soft glow under primary button, featured card, contact panel                     |
 
 **Accessibility rule.** `#2F6BFF` is never used for small text (3.7:1 on
 charcoal): text links use `--link` (= `--blue-300` on charcoal).
@@ -69,15 +69,15 @@ use: `--surface`, `--surface-raised`, `--surface-card`, `--text`,
 Three self-hosted fonts (`@fontsource*`, bundled at build — no request
 to Google Fonts, the privacy policy stays true).
 
-| Family | Token | Role |
-|---|---|---|
-| **Geist** (variable) | `--font-sans` | Everything by default: headlines (500, tight tracking), body (400), UI (500–600), stats (300) |
+| Family                                  | Token          | Role                                                                                                        |
+| --------------------------------------- | -------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Geist** (variable)                    | `--font-sans`  | Everything by default: headlines (500, tight tracking), body (400), UI (500–600), stats (300)               |
 | **Instrument Serif** (regular + italic) | `--font-serif` | The italic ending of headlines (`.accent`), quotes, the About "result" line, article ledes, the 404 numeral |
-| **JetBrains Mono** (variable) | `--font-mono` | Code, dates, chart axis, the email address |
+| **JetBrains Mono** (variable)           | `--font-mono`  | Code, dates, chart axis, the email address                                                                  |
 
 **Weight & style contrast** is the signature of the type: a medium,
 tightly tracked sans headline that ends in a light italic serif
-("I build software that holds up, *and make it hard to break.*"). Stats are
+("I build software that holds up, _and make it hard to break._"). Stats are
 set large in Geist Light. Kickers are small tracked capitals.
 
 ### Scale (Bringhurst)
@@ -101,7 +101,7 @@ set large in Geist Light. Kickers are small tracked capitals.
 
 ### The chart
 
-An *illustrative* diagram, not data: delivery speed (blue curve with a
+An _illustrative_ diagram, not data: delivery speed (blue curve with a
 fading area) rises across Scoping → Build → Security review → Prod while
 technical debt (dashed sand line) stays flat. Keep it free of invented
 figures.

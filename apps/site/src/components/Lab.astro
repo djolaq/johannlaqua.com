@@ -21,17 +21,15 @@ const t = useTranslations(locale);
     subtitle={t('lab.subtitle')}
   />
   <div class="lab__grid">
-    {
-      projects.map((project) => (
-        <ProjectCard
-          name={project.name}
-          href={project.href}
-          description={t(project.descriptionKey)}
-          stack={project.stack}
-          linkLabel={t('lab.viewCode')}
-        />
-      ))
-    }
+    {projects.map((project) => (
+      <ProjectCard
+        name={project.name}
+        href={project.href}
+        description={t(project.descriptionKey)}
+        stack={project.stack}
+        linkLabel={t('lab.viewCode')}
+      />
+    ))}
   </div>
 </Section>
 

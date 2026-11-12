@@ -9,6 +9,11 @@ blob-report/
 playwright/.cache/
 coverage/
 
+# Lighthouse
+.lighthouseci/
+lighthouse.*/
+C:*/
+
 # dependencies
 node_modules/
 

@@ -14,7 +14,9 @@ const { tag, title, body, items } = Astro.props;
   <h3 class="skill__title">{title}</h3>
   <p class="skill__body">{body}</p>
   <ul class="skill__items">
-    {items.map((item) => <li>{item}</li>)}
+    {items.map((item) => (
+      <li>{item}</li>
+    ))}
   </ul>
 </article>
 

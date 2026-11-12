@@ -45,13 +45,7 @@ import photo from '../images/photo.jpg';
 import { Image } from 'astro:assets';
 ---
 
-<Image
-  src="https://example.com/image.jpg"
-  alt="Remote image"
-  width={400}
-  height={300}
-  inferSize={false}
-/>
+<Image src="https://example.com/image.jpg" alt="Remote image" width={400} height={300} inferSize={false} />
 ```
 
 For remote images, `width` and `height` are required (or use `inferSize`).
@@ -59,11 +53,7 @@ For remote images, `width` and `height` are required (or use `inferSize`).
 ### Infer Size for Remote Images
 
 ```astro
-<Image
-  src="https://example.com/image.jpg"
-  alt="Remote image"
-  inferSize
-/>
+<Image src="https://example.com/image.jpg" alt="Remote image" inferSize />
 ```
 
 ## Picture Component
@@ -89,9 +79,9 @@ Output:
 
 ```html
 <picture>
-  <source srcset="..." type="image/avif" sizes="...">
-  <source srcset="..." type="image/webp" sizes="...">
-  <img src="..." alt="Responsive image" loading="lazy" decoding="async">
+  <source srcset="..." type="image/avif" sizes="..." />
+  <source srcset="..." type="image/webp" sizes="..." />
+  <img src="..." alt="Responsive image" loading="lazy" decoding="async" />
 </picture>
 ```
 
@@ -112,9 +102,7 @@ const optimizedBg = await getImage({
 });
 ---
 
-<div style={`background-image: url(${optimizedBg.src})`}>
-  Content with background
-</div>
+<div style={`background-image: url(${optimizedBg.src})`}>Content with background</div>
 ```
 
 ## Image Paths
@@ -141,21 +129,14 @@ Images in `public/` are not optimized:
 <img src="/images/static-image.jpg" alt="Static" />
 
 <!-- Can still use Image component with remote-like syntax -->
-<Image
-  src="/images/static-image.jpg"
-  alt="Static"
-  width={400}
-  height={300}
-/>
+<Image src="/images/static-image.jpg" alt="Static" width={400} height={300} />
 ```
 
 ### Dynamic Imports
 
 ```astro
 ---
-const images = import.meta.glob<{ default: ImageMetadata }>(
-  '../images/*.{jpg,png,gif}'
-);
+const images = import.meta.glob<{ default: ImageMetadata }>('../images/*.{jpg,png,gif}');
 
 const imagePaths = Object.keys(images);
 ---
@@ -176,11 +157,12 @@ import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
   type: 'content',
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    cover: image(),
-    coverAlt: z.string(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      cover: image(),
+      coverAlt: z.string(),
+    }),
 });
 
 export const collections = { blog };
@@ -190,9 +172,9 @@ export const collections = { blog };
 
 ```markdown
 ---
-title: "My Post"
-cover: "./images/cover.jpg"
-coverAlt: "Post cover image"
+title: 'My Post'
+cover: './images/cover.jpg'
+coverAlt: 'Post cover image'
 ---
 
 Content here...
@@ -214,6 +196,7 @@ const post = await getEntry('blog', 'my-post');
 ## Image Formats
 
 Supported output formats:
+
 - `webp` (default for optimization)
 - `avif` (best compression, slower)
 - `png` (lossless)
@@ -262,12 +245,7 @@ Supported output formats:
 ### With densities
 
 ```astro
-<Image
-  src={logo}
-  alt="Logo"
-  width={200}
-  densities={[1, 2, 3]}
-/>
+<Image src={logo} alt="Logo" width={200} densities={[1, 2, 3]} />
 
 <!-- Output srcset with 1x, 2x, 3x versions -->
 ```
@@ -324,6 +302,7 @@ export default defineConfig({
 
 ```markdown
 <!-- src/content/blog/post.md -->
+
 ![Alt text](./images/image.jpg)
 ```
 

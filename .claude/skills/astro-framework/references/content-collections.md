@@ -50,10 +50,12 @@ const authorsCollection = defineCollection({
     email: z.string().email(),
     bio: z.string(),
     avatar: z.string().url(),
-    social: z.object({
-      twitter: z.string().optional(),
-      github: z.string().optional(),
-    }).optional(),
+    social: z
+      .object({
+        twitter: z.string().optional(),
+        github: z.string().optional(),
+      })
+      .optional(),
   }),
 });
 
@@ -179,7 +181,7 @@ function productLoader(config: { apiKey: string }): LiveLoader<Product> {
     loadCollection: async ({ filter }) => {
       const data = await fetchProducts(config.apiKey, filter);
       return {
-        entries: data.map(p => ({ id: p.sku, data: p })),
+        entries: data.map((p) => ({ id: p.sku, data: p })),
       };
     },
     loadEntry: async ({ filter }) => {
@@ -210,9 +212,9 @@ For Markdown and MDX files with frontmatter:
 
 ```markdown
 ---
-title: "My First Post"
+title: 'My First Post'
 pubDate: 2024-01-15
-author: "john"
+author: 'john'
 ---
 
 # Hello World
@@ -295,11 +297,12 @@ import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog', pattern: '**/*.md' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    cover: image(), // Validates and optimizes images
-    coverAlt: z.string(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      cover: image(), // Validates and optimizes images
+      coverAlt: z.string(),
+    }),
 });
 ```
 
@@ -341,8 +344,7 @@ const recentPosts = await getCollection('blog', ({ data }) => {
 });
 
 // Sort entries
-const sortedPosts = (await getCollection('blog'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = (await getCollection('blog')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <ul>
@@ -487,13 +489,13 @@ Only use `retainBody: false` for collections where you don't call `render()`. If
 
 ### Migration Pitfalls (Astro 4 → 5)
 
-| What changed | Old (Astro 4) | New (Astro 5+) |
-|---|---|---|
-| Config file | `src/content/config.ts` | `src/content.config.ts` |
-| Collection type | `type: 'content'` / `type: 'data'` | `loader: glob(...)` / `loader: file(...)` |
-| Zod import | `import { z } from 'astro:content'` | `import { z } from 'astro/zod'` |
-| Rendering | `const { Content } = await entry.render()` | `import { render } from 'astro:content'; await render(entry)` |
-| Route param | `post.slug` | `post.id` |
+| What changed    | Old (Astro 4)                              | New (Astro 5+)                                                |
+| --------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| Config file     | `src/content/config.ts`                    | `src/content.config.ts`                                       |
+| Collection type | `type: 'content'` / `type: 'data'`         | `loader: glob(...)` / `loader: file(...)`                     |
+| Zod import      | `import { z } from 'astro:content'`        | `import { z } from 'astro/zod'`                               |
+| Rendering       | `const { Content } = await entry.render()` | `import { render } from 'astro:content'; await render(entry)` |
+| Route param     | `post.slug`                                | `post.id`                                                     |
 
 **The most common migration bug:** importing `z` from `astro:content` instead of `astro/zod`. This still compiles but can cause subtle type mismatches with the new Content Layer API.
 

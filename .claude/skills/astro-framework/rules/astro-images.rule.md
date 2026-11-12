@@ -1,9 +1,9 @@
 ---
 description: Rules for image optimization in Astro
 globs:
-  - "**/*.astro"
-  - "**/*.mdx"
-  - "src/content/**/*"
+  - '**/*.astro'
+  - '**/*.mdx'
+  - 'src/content/**/*'
 ---
 
 # Astro Image Rules
@@ -16,14 +16,7 @@ import { Image } from 'astro:assets';
 import heroImage from '../images/hero.jpg';
 ---
 
-<Image
-  src={heroImage}
-  alt="Descriptive alt text"
-  width={800}
-  height={600}
-  format="webp"
-  quality={80}
-/>
+<Image src={heroImage} alt="Descriptive alt text" width={800} height={600} format="webp" quality={80} />
 ```
 
 ## MUST DO
@@ -56,19 +49,10 @@ import localImage from '../images/photo.jpg';
 <Image src={localImage} alt="Local photo" />
 
 <!-- Remote: dimensions required -->
-<Image
-  src="https://example.com/photo.jpg"
-  alt="Remote photo"
-  width={400}
-  height={300}
-/>
+<Image src="https://example.com/photo.jpg" alt="Remote photo" width={400} height={300} />
 
 <!-- Remote with inferred size (fetches image) -->
-<Image
-  src="https://example.com/photo.jpg"
-  alt="Remote photo"
-  inferSize
-/>
+<Image src="https://example.com/photo.jpg" alt="Remote photo" inferSize />
 ```
 
 ## Picture for Responsive Images
@@ -94,11 +78,12 @@ import hero from '../images/hero.jpg';
 // src/content/config.ts
 const blog = defineCollection({
   type: 'content',
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    cover: image(),           // Validates and optimizes
-    coverAlt: z.string(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      cover: image(), // Validates and optimizes
+      coverAlt: z.string(),
+    }),
 });
 ```
 
@@ -124,9 +109,7 @@ const optimizedBg = await getImage({
 });
 ---
 
-<section style={`background-image: url(${optimizedBg.src})`}>
-  Content
-</section>
+<section style={`background-image: url(${optimizedBg.src})`}>Content</section>
 ```
 
 ## Configuration
@@ -136,9 +119,7 @@ const optimizedBg = await getImage({
 export default defineConfig({
   image: {
     domains: ['cdn.example.com'],
-    remotePatterns: [
-      { protocol: 'https', hostname: '**.unsplash.com' },
-    ],
+    remotePatterns: [{ protocol: 'https', hostname: '**.unsplash.com' }],
   },
 });
 ```

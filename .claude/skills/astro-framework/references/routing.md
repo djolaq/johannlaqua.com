@@ -31,7 +31,7 @@ src/pages/
 // src/pages/about.astro
 import Layout from '../layouts/Layout.astro';
 
-const title = "About Us";
+const title = 'About Us';
 ---
 
 <Layout title={title}>
@@ -71,16 +71,15 @@ const { Content } = await post.render();
 ---
 // src/pages/[category]/[slug].astro
 export function getStaticPaths() {
-  return [
-    { params: { category: 'tech', slug: 'astro-intro' } },
-    { params: { category: 'life', slug: 'travel-tips' } },
-  ];
+  return [{ params: { category: 'tech', slug: 'astro-intro' } }, { params: { category: 'life', slug: 'travel-tips' } }];
 }
 
 const { category, slug } = Astro.params;
 ---
 
-<p>Category: {category}, Slug: {slug}</p>
+<p>
+  Category: {category}, Slug: {slug}
+</p>
 ```
 
 ### Rest Parameters (Catch-all)
@@ -90,9 +89,9 @@ const { category, slug } = Astro.params;
 // src/pages/docs/[...path].astro
 export function getStaticPaths() {
   return [
-    { params: { path: undefined } },        // /docs
+    { params: { path: undefined } }, // /docs
     { params: { path: 'getting-started' } }, // /docs/getting-started
-    { params: { path: 'guides/routing' } },  // /docs/guides/routing
+    { params: { path: 'guides/routing' } }, // /docs/guides/routing
   ];
 }
 
@@ -118,7 +117,7 @@ const product = await response.json();
 if (!product) {
   return new Response(null, {
     status: 404,
-    statusText: 'Not Found'
+    statusText: 'Not Found',
   });
 }
 ---
@@ -138,16 +137,18 @@ import { getCollection } from 'astro:content';
 export const GET: APIRoute = async () => {
   const posts = await getCollection('blog');
   return new Response(
-    JSON.stringify(posts.map(p => ({
-      title: p.data.title,
-      slug: p.slug,
-    }))),
+    JSON.stringify(
+      posts.map((p) => ({
+        title: p.data.title,
+        slug: p.slug,
+      })),
+    ),
     {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
       },
-    }
+    },
   );
 };
 ```
@@ -164,18 +165,12 @@ export const POST: APIRoute = async ({ request }) => {
 
   // Validate and process
   if (!email) {
-    return new Response(
-      JSON.stringify({ error: 'Email required' }),
-      { status: 400 }
-    );
+    return new Response(JSON.stringify({ error: 'Email required' }), { status: 400 });
   }
 
   // Save to database, send email, etc.
 
-  return new Response(
-    JSON.stringify({ success: true }),
-    { status: 200 }
-  );
+  return new Response(JSON.stringify({ success: true }), { status: 200 });
 };
 ```
 
@@ -270,9 +265,7 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection('blog');
-  const sortedPosts = posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  );
+  const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
   return paginate(sortedPosts, { pageSize: 10 });
 }
@@ -288,7 +281,9 @@ const { page } = Astro.props;
 
 <nav>
   {page.url.prev && <a href={page.url.prev}>Previous</a>}
-  <span>Page {page.currentPage} of {page.lastPage}</span>
+  <span>
+    Page {page.currentPage} of {page.lastPage}
+  </span>
   {page.url.next && <a href={page.url.next}>Next</a>}
 </nav>
 ```

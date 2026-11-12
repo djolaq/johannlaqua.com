@@ -1,7 +1,7 @@
 ---
 description: Rules for Astro routing and pages
 globs:
-  - "src/pages/**/*"
+  - 'src/pages/**/*'
 ---
 
 # Astro Routing Rules
@@ -44,7 +44,7 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map(post => ({
+  return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
   }));
@@ -67,8 +67,8 @@ const { Content } = await post.render();
 // src/pages/docs/[...path].astro
 export function getStaticPaths() {
   return [
-    { params: { path: undefined } },      // /docs
-    { params: { path: 'intro' } },        // /docs/intro
+    { params: { path: undefined } }, // /docs
+    { params: { path: 'intro' } }, // /docs/intro
     { params: { path: 'guides/start' } }, // /docs/guides/start
   ];
 }
@@ -113,16 +113,19 @@ export const POST: APIRoute = async ({ request }) => {
 // src/pages/blog/[...page].astro
 export async function getStaticPaths({ paginate }) {
   const posts = await getCollection('blog');
-  return paginate(posts.sort((a, b) =>
-    b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-  ), { pageSize: 10 });
+  return paginate(
+    posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    { pageSize: 10 },
+  );
 }
 
 const { page } = Astro.props;
 ---
 
 <ul>
-  {page.data.map(post => <li>{post.data.title}</li>)}
+  {page.data.map((post) => (
+    <li>{post.data.title}</li>
+  ))}
 </ul>
 
 {page.url.prev && <a href={page.url.prev}>Previous</a>}
