@@ -57,13 +57,17 @@
   --link: var(--blue-300);
   --accent-stroke: var(--blue-500);
 
-  /* ---- Typography: families ---- */
-  --font-sans: 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* ---- Typography: families ----
+     --font-geist / --font-instrument-serif / --font-jetbrains-mono are
+     defined by the Astro Fonts API (src/fonts.js): self-hosted file +
+     metric-matched fallback. The stack after them is used where they are
+     absent (the specimen, which loads @fontsource CSS directly). */
+  --font-sans: var(--font-geist, 'Geist Variable', system-ui, -apple-system, 'Segoe UI', sans-serif);
+  --font-serif: var(--font-instrument-serif, 'Instrument Serif', Georgia, 'Times New Roman', serif);
   /* Aliases kept so every component reads one name per role. */
   --font-display: var(--font-sans);
   --font-text: var(--font-sans);
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, monospace;
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono Variable', ui-monospace, Menlo, Consolas, monospace);
 
   /* ---- Typography: scale ----
      The classical scale from Bringhurst's Elements of Typographic Style

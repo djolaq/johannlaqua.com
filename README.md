@@ -52,6 +52,7 @@ npm run design:build  # regenerates tokens.json and the exported hero SVG
 npm run test:unit   # unit tests
 npm run test:e2e    # build + e2e tests (install browsers first: npx playwright install --with-deps chromium)
 npm test            # both
+npm run size        # size budget of the last build (0 B client JS, no blocking CSS, page/font limits)
 ```
 
 These tests run on every PR and branch push via GitHub Actions (`.github/workflows/ci.yml`), and again on `main` before any deployment.

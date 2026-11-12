@@ -32,7 +32,9 @@ const typeOf = { color: 'color', semantic: 'color', font: 'fontFamily', fontSize
 const json = {};
 for (const [, name, rawValue, comment] of rootBlock.matchAll(/--([a-z0-9-]+):\s*([^;]+);(?:[ \t]*\/\*\s*([^*]+?)\s*\*\/)?/g)) {
   const group = groups.find(([, re]) => re.test(name))?.[0] ?? 'other';
-  const value = rawValue.trim().replace(/\s+/g, ' ');
+  // `var(--set-at-runtime, fallback)` (the font families, see src/fonts.js):
+  // tools outside the site only know the fallback.
+  const value = rawValue.trim().replace(/\s+/g, ' ').replace(/^var\(--[a-z0-9-]+, (.+)\)$/, '$1');
   const token = { $value: /^var\(--[a-z0-9-]+\)$/.test(value) ? `{${value.slice(6, -1)}}` : value };
   if (typeOf[group]) token.$type = typeOf[group];
   else if (group === 'motion' && name.startsWith('duration')) token.$type = 'duration';

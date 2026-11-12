@@ -174,6 +174,18 @@ pre {
   -webkit-backdrop-filter: blur(var(--blur-glass));
 }
 
+/* The blur is a compositing layer per card, re-rendered on every scroll
+   frame: skip it on small screens (weaker GPUs, cards stacked full width)
+   and for people who ask for less transparency. Without the blur the card
+   turns opaque, so the imagery behind never hurts legibility. */
+@media (max-width: 47.99em), (prefers-reduced-transparency: reduce) {
+  .card {
+    background: var(--surface-raised);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
 /* Kicker: small tracked capitals introduced by a short rule. */
 .kicker {
   display: inline-flex;

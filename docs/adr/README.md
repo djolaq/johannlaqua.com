@@ -9,3 +9,4 @@ gets a new record that supersedes the old one.
 | [0001](0001-monorepo-npm-workspaces.md) | One repository with npm workspaces | Accepted |
 | [0002](0002-design-system-as-a-package.md) | The design system is a package the site consumes | Accepted |
 | [0003](0003-host-agnostic-deployment.md) | Build once, choose the host with a variable | Accepted |
+| [0004](0004-page-weight-and-loading.md) | One request per page: inlined CSS, self-hosted fonts, no prefetch | Accepted |

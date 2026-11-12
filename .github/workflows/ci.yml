@@ -42,6 +42,10 @@ jobs:
       - name: Run e2e tests
         run: npm run test:e2e
 
+      # The e2e run has just built apps/site/dist (Playwright's webServer).
+      - name: Size budget (HTML, client JS, blocking CSS, fonts)
+        run: npm run size
+
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
