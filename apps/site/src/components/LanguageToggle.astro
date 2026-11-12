@@ -1,35 +1,77 @@
 ---
-import { getAlternateLocalePath, useTranslations, type Locale } from '../i18n/utils';
+import {
+  getAlternateLocalePath,
+  localeNames,
+  locales,
+  useTranslations,
+  withTrailingSlash,
+  type Locale,
+} from '../i18n/utils';
 
 interface Props {
   locale: Locale;
   /** Explicit target path in the other locale, overriding the naive prefix-swap (needed for pages whose slug differs per locale, e.g. blog posts). */
   href?: string;
+  /** Where the current-language link points when the page has no URL of its own (the catch-all 404). */
+  selfHref?: string;
 }
 
-const { locale, href } = Astro.props;
+const { locale, href, selfHref } = Astro.props;
 const t = useTranslations(locale);
 const alternate = getAlternateLocalePath(locale, Astro.url.pathname);
-const labels: Record<Locale, string> = { fr: 'FR', en: 'EN' };
+
+// Both languages, in a fixed order, the current one marked. Each link is
+// written in its own language (`lang`), so a screen reader pronounces
+// "English" with an English voice; the visible code stays first in the
+// accessible name (SC 2.5.3, label in name).
+const options = locales.map((option): { locale: Locale; href: string; current?: 'page' | 'true' } =>
+  option === locale
+    ? { locale: option, href: selfHref ?? withTrailingSlash(Astro.url.pathname), current: selfHref ? 'true' : 'page' }
+    : { locale: option, href: href ?? alternate.path },
+);
 ---
 
-<a
-  class="lang-toggle"
-  href={href ?? alternate.path}
-  hreflang={alternate.locale}
->
-  <span class="visually-hidden">
-    {t(alternate.locale === 'fr' ? 'aria.switchToFrench' : 'aria.switchToEnglish')}
-  </span>
-  <span lang={alternate.locale} aria-hidden="true">{labels[alternate.locale]}</span>
-</a>
+<ul class="lang-switch" aria-label={t('aria.language')}>
+  {
+    options.map((option) => (
+      <li>
+        <a
+          class="lang-switch__link"
+          href={option.href}
+          hreflang={option.locale}
+          lang={option.locale}
+          aria-current={option.current}
+        >
+          {option.locale.toUpperCase()}
+          <span class="visually-hidden"> — {localeNames[option.locale]}</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>
 
 <style>
-  .lang-toggle {
+  .lang-switch {
+    display: flex;
+    align-items: center;
+  }
+
+  .lang-switch li + li::before {
+    content: '/';
+    color: var(--text-faint);
+    font-size: var(--text-sm);
+  }
+
+  .lang-switch li {
+    display: flex;
+    align-items: center;
+  }
+
+  .lang-switch__link {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.25rem;
+    min-width: 2rem;
     min-height: 2.25rem;
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
@@ -39,7 +81,15 @@ const labels: Record<Locale, string> = { fr: 'FR', en: 'EN' };
     transition: color var(--duration-base) var(--ease-out);
   }
 
-  .lang-toggle:hover {
+  .lang-switch__link:hover,
+  .lang-switch__link[aria-current] {
     color: var(--text);
+  }
+
+  .lang-switch__link[aria-current] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-stroke);
+    text-decoration-thickness: var(--line-bold);
+    text-underline-offset: 0.35em;
   }
 </style>

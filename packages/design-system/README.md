@@ -2,7 +2,7 @@
 
 > Living reference. Source of truth for values: `src/tokens.css` (this package).
 > Any change to a token is mirrored here (and in the claude.ai Project doc
-> `claude/design-system.md`). Last update: 2026-11-11 (v2.3).
+> `claude/design-system.md`). Last update: 2026-11-12 (v2.4).
 
 ## This package
 
@@ -11,7 +11,7 @@
 | Path | Content |
 |---|---|
 | `src/tokens.css` | Every visual value (custom properties). **Edit here.** |
-| `src/global.css` | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link` |
+| `src/global.css` | Reset, tones, `.card`, `.kicker`, `.accent`, `.guides`, `.prose`, `.link`, `.target`, user-preference media queries |
 | `src/fonts.css` | Self-hosted fonts through `@fontsource` |
 | `src/index.css` | Fonts + base styles: what a consumer imports (`import '@johannlaqua/design-system'`) |
 | `src/network-field.js` | Geometry of the hero visual, shared by the site and the SVG export |
@@ -115,6 +115,19 @@ One load moment on the home page: hero text and chart card rise in, the
 blue curve draws (1.8 s). Hover feedback only otherwise.
 `prefers-reduced-motion` disables all of it.
 
+## User preferences & accessibility
+
+- **`prefers-contrast: more`**: `--text-muted` moves to `--sand-400`
+  (`--charcoal-800` in the sand tone), `--rule` becomes a visible
+  `--sand-500` line, glass cards turn opaque (`--charcoal-800`, no blur).
+- **Targets**: `--target-min` (24 px, WCAG 2.2 SC 2.5.8) and the `.target`
+  utility give a standalone link a 24 × 24 px hit area without moving its text.
+- **Focus**: one ring for everything, `--blue-500` 2 px at 3 px offset.
+  Programmatic focus targets (`[tabindex="-1"]`, e.g. `<main>` after the skip
+  link) get no ring.
+- **Reflow**: headings wrap long words (`overflow-wrap: break-word`,
+  `hyphens: auto`) so nothing scrolls sideways at 320 px.
+
 ## Rules for evolving the system
 
 - New value → `src/tokens.css` first, then this doc, then `npm run design:build`. No raw hex/rgba in components (exception: `<meta name="theme-color">`).
@@ -123,6 +136,13 @@ blue curve draws (1.8 s). Hover feedback only otherwise.
 - New section → `Section` + `SectionHeading` (kicker, title, accent).
 
 ## Changelog
+
+- **v2.4 — 2026-11-12**: accessibility lot D. New `--target-min` token and
+  `.target` utility (24 px targets); `prefers-contrast: more` tones; no focus
+  ring on `[tabindex="-1"]`; headings wrap long words. Header: the language
+  switch shows both languages (current one underlined in `--accent-stroke`, like
+  the current nav item), and the "Me contacter" button is hidden below 26em
+  where the row cannot fit it.
 
 - **v2.3 — 2026-11-11**: accessibility pass from the site audit. New semantic
   `--accent-fill` (`#2459E0`) / `--accent-fill-hover` (`#1D46C4`) for surfaces

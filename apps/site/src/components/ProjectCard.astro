@@ -5,9 +5,11 @@ interface Props {
   description: string;
   stack: readonly string[];
   linkLabel: string;
+  /** Localised "(opens in a new tab)", read after the link text. */
+  newTabLabel: string;
 }
 
-const { name, href, description, stack, linkLabel } = Astro.props;
+const { name, href, description, stack, linkLabel, newTabLabel } = Astro.props;
 ---
 
 <article class="project card">
@@ -16,8 +18,10 @@ const { name, href, description, stack, linkLabel } = Astro.props;
   <ul class="project__stack">
     {stack.map((item) => <li>{item}</li>)}
   </ul>
-  <a class="project__link link" href={href} target="_blank" rel="noopener noreferrer">
-    {linkLabel} ↗
+  <a class="project__link link target" href={href} target="_blank" rel="noopener noreferrer">
+    {linkLabel}
+    <span aria-hidden="true">&nbsp;↗</span>
+    <span class="visually-hidden"> {newTabLabel}</span>
   </a>
 </article>
 

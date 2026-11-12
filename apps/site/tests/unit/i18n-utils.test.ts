@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  ariaCurrent,
   getAlternateLocalePath,
   getLangFromUrl,
   localizePath,
@@ -82,5 +83,29 @@ describe('useTranslations', () => {
     expect(tFr('nav.contact')).toBe('Contact');
     expect(tEn('nav.about')).toBe('About');
     expect(tFr('nav.about')).not.toBe(tEn('nav.about'));
+  });
+});
+
+describe('ariaCurrent', () => {
+  it('marks the link to the page being rendered', () => {
+    expect(ariaCurrent('/blog/', '/blog/')).toBe('page');
+    expect(ariaCurrent('/en/privacy/', '/en/privacy')).toBe('page');
+  });
+
+  it('marks the link to the enclosing section', () => {
+    expect(ariaCurrent('/blog/', '/blog/penser-comme-un-attaquant/')).toBe('true');
+    expect(ariaCurrent('/en/blog/', '/en/blog/thinking-like-an-attacker/')).toBe('true');
+  });
+
+  it('never marks a locale root by prefix, but does on the root itself', () => {
+    expect(ariaCurrent('/', '/blog/')).toBeUndefined();
+    expect(ariaCurrent('/en/', '/en/blog/')).toBeUndefined();
+    expect(ariaCurrent('/en/', '/en/')).toBe('page');
+  });
+
+  it('ignores in-page anchors and unrelated pages', () => {
+    expect(ariaCurrent('/#about', '/')).toBeUndefined();
+    expect(ariaCurrent('/blog/', '/en/blog/')).toBeUndefined();
+    expect(ariaCurrent('/blog/', '/blogroll/')).toBeUndefined();
   });
 });

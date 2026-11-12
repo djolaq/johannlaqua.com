@@ -20,7 +20,7 @@ Static personal website for Johann Laqua (Senior Developer · AI-Boosted · Cybe
 | CSS | Native CSS + custom properties, no framework, from `@johannlaqua/design-system` | Minimal bundle, a single token file as source of truth |
 | Sitemap | `@astrojs/sitemap` | SEO |
 | Unit tests | Vitest (`apps/site/vitest.config.ts`) | Pure logic only (i18n utils) |
-| e2e tests | Playwright (`apps/site/playwright.config.ts`) | Real served pages (build + `astro preview`) |
+| e2e tests | Playwright (`apps/site/playwright.config.ts`) + `@axe-core/playwright` | Real served pages (build + `astro preview`); `a11y.spec.ts` enforces WCAG 2.2 AA |
 | Repo layout | npm workspaces: `apps/site`, `packages/design-system` | One repo, one lockfile, clear boundaries (ADR 0001) |
 | CI | GitHub Actions (`.github/workflows/ci.yml`) | `npm run check` + unit + e2e tests on every PR/branch push, Node read from `.nvmrc` (22.x) required by Astro 7 |
 | Deployment | GitHub Actions (`.github/workflows/deploy.yml`) + `deploy/` | Test → build artifact → host job chosen by the `DEPLOY_TARGET` repo variable; host not chosen yet (ADR 0003) |
@@ -72,7 +72,7 @@ apps/
     public/                    favicon.svg, robots.txt (static assets served as-is)
     tests/
       unit/                    Vitest — pure logic only
-      e2e/                     Playwright — real pages (home, language switching)
+      e2e/                     Playwright — real pages (home, language switching, a11y.spec.ts: axe + target size + focus + reflow)
 packages/
   design-system/           @johannlaqua/design-system — imported by the site, depends on nothing here
     README.md               design reference (palette, tones, type scale, rules, changelog)
@@ -116,6 +116,14 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 - Fonts: Geist (everything by default), Instrument Serif (italic headline endings `.accent`, quotes), JetBrains Mono (code, dates) — self-hosted via `@fontsource*` (dependencies of the design-system package, loaded by its `fonts.css`); `BaseLayout.astro` only does `import '@johannlaqua/design-system'`. No external font CDN (privacy policy promises no third-party requests).
 - Layout: sections go through `Section.astro` + `SectionHeading.astro` (kicker, title, italic accent); content in glass `.card`s. Hero = generated network map (`NetworkField.astro`, no photo) + `MethodChart.astro` glass card; `AnnouncementBar.astro` links the latest post.
 
+### Accessibility (WCAG 2.2 AA, enforced by `tests/e2e/a11y.spec.ts`)
+- Every page type is scanned by axe-core in both locales; a new page type is added to the `pages` list of `a11y.spec.ts`. The suite expects **0 violations**.
+- Standalone links/buttons are at least 24×24px (SC 2.5.8): use the `.target` utility (or a `min-height: var(--target-min)`) rather than padding that changes the rhythm. Links inside running text are exempt.
+- Nav links get `aria-current` from `ariaCurrent()` (`i18n/utils.ts`): `page` for this page, `true` for the enclosing section. The language switch lists both languages, each link carrying `lang` + `hreflang`, the current one `aria-current`.
+- Decorative SVGs: `aria-hidden="true"` + `focusable="false"`. Meaningful ones: `role="img"` + a localised `aria-label`. Glyph arrows (`↗`, `→`) are `aria-hidden`; a link opening a new tab appends the hidden `aria.newTab` text.
+- Never put `overflow: hidden` on an ancestor of a focusable element without room for the focus ring (the keyboard walkthrough test checks it).
+- `prefers-reduced-motion` and `prefers-contrast: more` are handled once, in `packages/design-system/src/global.css`.
+
 ### Positioning
 - The site showcases skills and demonstrates them (Skills + Lab sections, blog); it does **not** sell services. No "hire me" / "available for missions" / pricing copy. Claims should be backed by something visible (a public repo, a post, this site itself).
 
@@ -136,6 +144,8 @@ npm run test:unit  # Vitest — apps/site/tests/unit/
 npm run test:e2e   # build + astro preview + Playwright — apps/site/tests/e2e/
 npm test           # both
 ```
+
+`E2E_PORT` overrides the preview port (default 4321) so several worktrees can run the e2e suite at once.
 
 CI (`.github/workflows/ci.yml`) runs `check` → `test:unit` → Playwright browser install → `test:e2e` on every PR and branch push, Node 22. The Playwright report is uploaded only on failure. On `main`, `deploy.yml` calls the same workflow before building and deploying.
 

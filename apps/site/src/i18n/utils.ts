@@ -47,3 +47,21 @@ export function getAlternateLocalePath(currentLocale: Locale, pathname: string):
   }
   return { locale: otherLocale, path: localizePath(otherLocale, rest) };
 }
+
+/** Language names in their own language, for the language switch (never translated). */
+export const localeNames: Record<Locale, string> = { fr: 'Français', en: 'English' };
+
+/**
+ * `aria-current` value for a navigation link, given the page being rendered:
+ * `page` on the link to this very page, `true` on the link to the section it
+ * sits in (the blog index, from a post). In-page anchors and the home page are
+ * never "current" by prefix — every page would otherwise sit under `/`.
+ */
+export function ariaCurrent(href: string, pathname: string): 'page' | 'true' | undefined {
+  if (href.includes('#')) return undefined;
+  const target = withTrailingSlash(href);
+  const here = withTrailingSlash(pathname);
+  if (target === here) return 'page';
+  const isLocaleRoot = target === '/' || locales.some((l) => target === `/${l}/`);
+  return !isLocaleRoot && here.startsWith(target) ? 'true' : undefined;
+}
