@@ -128,8 +128,9 @@ test.describe('Structured data', () => {
 
       const raw = await page.locator('script[type="application/ld+json"]').textContent();
       const data = JSON.parse(raw ?? '');
-      expect(data).toMatchObject({
-        '@context': 'https://schema.org',
+      expect(data['@context']).toBe('https://schema.org');
+      const person = data['@graph'].find((node: { '@type': string }) => node['@type'] === 'Person');
+      expect(person).toMatchObject({
         '@type': 'Person',
         name: 'Johann Laqua',
         url: 'https://johannlaqua.com/',

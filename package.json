@@ -22,5 +22,8 @@
     "test:e2e": "npm run test:e2e -w @johannlaqua/site",
     "test": "npm run test -w @johannlaqua/site",
     "design:build": "npm run build -w @johannlaqua/design-system"
+  },
+  "overrides": {
+    "fflate": "0.7.5"
   }
 }

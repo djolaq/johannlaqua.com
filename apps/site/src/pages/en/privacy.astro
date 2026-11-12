@@ -9,7 +9,7 @@ const t = useTranslations(locale);
 const { publisher, host } = legal;
 ---
 
-<BaseLayout locale={locale} title={t('legal.privacy.title')} altHref="/confidentialite">
+<BaseLayout locale={locale} title={t('legal.privacy.title')} description={t('legal.privacy.description')} altHref="/confidentialite">
   <LegalArticle locale={locale} title={t('legal.privacy.title')}>
     <p>
       This site is deliberately minimal: no cookies, no trackers, no analytics, no forms, no fonts or scripts

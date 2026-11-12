@@ -3,6 +3,8 @@ import {
   getAlternateLocalePath,
   getLangFromUrl,
   localizePath,
+  ogImagePath,
+  ogLocale,
   useTranslations,
 } from '../../src/i18n/utils';
 
@@ -82,5 +84,25 @@ describe('useTranslations', () => {
     expect(tFr('nav.contact')).toBe('Contact');
     expect(tEn('nav.about')).toBe('About');
     expect(tFr('nav.about')).not.toBe(tEn('nav.about'));
+  });
+});
+
+describe('ogImagePath', () => {
+  it('mirrors the page path under /og/', () => {
+    expect(ogImagePath('/')).toBe('/og/index.png');
+    expect(ogImagePath('/en/')).toBe('/og/en.png');
+    expect(ogImagePath('/blog/')).toBe('/og/blog.png');
+    expect(ogImagePath('/en/blog/thinking-like-an-attacker/')).toBe('/og/en/blog/thinking-like-an-attacker.png');
+  });
+
+  it('does not depend on the trailing slash', () => {
+    expect(ogImagePath('/mentions-legales')).toBe(ogImagePath('/mentions-legales/'));
+  });
+});
+
+describe('ogLocale', () => {
+  it('maps site locales to Open Graph locales', () => {
+    expect(ogLocale('fr')).toBe('fr_FR');
+    expect(ogLocale('en')).toBe('en_US');
   });
 });
