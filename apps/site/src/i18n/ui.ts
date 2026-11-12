@@ -16,8 +16,8 @@ export const ui = {
     'aria.primaryNav': 'Navigation principale',
     'aria.footerNav': 'Navigation de pied de page',
     'aria.announce': 'Annonce',
-    'aria.switchToFrench': 'Afficher la version française',
-    'aria.switchToEnglish': 'Afficher la version anglaise',
+    'aria.language': 'Langue',
+    'aria.newTab': '(s’ouvre dans un nouvel onglet)',
 
     'hero.eyebrow': 'Développeur senior · Red & Blue team',
     'hero.kicker': 'Développeur senior, IA et cybersécurité',
@@ -150,8 +150,8 @@ export const ui = {
     'aria.primaryNav': 'Primary',
     'aria.footerNav': 'Footer',
     'aria.announce': 'Announcement',
-    'aria.switchToFrench': 'View the French version',
-    'aria.switchToEnglish': 'View the English version',
+    'aria.language': 'Language',
+    'aria.newTab': '(opens in a new tab)',
 
     'hero.eyebrow': 'Senior developer · Red & Blue team',
     'hero.kicker': 'Senior developer, AI and cybersecurity',

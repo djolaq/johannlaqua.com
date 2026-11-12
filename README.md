@@ -46,12 +46,13 @@ npm run design:build  # regenerates tokens.json and the exported hero SVG
 ## Tests
 
 - **Unit** ([Vitest](https://vitest.dev)) — pure i18n logic in `apps/site/tests/unit/`.
-- **Integration / e2e** ([Playwright](https://playwright.dev)) — real served pages (build + `astro preview`) in `apps/site/tests/e2e/`: navigation, home page content, FR/EN language switching, legal pages.
+- **Integration / e2e** ([Playwright](https://playwright.dev)) — real served pages (build + `astro preview`) in `apps/site/tests/e2e/`: navigation, home page content, FR/EN language switching, legal pages, and an accessibility suite (`a11y.spec.ts`: axe-core WCAG 2.2 AA scan of every page type in both locales, 24px target size, keyboard focus, reflow at 320px and 200% zoom, `prefers-contrast` / `prefers-reduced-motion`).
 
 ```bash
 npm run test:unit   # unit tests
 npm run test:e2e    # build + e2e tests (install browsers first: npx playwright install --with-deps chromium)
 npm test            # both
+E2E_PORT=4400 npm run test:e2e   # e2e on another port (4321 is the default)
 ```
 
 These tests run on every PR and branch push via GitHub Actions (`.github/workflows/ci.yml`), and again on `main` before any deployment.

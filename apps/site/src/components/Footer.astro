@@ -1,5 +1,5 @@
 ---
-import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { ariaCurrent, useTranslations, localizePath, type Locale } from '../i18n/utils';
 import { name, social } from '../config/site';
 
 interface Props {
@@ -28,7 +28,7 @@ const legalLinks = [
 <footer class="footer tone-charcoal">
   <div class="container footer__inner">
     <div class="footer__brand">
-      <a href={home}>{name}</a>
+      <a class="target" href={home}>{name}</a>
       <p>{t('footer.builtWith')}</p>
     </div>
 
@@ -37,7 +37,9 @@ const legalLinks = [
         {
           links.map((link) => (
             <li>
-              <a href={link.href}>{link.label}</a>
+              <a class="target" href={link.href} aria-current={ariaCurrent(link.href, Astro.url.pathname)}>
+                {link.label}
+              </a>
             </li>
           ))
         }
@@ -48,8 +50,10 @@ const legalLinks = [
       {
         social.map((s) => (
           <li>
-            <a href={s.href} target="_blank" rel="me noopener noreferrer">
-              {s.label} ↗
+            <a class="target" href={s.href} target="_blank" rel="me noopener noreferrer">
+              {s.label}
+              <span aria-hidden="true">&nbsp;↗</span>
+              <span class="visually-hidden"> {t('aria.newTab')}</span>
             </a>
           </li>
         ))
@@ -63,7 +67,9 @@ const legalLinks = [
       {
         legalLinks.map((link) => (
           <li>
-            <a href={link.href}>{link.label}</a>
+            <a class="target" href={link.href} aria-current={ariaCurrent(link.href, Astro.url.pathname)}>
+              {link.label}
+            </a>
           </li>
         ))
       }
@@ -111,7 +117,8 @@ const legalLinks = [
     transition: color var(--duration-base) var(--ease-out);
   }
 
-  .footer a:hover {
+  .footer a:hover,
+  .footer a[aria-current] {
     color: var(--text);
   }
 

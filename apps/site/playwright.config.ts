@@ -1,5 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
 
+// Overridable so several checkouts (worktrees) can run the suite side by side.
+const port = Number(process.env.E2E_PORT ?? 4321);
+const baseURL = `http://localhost:${port}`;
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,
@@ -7,7 +11,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['html', { open: 'never' }]] : 'list',
   use: {
-    baseURL: 'http://localhost:4321',
+    baseURL,
     trace: 'on-first-retry',
   },
   projects: [
@@ -17,8 +21,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run build && npm run preview -- --port 4321 --ignore-lock',
-    url: 'http://localhost:4321',
+    command: `npm run build && npm run preview -- --port ${port} --ignore-lock`,
+    url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

@@ -47,6 +47,11 @@ const counterpartPath = altHref ? withTrailingSlash(altHref) : undefined;
 const fallbackPath = Astro.url.pathname.replace(/^\/en/, '');
 const frPath = locale === 'fr' ? Astro.url.pathname : (counterpartPath ?? localizePath('fr', fallbackPath));
 const enPath = locale === 'en' ? Astro.url.pathname : (counterpartPath ?? localizePath('en', fallbackPath));
+// The 404 answers every unknown path, so it has no URL of its own: its
+// language switch points at the two home pages instead.
+const otherLocale = locale === 'fr' ? 'en' : 'fr';
+const switchAltHref = counterpartPath ?? (noindex ? localizePath(otherLocale, '/') : undefined);
+const switchSelfHref = noindex ? localizePath(locale, '/') : undefined;
 const frAlternateUrl = new URL(frPath, Astro.site);
 const enAlternateUrl = new URL(enPath, Astro.site);
 
@@ -103,8 +108,8 @@ const personJsonLd = JSON.stringify({
   <body class="tone-charcoal">
     <a href="#main" class="skip-link">{t('nav.skipToContent')}</a>
     <AnnouncementBar locale={locale} />
-    <Header locale={locale} altHref={counterpartPath} />
-    <main id="main">
+    <Header locale={locale} altHref={switchAltHref} selfHref={switchSelfHref} />
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer locale={locale} />
