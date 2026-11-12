@@ -46,6 +46,10 @@ h4 {
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
+  /* A single long word ("confidentialité" at display size) must wrap at
+     320px rather than scroll the page (SC 1.4.10). */
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 p {
@@ -83,6 +87,12 @@ pre {
   outline: var(--line-bold) solid var(--blue-500);
   outline-offset: 3px;
   border-radius: var(--radius-xs);
+}
+
+/* Programmatic focus targets (<main tabindex="-1">, reached by the skip
+   link) are not controls: no ring around the whole page. */
+[tabindex='-1']:focus {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,6 +139,29 @@ pre {
   --link: var(--blue-700);
   background: var(--surface);
   color: var(--text);
+}
+
+/* Higher contrast on request: muted text moves towards the body colour,
+   hairlines become visible rules and glass turns opaque. */
+@media (prefers-contrast: more) {
+  :root,
+  .tone-charcoal {
+    --text-muted: var(--sand-400);
+    --text-faint: var(--sand-500);
+    --rule: var(--sand-500);
+    --surface-card: var(--charcoal-800);
+  }
+
+  .tone-sand {
+    --text-muted: var(--charcoal-800);
+    --text-faint: var(--sand-ink-700);
+    --rule: var(--sand-ink-700);
+  }
+
+  .card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 /* ---------- Layout primitives ---------- */
@@ -200,6 +233,16 @@ pre {
   font-style: italic;
   font-weight: var(--weight-regular);
   letter-spacing: -0.01em;
+}
+
+/* Pointer target of at least 24 × 24 px (SC 2.5.8) for a standalone link
+   whose text alone is smaller; the text itself does not move. */
+.target {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
 }
 
 /* ---------- Text utilities ---------- */
