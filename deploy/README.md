@@ -51,10 +51,55 @@ Add a `deploy-<host>` job to `deploy.yml` with
 `if: vars.DEPLOY_TARGET == '<host>'` and `needs: build`, that downloads
 `site-dist` and uploads it with the host's CLI or action. Nothing else changes.
 
+## Security headers
+
+The site loads nothing from a third party and runs no script, so its policy
+can deny almost everything. It is delivered on two tracks:
+
+1. **`<meta http-equiv="Content-Security-Policy">`** in every page
+   (`apps/site/src/config/security.ts`, emitted by `BaseLayout.astro` in
+   production builds only). It works on any host, including GitHub Pages.
+2. **Real HTTP headers**, set by the host, for what `<meta>` cannot carry:
+   `frame-ancestors`, HSTS, and the non-CSP headers.
+
+| Header | Value |
+|---|---|
+| `Content-Security-Policy` | the `<meta>` policy + `frame-ancestors 'none'` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `X-Content-Type-Options` | `nosniff` |
+| `Permissions-Policy` | every powerful feature denied (camera, microphone, geolocation, payment…) |
+| `Cross-Origin-Opener-Policy` | `same-origin` |
+| `Strict-Transport-Security` | `max-age=31536000`, HTTPS responses only |
+
+Per host, from [`headers/`](headers):
+
+| Target | File | How it is applied |
+|---|---|---|
+| `rsync` (Apache) | [`headers/apache.htaccess`](headers/apache.htaccess) | `rsync.sh` uploads it as `/.htaccess` (needs `mod_headers`; it also sets `ErrorDocument 404`) |
+| `github-pages` | — | GitHub Pages cannot set headers: only the `<meta>` CSP applies. HSTS is sent by GitHub once "Enforce HTTPS" is on |
+| Netlify / Cloudflare Pages | [`headers/_headers`](headers/_headers) | copy it to the root of `dist` in the host's deploy job |
+
+**Keep the CSP identical** in `security.ts` and the files in `headers/`
+(the headers add `frame-ancestors`). The e2e test `security.spec.ts` checks
+the `<meta>` policy and fails if any page loads a third-party resource or
+triggers a CSP violation.
+
+HSTS is deliberately one year without `includeSubDomains` or `preload`: widen
+it only once every subdomain of johannlaqua.com is known to serve HTTPS.
+
+Check a deployment with:
+
+```bash
+curl -sI https://johannlaqua.com/ | grep -iE 'content-security|referrer|nosniff|permissions|cross-origin|strict-transport'
+curl -s https://johannlaqua.com/.well-known/security.txt
+```
+
 ## Status
 
 - [ ] Host chosen
 - [ ] `DEPLOY_TARGET` set, secrets added
 - [ ] First deployment verified (the `rsync` and `github-pages` jobs have not run against a real host yet)
 - [ ] DNS for johannlaqua.com pointed at the host, HTTPS checked
-- [ ] Security headers (CSP, HSTS, `X-Content-Type-Options`, `Referrer-Policy`) configured on the host
+- [x] Security headers written per host (see above) and `<meta>` CSP fallback shipped
+- [ ] Header check run against the deployed site
+- [ ] `security.txt` `Expires` renewed before it lapses (the e2e test fails 30 days ahead)

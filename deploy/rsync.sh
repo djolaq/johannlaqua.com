@@ -19,10 +19,16 @@ esac
 
 workdir="$(mktemp -d)"
 trap 'rm -rf "$workdir"' EXIT
+
+# Upload the build plus the Apache security headers, as one tree, so that
+# --delete never removes the .htaccess.
+mkdir "$workdir/site" && cp -a "$dist/." "$workdir/site/"
+cp "$(dirname "$0")/headers/apache.htaccess" "$workdir/site/.htaccess"
+
 ( umask 077; printf '%s\n' "$DEPLOY_SSH_KEY" > "$workdir/key" )
 printf '%s\n' "$DEPLOY_SSH_KNOWN_HOSTS" > "$workdir/known_hosts"
 
 rsync --archive --compress --delete --human-readable --itemize-changes \
   ${DRY_RUN:+--dry-run} \
   --rsh "ssh -p $port -i $workdir/key -o IdentitiesOnly=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=$workdir/known_hosts" \
-  "$dist/" "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST:$DEPLOY_PATH/"
+  "$workdir/site/" "$DEPLOY_SSH_USER@$DEPLOY_SSH_HOST:$DEPLOY_PATH/"

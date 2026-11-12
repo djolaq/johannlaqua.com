@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # One entry covers every workspace: they share the root lockfile.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
+
+  # Keeps the SHA pins in .github/workflows/ current (and their version comments).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
