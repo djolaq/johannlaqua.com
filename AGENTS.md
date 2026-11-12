@@ -65,7 +65,7 @@ apps/
       lib/                     build-time helpers with no UI (importable from the Astro config and unit tests unless noted)
         blog.ts                pure blog logic (paths, ordering, prev/next, related posts, tag translation) — takes entries as arguments, never imports astro:content, unit-tested
         blog-files.ts          reads post frontmatter from disk (no astro:content) + findTranslationIssues (FR/EN parity)
-        sitemap.ts             per-URL FR/EN/x-default alternates + lastmod, consumed by astro.config.mjs
+        sitemap.ts             per-URL FR/EN/x-default alternates + lastmod (pages, posts, tag pages via tagCounterpart), consumed by astro.config.mjs
         og-image.ts            social card renderer (satori → sharp PNG), colours from the design-system tokens.json
         feed.ts                RSS feed builder (uses astro:content: endpoints only)
       content/
@@ -143,7 +143,7 @@ Rules: dependencies go design-system → site → deploy, never back. The site d
 ### Code style
 - Astro components: one component = one `.astro` file, typed props, no heavy business logic (keep it in `i18n/utils.ts` or equivalent).
 - Identity/SEO: social profile links carry `rel="me noopener noreferrer"` (IndieWeb/Mastodon identity verification) and `BaseLayout` emits a JSON-LD `@graph` with a `Person` (`@id` `/#person`, `sameAs` derived from `apps/site/src/config/site.ts`) and a `WebSite`; pages add nodes through the `jsonLd` prop (posts: `BlogPosting` + `BreadcrumbList`). Any new profile is added in `site.ts` only.
-- SEO per page: `BaseLayout` emits canonical, `hreflang` fr/en/x-default (x-default = FR), `og:locale(:alternate)`, `og:image`/`twitter:image` (`/og/<page path>.png`), the RSS link and the robots meta. Every page passes its own `description` (an e2e test rejects duplicates). A new route needs: an entry in `pages/og/[...path].png.ts`, and in `PAGE_PAIRS` of `lib/sitemap.ts` if its slug is translated.
+- SEO per page: `BaseLayout` emits canonical, `hreflang` fr/en/x-default (x-default = FR), `og:locale(:alternate)`, `og:image`/`twitter:image` (`/og/<page path>.png`), the RSS link and the robots meta. Every page passes its own `description` (an e2e test rejects duplicates). A new route needs: an entry in `pages/og/[...path].png.ts`, and in `PAGE_PAIRS` of `lib/sitemap.ts` if its slug is translated. Tag pages are covered by both already (one card and one alternate pair per tag); their description is per tag (`blog.tag.description`).
 - URLs: `trailingSlash: 'always'` — internal links and test paths end with `/` (`localizePath` does it); slash-less paths 404 in `astro preview`.
 - Zero client JS by default: only add JS (`<script>` in an `.astro`) for a real interactive need (e.g. `LanguageToggle`), never by default. Decided case: a "copy email" button on the contact CTA was **declined** (audit lot G, UX-07) — the address stays visible, selectable text next to the `mailto:` button.
 - New-tab links go through `ExternalLink.astro` (or `Button` with `external`), never a bare `target="_blank"`. Parent styles that target those links need `:global(a)`, since a scoped selector does not reach a child component's markup.

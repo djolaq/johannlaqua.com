@@ -15,6 +15,7 @@ export interface PostFile {
   slug: string;
   translationId: string;
   date: Date;
+  tags: string[];
   draft: boolean;
 }
 
@@ -32,6 +33,7 @@ export function readPostFiles(blogDir: string): PostFile[] {
           slug: file.replace(/\.md$/, ''),
           translationId: String(data.translationId ?? ''),
           date: new Date(data.date),
+          tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
           draft: data.draft === true,
         };
       }),

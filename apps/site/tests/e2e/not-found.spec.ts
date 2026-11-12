@@ -26,7 +26,7 @@ test.describe('404 page', () => {
     );
   });
 
-  for (const path of ['/this-page-does-not-exist', '/en/this-page-does-not-exist']) {
+  for (const path of ['/this-page-does-not-exist/', '/en/this-page-does-not-exist/']) {
     test(`${path}: offers home, blog and contact in both languages`, async ({ page }) => {
       await page.goto(path);
 

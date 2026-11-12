@@ -3,7 +3,8 @@
 // misses every page whose slug is translated (posts, legal pages). The pairs
 // are therefore listed here explicitly and applied in the sitemap `serialize`.
 import { legal } from '../data/legal';
-import { findTranslationIssues, postPath, readPostFiles } from './blog-files';
+import { findTranslationIssues, postPath, readPostFiles, type PostFile } from './blog-files';
+import { tagCounterpart, tagPath, tagsOf, type PostLike } from './blog';
 
 export interface SitemapMeta {
   fr: string;
@@ -44,5 +45,30 @@ export function buildSitemapMeta(blogDir: string): Map<string, SitemapMeta> {
     const en = posts.find((p) => p.locale === 'en' && p.translationId === fr.translationId)!;
     add([postPath(fr), postPath(en)], fr.date);
   }
+
+  // Tag pages: paired the same way the pages pair them (`tagCounterpart`), so
+  // the sitemap and each page's own hreflang links agree. An unpaired tag gets
+  // the other locale's blog index, exactly as its page does.
+  const entries = posts.map(toPostLike);
+  for (const locale of ['fr', 'en'] as const) {
+    const other = locale === 'fr' ? 'en' : 'fr';
+    for (const tag of tagsOf(entries, locale)) {
+      const counterpart = tagCounterpart(entries, locale, tag);
+      const self = tagPath(locale, tag);
+      const alt = counterpart ? tagPath(other, counterpart) : PAGE_PAIRS.blog[other === 'fr' ? 0 : 1];
+      const dates = posts
+        .filter((p) => (p.locale === locale && p.tags.includes(tag)) || (p.locale === other && p.tags.includes(counterpart ?? '')))
+        .map((p) => p.date);
+      meta.set(self, { ...(locale === 'fr' ? { fr: self, en: alt } : { fr: alt, en: self }), lastmod: latest(dates) });
+    }
+  }
   return meta;
+}
+
+/** Adapts a frontmatter read from disk to the shape `lib/blog.ts` works on. */
+function toPostLike(post: PostFile): PostLike {
+  return {
+    id: `${post.locale}/${post.slug}`,
+    data: { title: post.slug, date: post.date, tags: post.tags, draft: post.draft, translationId: post.translationId },
+  };
 }

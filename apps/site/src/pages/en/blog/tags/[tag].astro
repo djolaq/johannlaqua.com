@@ -31,9 +31,10 @@ const posts = publishedPosts(allPosts, locale).filter((post) => post.data.tags.i
 const counterpart = tagCounterpart(allPosts, locale, tag);
 const altHref = counterpart ? tagPath(otherLocale(locale), counterpart) : localizePath(otherLocale(locale), '/blog');
 const pageTitle = t('blog.tag.pageTitle').replace('{tag}', `#${tag}`);
+const pageDescription = t('blog.tag.description').replace('{tag}', `#${tag}`);
 ---
 
-<BaseLayout locale={locale} title={pageTitle} description={t('blog.tag.subtitle')} altHref={altHref}>
+<BaseLayout locale={locale} title={pageTitle} description={pageDescription} altHref={altHref}>
   <Section>
     <Breadcrumb
       locale={locale}

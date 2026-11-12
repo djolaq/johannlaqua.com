@@ -125,6 +125,7 @@ export const ui = {
     'blog.tag.title': 'Articles sur',
     'blog.tag.pageTitle': 'Sujet : {tag}',
     'blog.tag.subtitle': 'Tous les articles du journal classés sous ce sujet.',
+    'blog.tag.description': 'Les articles du journal de Johann Laqua sur {tag}.',
 
     'contact.eyebrow': 'Contact',
     'contact.title': 'Échangeons',
@@ -277,6 +278,7 @@ export const ui = {
     'blog.tag.title': 'Posts on',
     'blog.tag.pageTitle': 'Topic: {tag}',
     'blog.tag.subtitle': 'Every post on the blog filed under this topic.',
+    'blog.tag.description': 'Johann Laqua’s blog posts on {tag}.',
 
     'contact.eyebrow': 'Contact',
     'contact.title': 'Let’s talk shop',

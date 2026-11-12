@@ -30,9 +30,9 @@ async function sitemapEntries(request: APIRequestContext) {
 const meta = (page: Page, selector: string) => page.locator(selector).getAttribute('content');
 
 test.describe('sitemap', () => {
-  test('lists the 12 localised URLs with FR, EN, x-default alternates and lastmod', async ({ request }) => {
+  test('lists the 20 localised URLs (12 pages + 8 tag pages) with FR, EN, x-default alternates and lastmod', async ({ request }) => {
     const entries = await sitemapEntries(request);
-    expect(entries).toHaveLength(12);
+    expect(entries).toHaveLength(20);
     for (const { path, links, lastmod } of entries) {
       expect(Object.keys(links).sort(), path).toEqual(['en', 'fr', 'x-default']);
       expect(links['x-default'], path).toBe(links.fr);

@@ -5,7 +5,8 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { renderOgImage, type OgCard } from '../../lib/og-image';
-import { locales, localizePath, ogImagePath, useTranslations } from '../../i18n/utils';
+import { formatDate, locales, localizePath, ogImagePath, useTranslations } from '../../i18n/utils';
+import { postPath, publishedPosts, tagPath, tagsOf } from '../../lib/blog';
 import { name } from '../../config/site';
 
 export async function getStaticPaths() {
@@ -32,16 +33,25 @@ export async function getStaticPaths() {
       },
     );
 
-    const posts = await getCollection('blog', ({ id, data }) => id.startsWith(`${locale}/`) && !data.draft);
-    for (const post of posts) {
-      const date = post.data.date.toLocaleDateString(locale === 'fr' ? 'fr-FR' : 'en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+    const allPosts = await getCollection('blog');
+    for (const post of publishedPosts(allPosts, locale)) {
       cards.push({
-        pathname: localizePath(locale, `/blog/${post.id.replace(`${locale}/`, '')}`),
-        card: { kicker: `${t('blog.eyebrow')} · ${date}`, title: post.data.title, description: post.data.description },
+        pathname: postPath(post),
+        card: {
+          kicker: `${t('blog.eyebrow')} · ${formatDate(post.data.date, locale)}`,
+          title: post.data.title,
+          description: post.data.description,
+        },
+      });
+    }
+    for (const tag of tagsOf(allPosts, locale)) {
+      cards.push({
+        pathname: tagPath(locale, tag),
+        card: {
+          kicker: t('blog.eyebrow'),
+          title: t('blog.tag.pageTitle').replace('{tag}', `#${tag}`),
+          description: t('blog.tag.description').replace('{tag}', `#${tag}`),
+        },
       });
     }
   }
