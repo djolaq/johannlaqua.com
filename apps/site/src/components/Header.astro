@@ -1,5 +1,5 @@
 ---
-import { useTranslations, localizePath, type Locale } from '../i18n/utils';
+import { ariaCurrent, useTranslations, localizePath, type Locale } from '../i18n/utils';
 import { name } from '../config/site';
 import LanguageToggle from './LanguageToggle.astro';
 import Button from './Button.astro';
@@ -7,9 +7,11 @@ import Button from './Button.astro';
 interface Props {
   locale: Locale;
   altHref?: string;
+  /** See LanguageToggle: set on pages without a URL of their own. */
+  selfHref?: string;
 }
 
-const { locale, altHref } = Astro.props;
+const { locale, altHref, selfHref } = Astro.props;
 const t = useTranslations(locale);
 const home = localizePath(locale, '/');
 
@@ -23,8 +25,8 @@ const navItems = [
 
 <header class="header">
   <div class="container header__inner">
-    <a href={home} class="header__brand">
-      <svg class="header__mark" viewBox="0 0 16 16" aria-hidden="true">
+    <a href={home} class="header__brand target">
+      <svg class="header__mark" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
         <path d="M9.5 1 3 9h4.5L6.5 15 13 7H8.5z" fill="currentColor"></path>
       </svg>
       {name}
@@ -35,7 +37,9 @@ const navItems = [
         {
           navItems.map((item) => (
             <li>
-              <a href={item.href}>{item.label}</a>
+              <a class="target" href={item.href} aria-current={ariaCurrent(item.href, Astro.url.pathname)}>
+                {item.label}
+              </a>
             </li>
           ))
         }
@@ -43,7 +47,7 @@ const navItems = [
     </nav>
 
     <div class="header__actions">
-      <LanguageToggle locale={locale} href={altHref} />
+      <LanguageToggle locale={locale} href={altHref} selfHref={selfHref} />
       <Button href={`${home}#contact`} variant="quiet" size="sm">{t('header.cta')}</Button>
     </div>
   </div>
@@ -105,8 +109,16 @@ const navItems = [
     transition: color var(--duration-base) var(--ease-out);
   }
 
-  .header__nav a:hover {
+  .header__nav a:hover,
+  .header__nav a[aria-current] {
     color: var(--text);
+  }
+
+  .header__nav a[aria-current] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent-stroke);
+    text-decoration-thickness: var(--line-bold);
+    text-underline-offset: 0.35em;
   }
 
   .header__actions {
@@ -122,8 +134,10 @@ const navItems = [
       padding-block: var(--space-3);
     }
 
+    /* The name never shrinks under its own text: if the row runs out of
+       room, the actions wrap instead of sliding over it. */
     .header__brand {
-      flex: 1;
+      flex: 1 0 auto;
     }
 
     .header__nav {
@@ -133,6 +147,14 @@ const navItems = [
 
     .header__nav ul {
       gap: var(--space-3);
+    }
+  }
+
+  /* Below 26em the name, both languages and the button cannot share a row.
+     The button goes: Contact stays in the footer nav and the contact section. */
+  @media (max-width: 26em) {
+    .header__actions :global(.btn) {
+      display: none;
     }
   }
 </style>

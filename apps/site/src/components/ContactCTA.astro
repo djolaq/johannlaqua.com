@@ -32,8 +32,10 @@ const t = useTranslations(locale);
         {
           social.map((s) => (
             <li>
-              <a href={s.href} target="_blank" rel="me noopener noreferrer">
-                {s.label} ↗
+              <a class="target" href={s.href} target="_blank" rel="me noopener noreferrer">
+                {s.label}
+                <span aria-hidden="true">&nbsp;↗</span>
+                <span class="visually-hidden"> {t('aria.newTab')}</span>
               </a>
             </li>
           ))

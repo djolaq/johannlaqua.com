@@ -126,6 +126,8 @@
   --gutter: var(--space-5);
   --header-height: 4.5rem;
   --announce-height: 2.25rem;
+  /* Smallest pointer target: 24 × 24 px (WCAG 2.2 SC 2.5.8, AA). */
+  --target-min: 1.5rem;
   /* Clears the sticky header when jumping to an in-page anchor. */
   --scroll-offset: var(--space-9);
 

@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
 
-// Targeted by class rather than accessible name: the toggle's aria-label
-// ("Switch language to EN/FR") makes role/name locators match ambiguously
-// (substring matching also catches the skip link and blog card links).
-const langToggle = (page: import('@playwright/test').Page) => page.locator('a.lang-toggle');
+// The switch lists both languages; clicking means following the one that is
+// not the current page.
+const langToggle = (page: import('@playwright/test').Page) =>
+  page.locator('.lang-switch a:not([aria-current])');
 
 test('switches from French to English and back', async ({ page }) => {
   await page.goto('/');
